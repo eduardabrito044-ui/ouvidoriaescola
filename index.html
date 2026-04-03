@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ouvidoria Escolar | Portal Interativo</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ouvidoria Escolar | Portal Interativo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="background-fixo"></div>
+  <div class="background-fixo"></div>
 
-    <nav class="sidebar glass">
-        <h2>Painel Escolar</h2>
-        <button onclick="mudarAba('forum')">💬 Fórum de Alunos</button>
-        <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
-        <button onclick="mudarAba('humor')">🎭 Clima da Escola</button>
-        <button onclick="mudarAba('feedback')">🏫 Opinião Escola</button>
-        <button onclick="mudarAba('contatos')">📞 Falar com a Gente</button>
-    </nav>
+  <nav class="sidebar glass">
+    <h2>Painel Escolar</h2>
+    <button onclick="mudarAba('forum')">💬 Fórum</button>
+    <button onclick="mudarAba('mural')">💡 Mural</button>
+    <button onclick="mudarAba('humor')">🎭 Clima</button>
+    <button onclick="mudarAba('feedback')">🏫 Opinião</button>
+    <button onclick="mudarAba('contatos')">📞 Contato</button>
+  </nav>
 
-    <main class="conteudo">
-        <section id="forum" class="aba active glass">
-            <h2>💬 Fórum de Discussão</h2>
-            <div id="feed-forum" class="feed-container"></div>
-            <div class="input-box">
-                <input type="text" id="input-nick" placeholder="Seu apelido...">
-                <input type="text" id="input-msg" placeholder="Escreva sua mensagem...">
-                <button onclick="salvarMensagem()">Enviar</button>
-            </div>
-        </section>
+  <main class="conteudo">
 
-        <section id="mural" class="aba glass">
-            <h2>💡 Mural de Ideias (Votação)</h2>
-            <div id="feed-mural" class="feed-grid"></div>
-            <div class="input-box">
-                <input type="text" id="input-ideia" placeholder="Sua sugestão para a escola...">
-                <button onclick="salvarIdeia()">Publicar Ideia</button>
-            </div>
-        </section>
+    <!-- CHAT -->
+    <section id="forum" class="aba active glass">
+      <h2>💬 Chat da Escola</h2>
 
-        <section id="humor" class="aba glass text-center">
-            <h2>Como estamos nos sentindo hoje?</h2>
-            <div class="emoji-seletor">
-                <button onclick="votarEmoji('feliz')">😊 <span id="v-feliz">0</span></button>
-                <button onclick="votarEmoji('triste')">😢 <span id="v-triste">0</span></button>
-                <button onclick="votarEmoji('cansado')">😴 <span id="v-cansado">0</span></button>
-                <button onclick="votarEmoji('bravo')">😡 <span id="v-bravo">0</span></button>
-            </div>
-            <h3 id="humor-geral">Destaque: Vote para ver o clima!</h3>
-        </section>
+      <div id="chat-box">
+        <div id="feed-forum"></div>
 
-        <section id="contatos" class="aba glass">
-            <h2>📞 Canais de Atendimento</h2>
-            <div class="links-diretos">
-                <a href="https://wa.me/5589981259467" target="_blank" class="btn-link wa">WhatsApp Direto</a>
-                <a href="https://instagram.com/m.eduarda.brito25" target="_blank" class="btn-link ig">Instagram</a>
-                <a href="mailto:eduardabrito044@gmail.com" class="btn-link mail">E-mail Oficial</a>
-            </div>
-        </section>
-    </main>
+        <div class="input-box">
+          <input type="text" id="input-msg" placeholder="Digite sua mensagem...">
+          <button onclick="salvarMensagem()">➤</button>
+        </div>
+      </div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- MURAL -->
+    <section id="mural" class="aba glass">
+      <h2>💡 Mural de Ideias</h2>
+      <div id="feed-mural"></div>
+
+      <div class="input-box">
+        <input type="text" id="input-ideia" placeholder="Sua ideia...">
+        <button onclick="salvarIdeia()">Publicar</button>
+      </div>
+    </section>
+
+    <!-- HUMOR -->
+    <section id="humor" class="aba glass text-center">
+      <h2>Clima da Escola</h2>
+      <div class="emoji-seletor">
+        <button onclick="votarEmoji('feliz')">😊 <span id="v-feliz">0</span></button>
+        <button onclick="votarEmoji('triste')">😢 <span id="v-triste">0</span></button>
+        <button onclick="votarEmoji('cansado')">😴 <span id="v-cansado">0</span></button>
+        <button onclick="votarEmoji('bravo')">😡 <span id="v-bravo">0</span></button>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section id="feedback" class="aba glass">
+      <h2>🏫 Opinião sobre a escola</h2>
+      <textarea id="feedback-texto" placeholder="Escreva aqui..."></textarea>
+      <button onclick="salvarFeedbackEscola()">Enviar</button>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contatos" class="aba glass">
+      <h2>📞 Contato</h2>
+      <a href="https://wa.me/5589981259467" target="_blank">WhatsApp</a>
+    </section>
+
+  </main>
+
+  <script type="module" src="script.js"></script>
 </body>
-</html>
-<section id="feedback" class="aba glass">
-    <h2>🏫 O que você acha da nossa escola?</h2>
-    <p>Dê sua opinião sobre a comida, professores, uniforme e o que deve melhorar.</p>
-    <textarea id="feedback-texto" placeholder="Escreva aqui seu desabafo ou sugestão sobre a escola..."></textarea>
-    <button class="btn-link mail" onclick="salvarFeedbackEscola()">Enviar Minha Opinião</button>
-</section>
+                                                                      </html>
