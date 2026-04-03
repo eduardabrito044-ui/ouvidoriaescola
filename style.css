@@ -1,52 +1,85 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
-body { display: flex; min-height: 100vh; background: #05070a; color: white; }
+const firebaseConfig = {
+  apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
+  authDomain: "siteescolaeduarda.firebaseapp.com",
+  databaseURL: "https://siteescolaeduarda-default-rtdb.firebaseio.com",
+  projectId: "siteescolaeduarda",
+  storageBucket: "siteescolaeduarda.firebasestorage.app",
+  messagingSenderId: "381495876879",
+  appId: "1:381495876879:web:4366dc25b119a2567e327a"
+};
 
-.background-fixo {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-    z-index: -1; opacity: 0.5;
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const mensagensRef = ref(db, "mensagens");
+
+// nome automático
+let meuNome = localStorage.getItem("nome");
+if (!meuNome) {
+  meuNome = prompt("Digite seu nome:");
+  localStorage.setItem("nome", meuNome);
 }
 
-.sidebar { width: 260px; padding: 25px; display: flex; flex-direction: column; gap: 12px; height: 100vh; position: sticky; top: 0; }
-.sidebar h2 { font-size: 1.2rem; margin-bottom: 20px; color: #c084fc; text-transform: uppercase; letter-spacing: 1px; }
+// trocar aba
+window.mudarAba = function(id) {
+  document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+};
 
-.sidebar button {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    color: white; padding: 15px; border-radius: 15px; text-align: left; cursor: pointer; transition: 0.3s;
-}
+// enviar mensagem
+window.salvarMensagem = function() {
+  const msg = document.getElementById("input-msg").value;
+  if (!msg) return;
 
-.sidebar button:hover { background: #7c3aed; transform: translateX(5px); }
+  push(mensagensRef, {
+    nome: meuNome,
+    texto: msg,
+    hora: new Date().toLocaleTimeString()
+  });
 
-.glass { background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; }
+  document.getElementById("input-msg").value = "";
+};
 
-.conteudo { flex: 1; padding: 40px; }
-.aba { display: none; padding: 30px; height: 100%; }
-.aba.active { display: block; animation: subir 0.4s ease; }
+// receber mensagens
+onValue(mensagensRef, (snapshot) => {
+  const feed = document.getElementById("feed-forum");
+  feed.innerHTML = "";
 
-@keyframes subir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  snapshot.forEach((child) => {
+    const dados = child.val();
 
-.feed-container { height: 400px; overflow-y: auto; margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; }
-.msg-post { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid #7c3aed; }
+    const div = document.createElement("div");
+    div.classList.add("msg");
 
-.input-box { display: flex; gap: 10px; flex-wrap: wrap; }
-input { background: rgba(0,0,0,0.4); border: none; padding: 15px; border-radius: 12px; color: white; flex: 1; }
-
-.btn-link { display: block; padding: 20px; text-decoration: none; color: white; border-radius: 15px; margin-bottom: 10px; text-align: center; font-weight: bold; transition: 0.3s; }
-.wa { background: #25d366; } .ig { background: #e1306c; } .mail { background: #3b82f6; }
-
-.emoji-seletor { display: flex; justify-content: space-around; font-size: 2rem; padding: 40px 0; }
-.emoji-seletor button { background: none; border: none; cursor: pointer; color: white; display: flex; flex-direction: column; }
-/* AJUSTE PARA CELULAR (RESPONSIVIDADE) */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { 
-        width: 100%; height: auto; position: relative; 
-        flex-direction: row; overflow-x: auto; padding: 10px; gap: 5px;
+    if (dados.nome === meuNome) {
+      div.classList.add("me");
+    } else {
+      div.classList.add("outro");
     }
-    .sidebar h2 { display: none; } /* Esconde o título no celular para ganhar espaço */
-    .sidebar button { padding: 10px; font-size: 0.8rem; white-space: nowrap; }
-    .conteudo { padding: 15px; }
-    .input-box { flex-direction: column; }
-    .emoji-seletor { font-size: 1.5rem; }
-}
+
+    div.innerHTML = `
+      <strong>${dados.nome}</strong><br>
+      ${dados.texto}<br>
+      <small>${dados.hora}</small>
+    `;
+
+    feed.appendChild(div);
+  });
+
+  feed.scrollTop = feed.scrollHeight;
+});
+
+// funções extras (mantidas simples)
+window.salvarIdeia = function() {
+  alert("Ideia salva (modo simples)");
+};
+
+window.votarEmoji = function(tipo) {
+  alert("Voto registrado: " + tipo);
+};
+
+window.salvarFeedbackEscola = function() {
+  alert("Feedback enviado!");
+};
