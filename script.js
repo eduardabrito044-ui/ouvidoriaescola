@@ -1,85 +1,84 @@
- * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, push, onValue, set, runTransaction } from "firebase/database";
 
-body { display: flex; min-height: 100vh; background: #05070a; color: white; }
+// Suas chaves do Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
+    authDomain: "siteescolaeduarda.firebaseapp.com",
+    databaseURL: "https://siteescolaeduarda-default-rtdb.firebaseio.com",
+    projectId: "siteescolaeduarda",
+    storageBucket: "siteescolaeduarda.firebasestorage.app",
+    messagingSenderId: "381495876879",
+    appId: "1:381495876879:web:5b2bbb9083924f597e327a"
+};
 
-.background-fixo {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1e40af, #7c3aed);
-  opacity: 0.5;
-  z-index: -1;
-}
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const hoje = new Date().toISOString().split('T')[0];
 
-.sidebar {
-  width: 250px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+// Navegação
+window.mudarAba = (id) => {
+    document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+};
 
-.sidebar button {
-  padding: 12px;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-}
+// --- CHAT (FÓRUM) ---
+window.salvarMensagem = () => {
+    const nick = document.getElementById('input-nick').value || "Anônimo";
+    const msg = document.getElementById('input-msg').value;
+    if(!msg) return;
+    push(ref(db, 'chat'), { nick, msg, timestamp: Date.now() });
+    document.getElementById('input-msg').value = "";
+};
 
-.conteudo { flex: 1; padding: 20px; }
+onValue(ref(db, 'chat'), (snap) => {
+    const feed = document.getElementById('feed-forum');
+    const dados = snap.val();
+    let html = "";
+    for(let id in dados) {
+        html += `<div class="msg-post"><strong>@${dados[id].nick}:</strong> ${dados[id].msg}</div>`;
+    }
+    feed.innerHTML = html;
+    feed.scrollTop = feed.scrollHeight;
+});
 
-.aba { display: none; }
-.aba.active { display: block; }
+// --- MURAL DE IDEIAS ---
+window.salvarIdeia = () => {
+    const texto = document.getElementById('input-ideia').value;
+    if(!texto) return;
+    push(ref(db, 'mural'), { texto, votos: 0 });
+    document.getElementById('input-ideia').value = "";
+};
 
-.input-box { display: flex; gap: 10px; margin-top: 10px; }
+onValue(ref(db, 'mural'), (snap) => {
+    const feed = document.getElementById('feed-mural');
+    const dados = snap.val();
+    let html = "";
+    for(let id in dados) {
+        html += `<div class="msg-post">💡 ${dados[id].texto}</div>`;
+    }
+    feed.innerHTML = html;
+});
 
-input, textarea {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-}
+// --- HUMOR DIÁRIO (RESET AUTOMÁTICO) ---
+window.votarHumor = (tipo) => {
+    const humorRef = ref(db, `humor/${hoje}/${tipo}`);
+    runTransaction(humorRef, (atual) => (atual || 0) + 1);
+};
 
-button {
-  background: #7c3aed;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-}
+onValue(ref(db, `humor/${hoje}`), (snap) => {
+    const dados = snap.val() || { feliz: 0, triste: 0, cansado: 0 };
+    document.getElementById('v-feliz').innerText = dados.feliz || 0;
+    document.getElementById('v-triste').innerText = dados.triste || 0;
+    document.getElementById('v-cansado').innerText = dados.cansado || 0;
+});
 
-/* CHAT BONITO */
-#chat-box {
-  display: flex;
-  flex-direction: column;
-  height: 400px;
-}
+// --- FEEDBACK ---
+window.enviarFeedback = () => {
+    const texto = document.getElementById('texto-feedback').value;
+    if(!texto) return;
+    push(ref(db, 'feedbacks'), { texto, data: new Date().toLocaleString() });
+    alert("Enviado com sucesso!");
+    document.getElementById('texto-feedback').value = "";
+};
 
-#feed-forum {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  background: #e5ddd5;
-  border-radius: 10px;
-}
-
-.msg {
-  padding: 8px;
-  margin: 5px;
-  border-radius: 10px;
-  max-width: 70%;
-}
-
-.me {
-  background: #dcf8c6;
-  margin-left: auto;
-  color: black;
-}
-
-.outro {
-  background: white;
-  color: black;
-  margin-right: auto;
-      }
