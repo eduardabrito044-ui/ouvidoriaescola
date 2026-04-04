@@ -1,9 +1,9 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
-  authDomain: "siteescolaed uarda.firebaseapp.com",
+  authDomain: "siteescolaeduarda.firebaseapp.com",
   databaseURL: "https://siteescolaeduarda-default-rtdb.firebaseio.com",
   projectId: "siteescolaeduarda",
   storageBucket: "siteescolaeduarda.firebasestorage.app",
@@ -13,90 +13,102 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const mensagensRef = ref(db, "mensagens");
 
-// --- FUNÇÃO DO TELEGRAM ---
-async function enviarNotificacaoTelegram(texto) {
-    const token = '8677563218:AAETd9WMADtAu1PG9i4pOmP07eKZTHtAOxE';
-    const meuId = '8562940574';
-    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${meuId}&text=${encodeURIComponent(texto)}`;
-    
-    try {
-        await fetch(url);
-    } catch (e) {
-        console.error("Erro Telegram:", e);
-    }
+// --- CONFIGURAÇÃO TELEGRAM ---
+const TELEGRAM_TOKEN = '8677563218:AAETd9WMADtAu1PG9i4pOmP07eKZTHtAOxE';
+const MEU_CHAT_ID = '8562940574';
+
+async function enviarTelegram(texto) {
+    const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${MEU_CHAT_ID}&text=${encodeURIComponent(texto)}`;
+    try { await fetch(url); } catch (e) { console.error("Erro Telegram", e); }
 }
 
-// Nome automático
-let meuNome = localStorage.getItem("nome");
-if (!meuNome) {
-  meuNome = prompt("Digite seu nome:");
-  localStorage.setItem("nome", meuNome);
-}
-
-// Notificar quando o site for aberto (Opcional)
-enviarNotificacaoTelegram(`🚀 ${meuNome} acabou de entrar no site!`);
-
-// Trocar aba
+// --- CONTROLE DE ABAS ---
 window.mudarAba = function(id) {
-  document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 };
 
-// Enviar mensagem
+// --- 1. CHAT DA ESCOLA (FORUM) ---
 window.salvarMensagem = function() {
-  const msg = document.getElementById("input-msg").value;
-  if (!msg) return;
+    const nick = document.getElementById("input-nick").value || "Anônimo";
+    const msg = document.getElementById("input-msg").value;
+    if (!msg) return;
 
-  push(mensagensRef, {
-    nome: meuNome,
-    texto: msg,
-    hora: new Date().toLocaleTimeString()
-  });
+    push(ref(db, "mensagens"), {
+        nome: nick,
+        texto: msg,
+        hora: new Date().toLocaleTimeString()
+    });
 
-  // AVISO NO TELEGRAM
-  enviarNotificacaoTelegram(`📩 Nova mensagem no Fórum!\nDe: ${meuNome}\nTexto: ${msg}`);
-
-  document.getElementById("input-msg").value = "";
+    enviarTelegram(`💬 CHAT: ${nick} disse: ${msg}`);
+    document.getElementById("input-msg").value = "";
 };
 
-// Receber mensagens
-onValue(mensagensRef, (snapshot) => {
-  const feed = document.getElementById("feed-forum");
-  if (!feed) return;
-  feed.innerHTML = "";
-
-  snapshot.forEach((child) => {
-    const dados = child.val();
-    const div = document.createElement("div");
-    div.classList.add("msg-post"); // Ajustado para sua classe CSS
-
-    div.innerHTML = `
-      <strong>${dados.nome}</strong><br>
-      ${dados.texto}<br>
-      <small>${dados.hora}</small>
-    `;
-    feed.appendChild(div);
-  });
-  feed.scrollTop = feed.scrollHeight;
+onValue(ref(db, "mensagens"), (snapshot) => {
+    const feed = document.getElementById("feed-forum");
+    feed.innerHTML = "";
+    snapshot.forEach((child) => {
+        const d = child.val();
+        feed.innerHTML += `<div class="msg-post"><strong>${d.nome}</strong>: ${d.texto} <br><small>${d.hora}</small></div>`;
+    });
+    feed.scrollTop = feed.scrollHeight;
 });
 
-// Funções extras com alertas
+// --- 2. MURAL DE IDEIAS ---
 window.salvarIdeia = function() {
-  const ideia = document.querySelector("#aba-ideias textarea").value;
-  enviarNotificacaoTelegram(`💡 Nova Ideia Enviada por ${meuNome}: ${ideia}`);
-  alert("Ideia enviada com sucesso!");
+    const ideiaInput = document.getElementById("input-ideia");
+    const ideia = ideiaInput.value;
+    if (!ideia) return;
+
+    push(ref(db, "ideias"), {
+        texto: ideia,
+        data: new Date().toLocaleDateString()
+    });
+
+    enviarTelegram(`💡 NOVA IDEIA: ${ideia}`);
+    alert("Sugestão enviada para o mural!");
+    ideiaInput.value = "";
 };
 
-window.votarEmoji = function(tipo) {
-  enviarNotificacaoTelegram(`📊 Voto de Humor: ${meuNome} marcou [${tipo}]`);
-  alert("Voto registrado: " + tipo);
+onValue(ref(db, "ideias"), (snapshot) => {
+    const feed = document.getElementById("feed-mural");
+    feed.innerHTML = "";
+    snapshot.forEach((child) => {
+        const d = child.val();
+        feed.innerHTML += `<div class="msg-post">💡 ${d.texto} <br><small>${d.data}</small></div>`;
+    });
+});
+
+// --- 3. HUMOR DO DIA ---
+window.votarHumor = function(tipo) {
+    const humorRef = ref(db, `humor/${tipo}`);
+    get(humorRef).then((snapshot) => {
+        const votos = (snapshot.val() || 0) + 1;
+        set(humorRef, votos);
+        enviarTelegram(`🎭 HUMOR: Alguém votou em [${tipo}]`);
+        alert("Obrigado por votar!");
+    });
 };
 
-window.enviarFeedbackEscola = function() {
-  enviarNotificacaoTelegram(`📝 Novo Feedback da Escola enviado por ${meuNome}`);
-  alert("Feedback enviado!");
+// Atualiza o placar de humor na tela
+onValue(ref(db, "humor"), (snapshot) => {
+    const dados = snapshot.val() || {};
+    document.getElementById("v-feliz").innerText = dados.feliz || 0;
+    document.getElementById("v-triste").innerText = dados.triste || 0;
+    document.getElementById("v-cansado").innerText = dados.cansado || 0;
+});
+
+// --- 4. SOBRE A ESCOLA (FEEDBACK) ---
+window.enviarFeedback = function() {
+    const campo = document.getElementById("texto-feedback");
+    const msg = campo.value;
+    if (!msg) return;
+
+    enviarTelegram(`🏫 FEEDBACK ESCOLA: ${msg}`);
+    alert("Sua opinião foi enviada para a coordenação!");
+    campo.value = "";
 };
+
 
 
