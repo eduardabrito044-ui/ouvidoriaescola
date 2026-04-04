@@ -2,17 +2,16 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Portal Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="mesh-bg"></div>
 
     <nav class="sidebar glass">
         <div class="logo-container">
-            <img src="logo.png" alt="Logo Escola">
+            <img src="logo.png" alt="Logo">
         </div>
         <div class="nav-buttons">
             <button onclick="mudarAba('forum')">💬 Chat</button>
@@ -26,16 +25,16 @@
 
     <main class="main-content">
         <section id="forum" class="aba active">
-            <div class="header-aba glass"><h2>💬 Chat de Alunos</h2></div>
+            <div class="header-fixo glass"><h2>💬 Chat de Alunos</h2></div>
             <div id="feed-forum" class="feed"></div>
             
-            <div class="footer-fixo glass">
+            <div class="footer-input glass">
                 <div id="reply-preview" style="display: none;">
                     <div class="reply-info">
                         <small id="reply-user"></small>
                         <p id="reply-text"></p>
                     </div>
-                    <button type="button" class="btn-x" onclick="cancelarResposta()">X</button>
+                    <button class="btn-x" onclick="cancelarResposta()">X</button>
                 </div>
                 <div class="input-group">
                     <input type="text" id="input-msg" placeholder="Digite sua mensagem...">
@@ -45,25 +44,25 @@
         </section>
 
         <section id="mural" class="aba">
-            <div class="header-aba glass"><h2>💡 Mural de Sugestões</h2></div>
-            <div id="feed-mural" class="feed-scroll glass"></div>
-            <div class="input-area-simples glass">
+            <div class="header-fixo glass"><h2>💡 Mural de Sugestões</h2></div>
+            <div id="feed-mural" class="feed-simples glass"></div>
+            <div class="input-footer-simples glass">
                 <input type="text" id="input-ideia" placeholder="Sua ideia...">
-                <button onclick="salvarIdeia()">Sugerir</button>
+                <button onclick="salvarIdeia()">Enviar</button>
             </div>
         </section>
 
         <section id="cronograma" class="aba">
-            <div class="header-aba glass"><h2>📅 Cronograma 2026</h2></div>
-            <div class="content-box glass">
-                <div class="card"><span>Maio</span><h3>OBMEP - 1ª Fase</h3></div>
-                <div class="card"><span>Agosto</span><h3>Feira de Ciências</h3></div>
+            <div class="header-fixo glass"><h2>📅 Cronograma 2026</h2></div>
+            <div class="content-scroll glass">
+                <div class="card"><span>MAIO</span><h3>OBMEP - 1ª Fase</h3></div>
+                <div class="card"><span>AGOSTO</span><h3>Feira de Ciências</h3></div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba">
-            <div class="header-aba glass"><h2>🎭 Humor da Escola</h2></div>
-            <div class="content-box glass text-center">
+            <div class="header-fixo glass"><h2>🎭 Humor da Escola</h2></div>
+            <div class="content-scroll glass center">
                 <div class="emoji-grid">
                     <button onclick="votarHumor('feliz')">😊</button>
                     <button onclick="votarHumor('cansado')">😴</button>
@@ -74,18 +73,18 @@
         </section>
 
         <section id="feedback" class="aba">
-            <div class="header-aba glass"><h2>🏫 Feedback</h2></div>
-            <div class="content-box glass">
-                <textarea id="texto-feedback" placeholder="O que você mudaria na escola?"></textarea>
-                <button class="btn-full" onclick="enviarFeedback()">Enviar Opinião</button>
+            <div class="header-fixo glass"><h2>🏫 Feedback</h2></div>
+            <div class="content-scroll glass">
+                <textarea id="texto-feedback" placeholder="Sua opinião..."></textarea>
+                <button class="btn-env" onclick="enviarFeedback()">Enviar Feedback</button>
             </div>
         </section>
 
         <section id="contatos" class="aba">
-            <div class="header-aba glass"><h2>📞 Contatos</h2></div>
-            <div class="content-box glass">
-                <a href="https://wa.me/5589981259467" class="btn-link wa">WhatsApp</a>
-                <a href="https://instagram.com/m.eduarda.brito25" class="btn-link ig">Instagram</a>
+            <div class="header-fixo glass"><h2>📞 Contatos</h2></div>
+            <div class="content-scroll glass">
+                <a href="https://wa.me/5589981259467" class="btn-lk wa">WhatsApp</a>
+                <a href="https://instagram.com/m.eduarda.brito25" class="btn-lk ig">Instagram</a>
             </div>
         </section>
     </main>
