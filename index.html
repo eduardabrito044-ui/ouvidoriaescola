@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Ouvidoria Escolar</title>
+    <title>Portal Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="mesh-bg"></div>
 
     <nav class="sidebar glass">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="logo.png" alt="Logo Escola" style="width: 100px; border-radius: 50%; border: 2px solid white; background: white; padding: 5px;">
+        </div>
+
         <h2>Menu Escolar</h2>
         <button onclick="mudarAba('forum')">💬 Chat de Alunos</button>
         <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
@@ -24,7 +28,7 @@
             <h2>💬 Chat da Escola</h2>
             <div id="feed-forum" class="feed"></div>
             <div class="input-area">
-                <input type="text" id="input-msg" placeholder="Escreva uma mensagem e aperte Enter...">
+                <input type="text" id="input-msg" placeholder="Escreva uma mensagem...">
                 <button onclick="salvarMensagem()">Enviar</button>
             </div>
         </section>
@@ -33,7 +37,7 @@
             <h2>💡 Mural de Sugestões</h2>
             <div id="feed-mural" class="feed"></div>
             <div class="input-area">
-                <input type="text" id="input-ideia" placeholder="Sua ideia para a escola...">
+                <input type="text" id="input-ideia" placeholder="Sua ideia...">
                 <button onclick="salvarIdeia()">Sugerir</button>
             </div>
         </section>      
@@ -51,22 +55,11 @@
                     <h3>Feira de Ciências</h3>
                     <p>📍 Local: Quadra Poliesportiva</p>
                 </div>
-                <div class="card-evento">
-                    <span class="data-badge">Outubro</span>
-                    <h3>Gincana Escolar</h3>
-                    <p>📍 Local: Ginásio</p>
-                </div>
-                <div class="card-evento">
-                    <span class="data-badge">Dezembro</span>
-                    <h3>Festa de Final de Ano</h3>
-                    <p>📍 Local: Pátio Central</p>
-                </div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba glass text-center">
             <h2>🎭 Como a escola está hoje?</h2>
-            <p>Vote no seu humor atual!</p>
             <div class="emoji-grid">
                 <button onclick="votarHumor('feliz')">😊</button>
                 <button onclick="votarHumor('triste')">😢</button>
@@ -76,16 +69,14 @@
 
         <section id="feedback" class="aba glass">
             <h2>🏫 Opinião sobre a Escola</h2>
-            <textarea id="texto-feedback" placeholder="O que você mudaria na escola?"></textarea>
-            <button onclick="enviarFeedback()">Enviar para Coordenação</button>
+            <textarea id="texto-feedback" placeholder="O que você mudaria?"></textarea>
+            <button onclick="enviarFeedback()">Enviar</button>
         </section>
 
         <section id="contatos" class="aba glass">
-            <h2>📞 Falar com a Eduarda</h2>
-            <div class="contatos-grid">
-                <a href="https://wa.me/5589981259467" target="_blank" class="btn-contato wa">WhatsApp</a>
-                <a href="https://instagram.com/m.eduarda.brito25" target="_blank" class="btn-contato ig">Instagram</a>
-            </div>
+            <h2>📞 Contatos</h2>
+            <a href="https://wa.me/5589981259467" target="_blank" style="background: #25d366; color: white; display: block; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; margin-bottom: 10px;">WhatsApp</a>
+            <a href="https://instagram.com/m.eduarda.brito25" target="_blank" style="background: #e1306c; color: white; display: block; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none;">Instagram</a>
         </section>
     </main>
 
