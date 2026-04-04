@@ -156,24 +156,40 @@ button:hover { filter: brightness(1.2); }
     object-fit: contain !important;
     display: block !important;
 }
-/* FORÇAR O LOGO A APARECER NO CELULAR */
-@media (max-width: 768px) {
-    .sidebar {
-        display: flex !important; /* Garante que a barra lateral apareça */
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-    }
+/* --- CONFIGURAÇÃO GLOBAL DO LOGO (PC E CELULAR) --- */
+.logo-container {
+    width: 95px !important;
+    height: 95px !important;
+    background-color: white !important;
+    border-radius: 50% !important;
+    display: flex !important; /* Garante que o círculo apareça */
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 15px auto !important;
+    padding: 10px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    overflow: hidden !important;
+    visibility: visible !important; /* Força a visibilidade */
+    opacity: 1 !important;
+}
 
+.logo-container img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+/* --- AJUSTE ESPECÍFICO PARA CELULAR --- */
+@media (max-width: 768px) {
     .logo-container {
-        display: flex !important; /* Força o círculo do logo a aparecer */
-        width: 80px !important;   /* Um pouquinho menor para caber no celular */
+        width: 80px !important; /* Um pouco menor no celular para ganhar espaço */
         height: 80px !important;
         margin: 10px auto !important;
+        display: flex !important; /* Garante que não suma em telas pequenas */
     }
-
-    .logo-container img {
-        display: block !important;
-        max-width: 100% !important;
+    
+    .sidebar {
+        display: flex !important; /* Garante que a barra que segura o logo apareça */
     }
 }
