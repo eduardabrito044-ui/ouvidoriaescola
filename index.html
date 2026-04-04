@@ -13,6 +13,7 @@
         <div class="logo-container">
             <img src="logo.png" alt="Logo Escola">
         </div>
+
         <h2>Menu Escolar</h2>
         <button onclick="mudarAba('forum')">💬 Chat de Alunos</button>
         <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
@@ -27,11 +28,11 @@
             <h2>💬 Chat da Escola</h2>
             <div id="feed-forum" class="feed"></div>
             
-            <div class="footer-input">
+            <div class="input-area-container">
                 <div id="reply-preview" style="display: none;">
                     <div class="reply-info">
-                        <small id="reply-user"></small>
-                        <p id="reply-text"></p>
+                        <small id="reply-user" style="color: #7c3aed; font-weight: bold;"></small>
+                        <p id="reply-text" style="font-size: 0.8rem; opacity: 0.8; margin: 0;"></p>
                     </div>
                     <button type="button" class="btn-cancelar" onclick="cancelarResposta()">X</button>
                 </div>
@@ -44,39 +45,56 @@
         </section>
 
         <section id="mural" class="aba glass">
-            <h2>💡 Mural</h2>
+            <h2>💡 Mural de Sugestões</h2>
             <div id="feed-mural" class="feed"></div>
-            <div class="input-area-simples">
+            <div class="input-area">
                 <input type="text" id="input-ideia" placeholder="Sua ideia...">
                 <button onclick="salvarIdeia()">Sugerir</button>
             </div>
-        </section>
+        </section>      
 
         <section id="cronograma" class="aba glass">
-            <h2>📅 Cronograma 2026</h2>
+            <h2>📅 Eventos Importantes 2026</h2>
             <div class="cronograma-grid">
-                <div class="card-evento"><span class="data-badge">Maio</span><h3>OBMEP - 1ª Fase</h3></div>
+                <div class="card-evento">
+                    <span class="data-badge">Maio</span>
+                    <h3>OBMEP - 1ª Fase</h3>
+                    <p>📍 Local: Salas de aula</p>
+                </div>
+                <div class="card-evento">
+                    <span class="data-badge">Agosto</span>
+                    <h3>Feira de Ciências</h3>
+                    <p>📍 Local: Quadra Poliesportiva</p>
+                </div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba glass text-center">
-            <h2>🎭 Humor da Escola</h2>
+            <h2>🎭 Como a escola está hoje?</h2>
             <div class="emoji-grid">
                 <button onclick="votarHumor('feliz')">😊</button>
+                <button onclick="votarHumor('triste')">😢</button>
                 <button onclick="votarHumor('cansado')">😴</button>
                 <button onclick="votarHumor('estudioso')">🤓</button>
+                <button onclick="votarHumor('animado')">🤩</button>
+                <button onclick="votarHumor('bravo')">😡</button>
+                <button onclick="votarHumor('apaixonado')">🥰</button>
+                <button onclick="votarHumor('tranquilo')">😎</button>
+                <button onclick="votarHumor('sobrecarregado')">🤯</button>
+                <button onclick="votarHumor('nervoso')">🤡</button>
             </div>
         </section>
 
         <section id="feedback" class="aba glass">
-            <h2>🏫 Feedback</h2>
-            <textarea id="texto-feedback" placeholder="Sua opinião sobre a escola..."></textarea>
+            <h2>🏫 Opinião sobre a Escola</h2>
+            <textarea id="texto-feedback" placeholder="Comida, fardamento, aulas..."></textarea>
             <button onclick="enviarFeedback()">Enviar</button>
         </section>
 
         <section id="contatos" class="aba glass">
-            <h2>📞 Contatos</h2>
-            <a href="https://wa.me/5589981259467" class="btn-contato wa">WhatsApp Oficial</a>
+            <h2>📞 Contatos Oficiais</h2>
+            <a href="https://wa.me/5589981259467" target="_blank" class="btn-contato wa">WhatsApp</a>
+            <a href="https://instagram.com/m.eduarda.brito25" target="_blank" class="btn-contato ig">Instagram</a>
         </section>
     </main>
 
