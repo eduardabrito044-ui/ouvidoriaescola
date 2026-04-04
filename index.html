@@ -13,6 +13,7 @@
         <div class="logo-container">
             <img src="logo.png" alt="Logo Escola">
         </div>
+
         <h2>Menu Escolar</h2>
         <button onclick="mudarAba('forum')">💬 Chat de Alunos</button>
         <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
@@ -28,13 +29,16 @@
             <div id="feed-forum" class="feed"></div>
             
             <div class="input-area-container">
-                <div id="reply-preview">
-                    <span id="reply-text"></span>
-                    <button onclick="cancelarResposta()">X</button>
+                <div id="reply-preview" style="display: none;">
+                    <div class="reply-info">
+                        <small id="reply-user" style="color: #7c3aed; font-weight: bold;"></small>
+                        <p id="reply-text" style="font-size: 0.8rem; opacity: 0.8; margin: 0;"></p>
+                    </div>
+                    <button type="button" class="btn-cancelar" onclick="cancelarResposta()">X</button>
                 </div>
                 
                 <div class="input-area">
-                    <input type="text" id="input-msg" placeholder="Toque em uma mensagem para responder...">
+                    <input type="text" id="input-msg" placeholder="Escreva uma mensagem...">
                     <button onclick="salvarMensagem()">Enviar</button>
                 </div>
             </div>
@@ -83,7 +87,7 @@
 
         <section id="feedback" class="aba glass">
             <h2>🏫 Opinião sobre a Escola</h2>
-            <textarea id="texto-feedback" placeholder="O que você mudaria? Comida, fardamento, aulas..."></textarea>
+            <textarea id="texto-feedback" placeholder="Comida, fardamento, aulas..."></textarea>
             <button onclick="enviarFeedback()">Enviar</button>
         </section>
 
