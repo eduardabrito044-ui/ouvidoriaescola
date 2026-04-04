@@ -35,7 +35,43 @@
                 <input type="text" id="input-ideia" placeholder="Sua ideia para a escola...">
                 <button onclick="salvarIdeia()">Sugerir</button>
             </div>
+        </section>      
+        <section id="cronograma" class="aba glass">
+            <h2>📅 Eventos Importantes 2026</h2>
+            <div class="cronograma-grid">
+                <div class="card-evento">
+                    <span class="data-badge">Maio</span>
+                    <h3>OBMEP - 1ª Fase</h3>
+                    <p>📍 Local: Salas de aula</p>
+                </div>
+                <div class="card-evento">
+                    <span class="data-badge">Agosto</span>
+                    <h3>Feira de Ciências</h3>
+                    <p>📍 Local: Quadra Poliesportiva</p>
+                </div>
+                <div class="card-evento">
+                    <span class="data-badge">Outubro</span>
+                    <h3>Gincana Escolar</h3>
+                    <p>📍 Local: Ginásio</p>
+                </div>
+                <div class="card-evento">
+                    <span class="data-badge">Dezembro</span>
+                    <h3>Festa de Final de Ano</h3>
+                    <p>📍 Local: Pátio Central</p>
+                </div>
+            </div>
         </section>
+
+<nav class="sidebar glass">
+    <h2>Menu Escolar</h2>
+    <button onclick="mudarAba('forum')">💬 Chat de Alunos</button>
+    <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
+    <button onclick="mudarAba('cronograma')">📅 Cronograma</button> 
+    
+    <button onclick="mudarAba('sentimentos')">🎭 Humor do Dia</button>
+    <button onclick="mudarAba('feedback')">🏫 Sobre a Escola</button>
+    <button onclick="mudarAba('contatos')">📞 Contatos</button>
+</nav>
 
         <section id="sentimentos" class="aba glass text-center">
             <h2>🎭 Como a escola está hoje?</h2>
