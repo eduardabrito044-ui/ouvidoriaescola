@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// Configuração do seu Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
   authDomain: "siteescolaeduarda.firebaseapp.com",
@@ -15,36 +14,56 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Sistema de Nome de Usuário
 let meuNome = localStorage.getItem("nome_usuario");
 if (!meuNome) {
-    meuNome = prompt("Seja bem-vindo! Qual o seu nome?") || "Anônimo";
+    meuNome = prompt("Seja bem-vindo ao Portal! Qual o seu nome ou apelido?") || "Estudante";
     localStorage.setItem("nome_usuario", meuNome);
 }
 
-// NAVEGAÇÃO DE ABAS
-window.mudarAba = function(id) {
+let msgParaResponder = null;
+
+window.mudarAba = (id) => {
     document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 };
 
-// CHAT EM TEMPO REAL
-const chatRef = ref(db, "mensagens");
-
-window.salvarMensagem = function() {
-    const input = document.getElementById("input-msg");
-    const msg = input.value.trim();
-    if (!msg) return;
-
-    push(chatRef, {
-        nome: meuNome,
-        texto: msg,
-        hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    });
-    input.value = "";
+window.prepararResposta = (nome, texto) => {
+    msgParaResponder = { nome, texto };
+    const preview = document.getElementById('reply-preview');
+    const previewText = document.getElementById('reply-text');
+    preview.style.display = 'flex';
+    previewText.innerText = `Respondendo a ${nome}`;
+    document.getElementById('input-msg').focus();
 };
 
-// Listener do Chat
+window.cancelarResposta = () => {
+    msgParaResponder = null;
+    document.getElementById('reply-preview').style.display = 'none';
+};
+
+const chatRef = ref(db, "mensagens");
+
+window.salvarMensagem = () => {
+    const input = document.getElementById("input-msg");
+    const texto = input.value.trim();
+    if (!texto) return;
+
+    const payload = {
+        nome: meuNome,
+        texto: texto,
+        hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    if (msgParaResponder) {
+        payload.respostaDe = msgParaResponder.nome;
+        payload.textoOriginal = msgParaResponder.texto;
+    }
+
+    push(chatRef, payload);
+    input.value = "";
+    cancelarResposta();
+};
+
 onValue(chatRef, (snapshot) => {
     const feed = document.getElementById("feed-forum");
     if (!feed) return;
@@ -53,70 +72,50 @@ onValue(chatRef, (snapshot) => {
         const dados = child.val();
         const div = document.createElement("div");
         div.className = `msg-post ${dados.nome === meuNome ? 'me' : 'outro'}`;
-        div.innerHTML = `<strong>${dados.nome}</strong>${dados.texto}<small>${dados.hora}</small>`;
+        
+        div.onclick = () => prepararResposta(dados.nome, dados.texto);
+
+        let html = `<span class="user-name">${dados.nome}</span>`;
+        
+        if (dados.respostaDe) {
+            html += `
+                <div class="reply-bubble">
+                    <strong style="font-size:0.7rem;">↳ ${dados.respostaDe}</strong><br>
+                    <span style="opacity:0.8;">${dados.textoOriginal.substring(0, 45)}...</span>
+                </div>`;
+        }
+
+        html += `<div class="text-body">${dados.texto}</div>`;
+        html += `<small>${dados.hora}</small>`;
+        
+        div.innerHTML = html;
         feed.appendChild(div);
     });
     feed.scrollTop = feed.scrollHeight;
 });
 
-// MURAL DE IDEIAS
-const muralRef = ref(db, "mural");
-
+// Outras funções
 window.salvarIdeia = function() {
     const input = document.getElementById("input-ideia");
-    const texto = input.value.trim();
-    if (!texto) return;
-
-    push(muralRef, {
-        autor: meuNome,
-        texto: texto,
-        data: new Date().toLocaleDateString()
-    });
+    if (!input.value.trim()) return;
+    push(ref(db, "mural"), { autor: meuNome, texto: input.value.trim(), data: new Date().toLocaleDateString() });
     input.value = "";
-    alert("Sua ideia foi enviada ao mural!");
+    alert("Sua ideia foi enviada!");
 };
 
-onValue(muralRef, (snapshot) => {
-    const feedMural = document.getElementById("feed-mural");
-    if (!feedMural) return;
-    feedMural.innerHTML = "";
-    snapshot.forEach((child) => {
-        const dados = child.val();
-        const div = document.createElement("div");
-        div.className = "msg-post outro";
-        div.innerHTML = `<strong>💡 Sugestão de ${dados.autor}</strong>${dados.texto}`;
-        feedMural.appendChild(div);
-    });
-});
-
-// HUMOR DO DIA
-window.votarHumor = function(tipo) {
-    push(ref(db, "humor"), {
-        usuario: meuNome,
-        voto: tipo,
-        data: new Date().toLocaleDateString()
-    });
-    alert("Voto registrado! Obrigado por compartilhar como se sente.");
+window.votarHumor = (tipo) => {
+    push(ref(db, "humor"), { usuario: meuNome, voto: tipo, data: new Date().toLocaleDateString() });
+    alert("Voto registrado!");
 };
 
-// FEEDBACK
-window.enviarFeedback = function() {
+window.enviarFeedback = () => {
     const area = document.getElementById("texto-feedback");
-    const texto = area.value.trim();
-    if (!texto) return;
-
-    push(ref(db, "feedback"), {
-        usuario: meuNome,
-        comentario: texto,
-        data: new Date().toLocaleString()
-    });
+    if (!area.value.trim()) return;
+    push(ref(db, "feedback"), { usuario: meuNome, comentario: area.value.trim(), data: new Date().toLocaleString() });
     area.value = "";
-    alert("Feedback enviado com sucesso!");
+    alert("Obrigado pelo seu feedback!");
 };
 
-// Atalho Enter para o input de mensagem
 document.addEventListener("keypress", (e) => {
-    if(e.key === "Enter" && document.activeElement.id === "input-msg") {
-        salvarMensagem();
-    }
+    if(e.key === "Enter" && document.activeElement.id === "input-msg") salvarMensagem();
 });
