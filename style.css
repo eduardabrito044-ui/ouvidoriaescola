@@ -1,50 +1,71 @@
-:root { --verde: #28a745; --azul: #0095f6; --bg: #ffffff; --text: #262626; --border: #dbdbdb; --msg-outro: #efefef; }
-body.dark-mode { --bg: #000000; --text: #fafafa; --border: #262626; --msg-outro: #262626; --azul: #0095f6; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+:root {
+    --bg: #f5f7f8; --text: #1c1e21; --primary: #007bff; --secondary: #28a745;
+    --border: #dbdbdb; --msg-me: #007bff; --msg-outro: #ffffff;
+}
 
-/* HEADER */
-.top-nav { border-bottom: 1px solid var(--border); background: var(--bg); padding: 10px 0; flex-shrink: 0; }
-.brand { text-align: center; font-weight: bold; color: var(--verde); margin-bottom: 8px; }
-.mini-logo { width: 30px; vertical-align: middle; border-radius: 50%; }
+body.dark-mode {
+    --bg: #000000; --text: #ffffff; --primary: #3797f0; --secondary: #28a745;
+    --border: #262626; --msg-me: #3797f0; --msg-outro: #262626;
+}
 
-.nav-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 15px; scrollbar-width: none; }
-.nav-scroll::-webkit-scrollbar { display: none; }
-.nav-scroll button { background: none; border: none; padding: 6px 12px; font-weight: 600; color: var(--text); opacity: 0.4; white-space: nowrap; font-size: 14px; }
-.nav-scroll button.active-btn { opacity: 1; border-bottom: 2px solid var(--text); }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
+body { background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
 
-/* CONTEÚDO E CHAT */
-.main-content { flex: 1; position: relative; overflow: hidden; display: flex; justify-content: center; }
-.aba { display: none; width: 100%; max-width: 500px; height: 100%; flex-direction: column; }
+/* SIDEBAR */
+.sidebar { width: 250px; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; background: var(--bg); z-index: 1001; }
+.school-logo { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid var(--secondary); }
+.logo-container h1 { font-size: 1.2rem; text-align: center; color: var(--secondary); font-weight: 800; margin-bottom: 20px; }
+
+.nav-buttons { display: flex; flex-direction: column; gap: 8px; }
+.sidebar button, .btn-direct-link { background: transparent; color: var(--text); border: none; padding: 12px; border-radius: 12px; cursor: pointer; text-align: left; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+.sidebar button.active-btn { background: var(--primary); color: white; }
+.btn-direct-link { border: 1px solid var(--border); }
+.btn-direct-link:hover { background: var(--secondary); color: white; }
+
+/* MAIN CONTENT */
+.main-content { flex: 1; position: relative; height: 100vh; }
+.aba { display: none; flex-direction: column; height: 100%; max-width: 650px; margin: 0 auto; position: relative; }
 .aba.active { display: flex; }
 
-.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; padding-bottom: 80px; }
+/* CHAT E BALÕES */
+.feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding: 20px; gap: 12px; padding-bottom: 140px; }
+.msg-post { padding: 12px 16px; border-radius: 22px; max-width: 80%; display: flex; flex-direction: column; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
+.msg-post.me { background: var(--msg-me); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg-post.outro { background: var(--msg-outro); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border); }
 
-/* BALÕES DE MENSAGEM */
-.msg { padding: 10px 16px; border-radius: 22px; max-width: 75%; font-size: 15px; line-height: 1.4; position: relative; }
-.msg.me { background: var(--azul); color: white; align-self: flex-end; }
-.msg.outro { background: var(--msg-outro); color: var(--text); align-self: flex-start; }
-.msg small { display: block; font-size: 10px; opacity: 0.7; margin-top: 4px; }
+/* RANKING COM TROFÉU 🏆 */
+#feed-mural .msg-post:first-child { 
+    border: 3px solid #ffd700 !important; 
+    background: linear-gradient(145deg, var(--msg-outro), #fff8e1);
+    transform: scale(1.05); margin-bottom: 15px;
+}
+#feed-mural .msg-post:first-child::before { content: "🏆 LÍDER"; position: absolute; top: -12px; left: 10px; background: #ffd700; color: #000; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 8px; }
 
-/* RANKING DOURADO */
-.gold { border: 2px solid #ffd700 !important; background: linear-gradient(145deg, var(--bg), #fff9e6) !important; box-shadow: 0 4px 10px rgba(255,215,0,0.2); }
-body.dark-mode .gold { background: linear-gradient(145deg, #121212, #2d2a1a) !important; }
+/* CRONOGRAMA: OLIMPÍADAS (BORDA DE OURO) */
+.item-evento { padding: 15px; border-radius: 15px; margin-bottom: 10px; font-weight: 600; border-left: 6px solid var(--primary); background: var(--msg-outro); border: 1px solid var(--border); }
+.item-evento.olympics { border: 2px solid #ffd700; border-left: 8px solid #ffd700; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+.item-evento.school-event { border-left-color: var(--primary); }
 
-/* BARRA DE INPUT FIXA (ESTILO INSTA) */
-.footer-fixo { position: absolute; bottom: 0; width: 100%; background: var(--bg); padding: 12px 15px; border-top: 1px solid var(--border); }
-.input-box { border: 1px solid var(--border); border-radius: 25px; display: flex; align-items: center; padding: 0 15px; background: var(--bg); }
-.input-box input { flex: 1; border: none; background: none; padding: 10px 0; color: var(--text); outline: none; font-size: 14px; }
-.send-icon { background: none; border: none; color: var(--azul); font-weight: bold; cursor: pointer; padding-left: 10px; }
+/* FOOTER FIXO INSTAGRAM */
+.footer-input { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: var(--bg); border-top: 1px solid var(--border); z-index: 1000; }
+.input-container { background: var(--msg-outro); border: 1px solid var(--border); border-radius: 30px; padding: 5px 20px; display: flex; align-items: center; }
+input { flex: 1; background: transparent; border: none; color: var(--text); padding: 10px; outline: none; font-size: 1rem; }
+.send-btn { color: var(--primary); font-weight: 800; cursor: pointer; border: none; background: none; }
 
-/* HUMOR E OUTROS */
-.emoji-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
-.emoji-grid button { background: var(--msg-outro); border: none; padding: 15px; border-radius: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 24px; }
-.emoji-grid button span { font-size: 11px; font-weight: bold; margin-top: 5px; color: var(--text); }
+/* REPLY PREVIEW */
+.reply-box { display: none; background: rgba(0,0,0,0.05); padding: 10px; border-left: 4px solid var(--primary); border-radius: 10px 10px 0 0; margin-bottom: 5px; justify-content: space-between; }
+body.dark-mode .reply-box { background: #1a1a1a; }
 
-.contato-card { background: var(--msg-outro); padding: 15px; border-radius: 15px; margin-bottom: 10px; }
-textarea { width: 100%; height: 120px; border-radius: 15px; padding: 15px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; }
-.btn-enviar { background: var(--verde); color: white; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; margin-top: 10px; }
+/* RESPONSIVIDADE MOBILE */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; padding: 10px; border-right: none; border-bottom: 1px solid var(--border); }
+    .nav-buttons { flex-direction: row; overflow-x: auto; padding: 5px 0; }
+    .sidebar button, .btn-direct-link { padding: 8px 12px; font-size: 0.8rem; white-space: nowrap; }
+    .logo-container { display: none; }
+    .footer-input { position: fixed; }
+}
 
-#theme-btn { position: fixed; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; z-index: 2000; }
-.p-20 { padding: 20px; }
+#theme-toggle { margin-top: auto; font-size: 0.7rem; opacity: 0.6; }
