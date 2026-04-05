@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +6,7 @@
     <title>Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <nav class="sidebar">
+<body class="dark-mode"> <nav class="sidebar">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Escola" class="school-logo">
             <h1>Ouvidoria</h1>
@@ -20,6 +19,7 @@
             <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Cronograma</button>
         </div>
+        <button id="theme-toggle" onclick="toggleTheme()" style="margin-top: auto; background: rgba(255,255,255,0.1); border-radius: 50px; text-align: center;">🌓 Alternar Tema</button>
     </nav>
 
     <main class="main-content">
@@ -27,12 +27,12 @@
             <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
             <div id="feed-forum" class="feed"></div>
             <div class="footer-input">
-                <div id="reply-preview" style="display: none; background: #1a1a1a; padding: 10px; border-left: 4px solid #3797f0; margin-bottom: 5px; border-radius: 8px 8px 0 0; justify-content: space-between; align-items: center;">
+                <div id="reply-preview" style="display: none; background: var(--bg-card); padding: 10px; border-left: 4px solid var(--azul); margin-bottom: 5px; border-radius: 8px 8px 0 0; justify-content: space-between; align-items: center;">
                     <div style="overflow: hidden;">
-                        <small id="reply-user" style="color: #3797f0; font-weight: 700; font-size: 0.7rem;"></small>
-                        <p id="reply-text" style="font-size: 0.8rem; color: #a8a8a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+                        <small id="reply-user" style="color: var(--azul); font-weight: 700; font-size: 0.7rem;"></small>
+                        <p id="reply-text" style="font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
                     </div>
-                    <button onclick="cancelarResposta()" style="background: transparent; color: #fff; border: none; font-weight: 700; cursor: pointer; padding: 5px;">X</button>
+                    <button onclick="cancelarResposta()" style="background: transparent; color: var(--text-main); border: none; font-weight: 700; cursor: pointer;">X</button>
                 </div>
                 <div class="input-container">
                     <input type="text" id="input-msg" placeholder="Enviar mensagem...">
@@ -53,10 +53,12 @@
         </section>
 
         <section id="avisos" class="aba">
-            <div class="header-fixo"><h2>📢 Avisos da Escola</h2></div>
-            <div class="admin-area" style="padding: 15px; border-bottom: 1px solid #262626;">
-                <input type="text" id="input-aviso" placeholder="Escreva o aviso oficial..." style="width: 100%; background: #121212; border: 1px solid #363636; border-radius: 10px; padding: 10px; color: #fff; margin-bottom: 10px;">
-                <button class="btn-insta" onclick="salvarAviso()">Postar como Direção</button>
+            <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
+            <div class="footer-input" style="position: relative; border-top: none;">
+                <div class="input-container">
+                    <input type="text" id="input-aviso" placeholder="Escrever aviso da direção (Chernobyl)...">
+                    <button class="send-btn" onclick="salvarAviso()">Postar</button>
+                </div>
             </div>
             <div id="feed-avisos" class="feed"></div>
         </section>
@@ -99,7 +101,7 @@
             </div>
         </section>
     </main>
-
     <script type="module" src="script.js"></script>
 </body>
 </html>
+   
