@@ -52,3 +52,20 @@ textarea { width: 100%; height: 150px; background: #121212; border: 1px solid #2
     .nav-buttons { flex-direction: row; overflow-x: auto; white-space: nowrap; }
     .footer-input { position: fixed; bottom: 0; }
 }
+/* Estilo do Cronograma */
+.titulo-secao { 
+    color: #3797f0; 
+    font-size: 1.1rem; 
+    margin: 20px 0 10px; 
+    font-weight: 700; 
+}
+.lista-eventos { display: flex; flex-direction: column; gap: 10px; }
+.item-evento { 
+    background: #1a1a1a; 
+    padding: 15px; 
+    border-radius: 12px; 
+    border: 1px solid #262626; 
+    font-size: 0.95rem; 
+}
+/* A bordinha dourada das Olimpíadas */
+.item-evento.olympics { border-left: 5px solid #ffd700; } 
