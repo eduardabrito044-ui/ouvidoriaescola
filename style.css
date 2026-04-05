@@ -1,120 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-
-:root { 
-    --verde: #28a745; 
-    --azul: #007bff; 
-    --branco: #ffffff; 
-}
-
-.dark-mode { 
-    --bg: #000000; 
-    --card: #121212; 
-    --text: #ffffff; 
-    --border: #262626; 
-    --input-bg: #1a1a1a;
-}
-
-.light-mode { 
-    --bg: #f0f2f5; 
-    --card: #ffffff; 
-    --text: #1c1e21; 
-    --border: #dbdbdb; 
-    --input-bg: #f8f9fa;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: #000; color: #fff; display: flex; height: 100vh; overflow: hidden; }
 
-body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+/* LOGO */
+.school-logo { width: 50px; height: 50px; object-fit: contain; margin-bottom: 10px; border-radius: 50%; }
 
-/* --- SIDEBAR / CABEÇALHO --- */
-.sidebar { 
-    width: 260px; background: var(--card); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; padding: 20px; z-index: 1000;
-}
+.sidebar { width: 220px; border-right: 1px solid #262626; padding: 20px 12px; display: flex; flex-direction: column; background: #000; z-index: 1001; }
+.logo-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+.logo-container h1 { font-size: 1.2rem; font-weight: 800; }
 
-.logo-container { 
-    display: flex; align-items: center; padding-bottom: 15px; 
-    border-bottom: 2px solid var(--verde); margin-bottom: 20px;
-}
+.nav-buttons { display: flex; flex-direction: column; gap: 5px; }
+.sidebar button { background: transparent; color: #fafafa; border: none; padding: 12px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 1rem; }
+.sidebar button.active-btn { font-weight: 700; background: rgba(255, 255, 255, 0.1); }
 
-.school-logo { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid var(--azul); background: white; }
+.main-content { flex: 1; position: relative; height: 100vh; background: #000; }
+.aba { display: none; flex-direction: column; height: 100%; max-width: 700px; margin: 0 auto; position: relative; }
+.aba.active { display: flex; }
+.header-fixo { padding: 15px; border-bottom: 1px solid #262626; text-align: center; background: #000; }
 
-.logo-container h1 { font-size: 1.1rem; color: var(--verde); font-weight: 800; text-transform: uppercase; }
+.feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding: 15px; gap: 12px; padding-bottom: 130px; }
+.msg-post { padding: 10px 14px; border-radius: 18px; max-width: 80%; display: flex; flex-direction: column; margin-bottom: 5px; cursor: pointer; transition: opacity 0.2s; }
+.msg-post.me { background: #3797f0; align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg-post.outro { background: #262626; align-self: flex-start; border-bottom-left-radius: 4px; }
 
-/* --- BOTÕES DE NAVEGAÇÃO --- */
-.nav-buttons { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+/* RANKING: Destaque para o 1º lugar no Mural */
+#feed-mural .msg-post:first-child { border: 2px solid #ffd700; background: #1c1c1c; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
 
-.nav-buttons button { 
-    background: transparent; border: none; padding: 12px 15px; color: var(--text);
-    text-align: left; cursor: pointer; border-radius: 12px; font-weight: 600; transition: 0.3s;
-    white-space: nowrap;
-}
+/* Botão Curtir */
+.btn-votar { background: transparent; border: 1px solid #3797f0; color: #3797f0; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 700; cursor: pointer; margin-top: 8px; align-self: flex-start; }
+.btn-votar:hover { background: #3797f0; color: #fff; }
 
-/* ABA ATIVA - VERDE E AZUL */
-.nav-buttons button.active-btn { 
-    background: var(--azul) !important; color: white !important; font-weight: 800;
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-}
+/* Avisos Oficiais */
+.aviso-card { background: #1a1a1a; border-left: 5px solid #ed4956; padding: 15px; border-radius: 8px; margin-bottom: 10px; }
+.aviso-data { font-size: 0.6rem; opacity: 0.5; display: block; margin-top: 5px; }
 
-/* --- ÁREA DO CONTEÚDO --- */
-.main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+.reply-inside { background: rgba(0, 0, 0, 0.2); border-left: 3px solid rgba(255, 255, 255, 0.5); padding: 5px 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; }
+.reply-inside small { font-weight: 700; display: block; margin-bottom: 2px; }
 
-.aba { display: none; height: 100%; width: 100%; max-width: 850px; margin: 0 auto; overflow: hidden; }
-.aba.active { display: flex; flex-direction: column; }
+.msg-name { font-size: 0.7rem; font-weight: 700; margin-bottom: 3px; color: rgba(255,255,255,0.7); }
+.msg-text { font-size: 0.95rem; line-height: 1.3; }
+.msg-time { font-size: 0.6rem; opacity: 0.5; align-self: flex-end; margin-top: 4px; }
 
-/* BALÃO QUE ENVOLVE TUDO (CARD) */
-.content-wrapper { 
-    background: var(--card); border-radius: 25px; border: 1px solid var(--border);
-    display: flex; flex-direction: column; height: 100%; overflow: hidden; 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
+.footer-input { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: #000; border-top: 1px solid #262626; z-index: 1000; }
+.input-container { background: #121212; border: 1px solid #363636; border-radius: 25px; padding: 8px 18px; display: flex; align-items: center; }
+input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
+.send-btn { background: transparent; color: #0095f6; border: none; font-weight: 700; cursor: pointer; padding-left: 10px; }
 
-.header-fixo { padding: 18px; text-align: center; color: var(--verde); font-weight: 800; font-size: 1.3rem; border-bottom: 1px solid var(--border); background: var(--card); }
+.content-scroll { flex: 1; overflow-y: auto; padding: 20px; }
+.emoji-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.emoji-grid button { font-size: 2rem; padding: 20px; background: #121212; border: none; border-radius: 15px; cursor: pointer; }
+textarea { width: 100%; height: 150px; background: #121212; border: 1px solid #262626; color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 10px; resize: none; outline: none; }
+.btn-insta { width: 100%; padding: 12px; background: #3797f0; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-/* CHAT ROLÁVEL DESTREAVADO */
-.feed { 
-    flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px;
-    -webkit-overflow-scrolling: touch; background: var(--card);
-}
-
-.footer-input { padding: 15px; border-top: 1px solid var(--border); background: var(--card); flex-shrink: 0; }
-
-.input-container { 
-    background: var(--input-bg); border: 1.5px solid var(--border); border-radius: 30px;
-    padding: 10px 20px; display: flex; align-items: center;
-}
-
-input { flex: 1; background: transparent; border: none; color: var(--text); outline: none; font-size: 1rem; }
-.send-btn { color: var(--azul); font-weight: 800; border: none; background: transparent; cursor: pointer; padding-left: 10px; }
-
-/* MENSAGENS DO CHAT */
-.msg-post { padding: 12px 16px; border-radius: 18px; max-width: 75%; background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
-.msg-post.me { background: var(--azul); color: white; align-self: flex-end; border: none; }
-
-/* SEÇÃO OPINIÃO */
-.feedback-container { padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-textarea { width: 100%; max-width: 500px; height: 180px; border-radius: 15px; padding: 15px; background: var(--input-bg); color: var(--text); border: 2px solid var(--verde); outline: none; font-size: 1rem; }
-.btn-insta { background: var(--verde); color: white; padding: 15px 40px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
-
-/* --- MOBILE (ABAS NA FRENTE DA LOGO) --- */
 @media (max-width: 768px) {
     body { flex-direction: column; }
-    .sidebar { 
-        width: 100% !important; height: 65px !important; flex-direction: row !important;
-        padding: 0 15px !important; align-items: center !important; border-bottom: 2px solid var(--verde);
-    }
-    .logo-container { margin: 0 15px 0 0 !important; border: none !important; padding: 0 !important; flex-shrink: 0; }
-    .school-logo { width: 35px; height: 35px; }
-    .logo-container h1 { font-size: 0.9rem !important; }
-
-    /* Botões Roláveis */
-    .nav-buttons { flex-direction: row !important; overflow-x: auto !important; flex: 1; scrollbar-width: none; align-items: center; }
-    .nav-buttons::-webkit-scrollbar { display: none; }
-    .nav-buttons button { padding: 8px 12px !important; font-size: 0.8rem !important; }
-    .nav-buttons button.active-btn { border-radius: 8px; box-shadow: none; }
-
-    .main-content { height: calc(100vh - 65px); padding: 10px; }
-    .content-wrapper { border-radius: 20px; }
+    .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #262626; padding: 10px; flex-direction: row; align-items: center; justify-content: space-between; }
+    .logo-container { flex-direction: row; margin-bottom: 0; gap: 10px; }
+    .school-logo { width: 35px; height: 35px; margin-bottom: 0; }
+    .nav-buttons { flex-direction: row; overflow-x: auto; white-space: nowrap; }
+    .footer-input { position: fixed; bottom: 0; }
 }
 
-#theme-toggle-fixed { position: fixed; bottom: 85px; left: 15px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); z-index: 10001; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.titulo-secao { color: #3797f0; font-size: 1.1rem; margin: 20px 0 10px; font-weight: 700; }
+.lista-eventos { display: flex; flex-direction: column; gap: 10px; }
+.item-evento { background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px solid #262626; font-size: 0.95rem; }
+.item-evento.olympics { border-left: 5px solid #ffd700; }
