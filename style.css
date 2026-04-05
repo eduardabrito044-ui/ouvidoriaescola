@@ -1,84 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+:root { --verde: #28a745; --azul: #0095f6; --bg: #ffffff; --text: #262626; --border: #dbdbdb; --msg-outro: #efefef; }
+body.dark-mode { --bg: #000000; --text: #fafafa; --border: #262626; --msg-outro: #262626; --azul: #0095f6; }
 
-:root {
-    --verde: #28a745; --azul: #007bff; --bg: #f8f9fa;
-    --text: #1c1e21; --white: #ffffff; --border: #dbdbdb;
-    --card: #ffffff; --shadow: rgba(0,0,0,0.08);
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-body.dark-mode {
-    --bg: #000000; --text: #f5f5f5; --white: #121212;
-    --border: #262626; --card: #1c1c1c; --shadow: rgba(0,0,0,0.5);
-    --azul: #00a2ff;
-}
+/* HEADER */
+.top-nav { border-bottom: 1px solid var(--border); background: var(--bg); padding: 10px 0; flex-shrink: 0; }
+.brand { text-align: center; font-weight: bold; color: var(--verde); margin-bottom: 8px; }
+.mini-logo { width: 30px; vertical-align: middle; border-radius: 50%; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
-body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-/* HEADER E NAV */
-.top-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 0; z-index: 1000; }
-.header-main { max-width: 800px; margin: 0 auto; display: flex; align-items: center; padding: 0 15px; gap: 15px; }
-.brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.mini-logo { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--azul); }
-.school-name { font-weight: 800; color: var(--verde); font-size: 0.8rem; }
-
-.nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.nav-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 15px; scrollbar-width: none; }
 .nav-scroll::-webkit-scrollbar { display: none; }
-.nav-scroll button {
-    background: transparent; border: none; padding: 8px 16px; border-radius: 20px;
-    font-weight: 700; color: var(--text); cursor: pointer; white-space: nowrap; opacity: 0.5;
-}
-.nav-scroll button.active-btn { background: var(--azul); color: white; opacity: 1; }
+.nav-scroll button { background: none; border: none; padding: 6px 12px; font-weight: 600; color: var(--text); opacity: 0.4; white-space: nowrap; font-size: 14px; }
+.nav-scroll button.active-btn { opacity: 1; border-bottom: 2px solid var(--text); }
 
-/* CONTAINERS */
-.main-content { flex: 1; padding: 10px; display: flex; justify-content: center; overflow: hidden; }
-.aba { display: none; width: 100%; max-width: 600px; height: 100%; }
-.aba.active { display: flex; flex-direction: column; }
-.glass-container {
-    background: var(--card); border-radius: 30px; border: 1px solid var(--border);
-    display: flex; flex-direction: column; height: 100%; width: 100%;
-    box-shadow: 0 10px 30px var(--shadow); overflow: hidden;
-}
+/* CONTEÚDO E CHAT */
+.main-content { flex: 1; position: relative; overflow: hidden; display: flex; justify-content: center; }
+.aba { display: none; width: 100%; max-width: 500px; height: 100%; flex-direction: column; }
+.aba.active { display: flex; }
 
-/* RANKING DOURADO 🥇 */
-.ideia-vencedora {
-    border: 3px solid #ffd700 !important;
-    background: linear-gradient(145deg, var(--card), #fffcf0) !important;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
-    position: relative;
-    transform: scale(1.02);
-}
-.ideia-vencedora::before {
-    content: "🥇 MAIS VOTADA";
-    position: absolute; top: -10px; right: 15px; background: #ffd700;
-    color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 10px;
-}
-body.dark-mode .ideia-vencedora { background: linear-gradient(145deg, #1c1c1c, #2d2a1a) !important; border-color: #ffcc00 !important; }
+.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; padding-bottom: 80px; }
 
-/* CHAT E FEED */
-.feed, .content-scroll { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-.msg-post { padding: 12px 16px; border-radius: 22px; max-width: 85%; position: relative; cursor: pointer; }
-.msg-post.me { background: var(--azul); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-.msg-post.outro { background: var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
-.msg-name { display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 2px; }
-.reply-tag { background: rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 10px; font-size: 0.7rem; margin-bottom: 8px; border-left: 3px solid white; }
+/* BALÕES DE MENSAGEM */
+.msg { padding: 10px 16px; border-radius: 22px; max-width: 75%; font-size: 15px; line-height: 1.4; position: relative; }
+.msg.me { background: var(--azul); color: white; align-self: flex-end; }
+.msg.outro { background: var(--msg-outro); color: var(--text); align-self: flex-start; }
+.msg small { display: block; font-size: 10px; opacity: 0.7; margin-top: 4px; }
 
-/* SENTIMENTOS */
-.center-items { align-items: center; justify-content: center; text-align: center; }
-.emoji-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; margin-top: 20px; }
-.emoji-grid button { 
-    background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 15px; 
-    font-size: 2rem; display: flex; flex-direction: column; gap: 5px; cursor: pointer;
-}
-#status-sentimento { margin-top: 20px; font-weight: 800; color: var(--verde); }
+/* RANKING DOURADO */
+.gold { border: 2px solid #ffd700 !important; background: linear-gradient(145deg, var(--bg), #fff9e6) !important; box-shadow: 0 4px 10px rgba(255,215,0,0.2); }
+body.dark-mode .gold { background: linear-gradient(145deg, #121212, #2d2a1a) !important; }
 
-/* GERAL */
-.footer-input { padding: 15px; border-top: 1px solid var(--border); background: var(--card); }
-.input-box { background: var(--bg); border-radius: 30px; padding: 5px 15px; display: flex; align-items: center; border: 1px solid var(--border); }
-.input-box input { flex: 1; border: none; background: transparent; padding: 10px; color: var(--text); outline: none; }
-.card-modern { padding: 18px; border-radius: 22px; background: var(--bg); margin-bottom: 12px; border-left: 5px solid var(--azul); }
-textarea { width: 100%; height: 200px; border-radius: 20px; border: 1px solid var(--border); padding: 15px; background: var(--bg); color: var(--text); outline: none; resize: none; }
-.btn-primary { background: var(--verde); color: white; border: none; padding: 18px; border-radius: 20px; font-weight: 800; width: 100%; cursor: pointer; }
-#theme-toggle { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; border-radius: 50%; background: var(--azul); color: white; border: none; z-index: 10000; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+/* BARRA DE INPUT FIXA (ESTILO INSTA) */
+.footer-fixo { position: absolute; bottom: 0; width: 100%; background: var(--bg); padding: 12px 15px; border-top: 1px solid var(--border); }
+.input-box { border: 1px solid var(--border); border-radius: 25px; display: flex; align-items: center; padding: 0 15px; background: var(--bg); }
+.input-box input { flex: 1; border: none; background: none; padding: 10px 0; color: var(--text); outline: none; font-size: 14px; }
+.send-icon { background: none; border: none; color: var(--azul); font-weight: bold; cursor: pointer; padding-left: 10px; }
 
-@media (max-width: 600px) { .header-main { flex-direction: column; align-items: flex-start; } .emoji-grid { grid-template-columns: repeat(2, 1fr); } }
+/* HUMOR E OUTROS */
+.emoji-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
+.emoji-grid button { background: var(--msg-outro); border: none; padding: 15px; border-radius: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 24px; }
+.emoji-grid button span { font-size: 11px; font-weight: bold; margin-top: 5px; color: var(--text); }
+
+.contato-card { background: var(--msg-outro); padding: 15px; border-radius: 15px; margin-bottom: 10px; }
+textarea { width: 100%; height: 120px; border-radius: 15px; padding: 15px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; }
+.btn-enviar { background: var(--verde); color: white; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; margin-top: 10px; }
+
+#theme-btn { position: fixed; top: 15px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; z-index: 2000; }
+.p-20 { padding: 20px; }
