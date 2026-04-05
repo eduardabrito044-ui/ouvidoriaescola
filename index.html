@@ -3,74 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ouvidoria - CETI JM</title>
+    <title>Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="light-mode">
-    <header class="top-nav">
-        <div class="brand">
-            <img src="https://github.com/Eduardabrito044-ui/ouvidoriaescola/raw/main/logo.png" alt="Logo" class="mini-logo">
-            <span class="school-name">CETI JM</span>
+<body class="dark-mode"> <nav class="sidebar">
+        <div class="logo-container">
+            <img src="https://github.com/Eduardabrito044-ui/ouvidoriaescola/raw/main/logo.png" alt="Logo Escola" class="school-logo">
+            <h1>Ouvidoria</h1>
         </div>
-        <nav class="nav-scroll">
-            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">Chat</button>
-            <button id="btn-mural" onclick="mudarAba('mural')">Ideias</button>
-            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">Humor</button>
-            <button id="btn-feedback" onclick="mudarAba('feedback')">Opinião</button>
-            <button id="btn-contatos" onclick="mudarAba('contatos')">Contato</button>
-        </nav>
-    </header>
+        <div class="nav-buttons">
+            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
+            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
+            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
+            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
+            <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Agenda</button>
+            <a href="https://wa.me/5589981259467" target="_blank" class="btn-direct-link">📞 WhatsApp</a>
+            <a href="mailto:eduardabrito044@gmail.com" class="btn-direct-link">✉️ E-mail</a>
+        </div>
+        <button id="theme-toggle" onclick="toggleTheme()">🌓 Alternar Tema</button>
+    </nav>
 
     <main class="main-content">
         <section id="forum" class="aba active">
             <div id="feed-forum" class="feed"></div>
-            <div class="footer-fixo">
-                <div class="input-box">
+            <div class="footer-input">
+                <div id="reply-preview" class="reply-box">
+                    <div class="reply-details">
+                        <small id="reply-user"></small>
+                        <p id="reply-text"></p>
+                    </div>
+                    <button onclick="cancelarResposta()">✕</button>
+                </div>
+                <div class="input-container">
                     <input type="text" id="input-msg" placeholder="Enviar mensagem...">
-                    <button class="send-icon" onclick="salvarMensagem()">➤</button>
+                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
                 </div>
             </div>
         </section>
 
         <section id="mural" class="aba">
             <div id="feed-mural" class="feed"></div>
-            <div class="footer-fixo">
-                <div class="input-box">
-                    <input type="text" id="input-ideia" placeholder="Sua ideia de ouro...">
-                    <button class="send-icon" onclick="salvarIdeia()">+</button>
+            <div class="footer-input">
+                <div class="input-container">
+                    <input type="text" id="input-ideia" placeholder="Sua sugestão...">
+                    <button class="send-btn" onclick="salvarIdeia()">Sugerir</button>
                 </div>
+            </div>
+        </section>
+
+        <section id="avisos" class="aba">
+            <div id="feed-avisos" class="feed"></div>
+            <div class="footer-input">
+                <div class="input-container">
+                    <input type="text" id="input-aviso" placeholder="Escrever aviso (Requer Chave)...">
+                    <button class="send-btn" onclick="salvarAviso()">Postar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="cronograma" class="aba">
+            <div class="content-scroll p-20">
+                <h3 class="titulo-secao">🏆 Olimpíadas (CETI JM)</h3>
+                <div class="item-evento olympics">🥇 01/05 - Abertura das Olimpíadas</div>
+                <div class="item-evento olympics">🏅 05/05 - Competições e Jogos</div>
+                <h3 class="titulo-secao">📅 Eventos Escolares</h3>
+                <div class="item-evento school-event">20/05 - Feira de Empreendedorismo</div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba">
-            <div class="humor-container">
+            <div class="content-scroll">
                 <div class="emoji-grid">
-                    <button onclick="enviarSentimento('Radiante', '😁')">😁<span>Radiante</span></button>
-                    <button onclick="enviarSentimento('Bem', '🙂')">🙂<span>Bem</span></button>
-                    <button onclick="enviarSentimento('Cansado', '😴')">😴<span>Cansado</span></button>
-                    <button onclick="enviarSentimento('Triste', '😔')">😔<span>Triste</span></button>
-                    <button onclick="enviarSentimento('Ansioso', '😰')">😰<span>Ansioso</span></button>
-                    <button onclick="enviarSentimento('Bravo', '😤')">😤<span>Bravo</span></button>
+                    <button onclick="votarHumor('😊')">😊</button>
+                    <button onclick="votarHumor('😴')">😴</button>
+                    <button onclick="votarHumor('🤓')">🤓</button>
+                    <button onclick="votarHumor('🤩')">🤩</button>
+                    <button onclick="votarHumor('😡')">😡</button>
+                    <button onclick="votarHumor('😎')">😎</button>
                 </div>
-            </div>
-        </section>
-
-        <section id="feedback" class="aba">
-            <div class="p-20">
-                <textarea id="texto-feedback" placeholder="Escreva aqui..."></textarea>
-                <button class="btn-enviar" onclick="enviarFeedback()">Enviar</button>
-            </div>
-        </section>
-
-        <section id="contatos" class="aba">
-            <div class="p-20">
-                <div class="contato-card"><strong>WhatsApp</strong><p>89 98125-9467</p></div>
-                <div class="contato-card"><strong>E-mail</strong><p>eduardabrito044@gmail.com</p></div>
             </div>
         </section>
     </main>
 
-    <button id="theme-btn" onclick="toggleTheme()">🌓</button>
     <script type="module" src="script.js"></script>
 </body>
 </html>
