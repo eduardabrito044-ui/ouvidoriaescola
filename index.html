@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,8 @@
     <title>Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-mode"> <nav class="sidebar">
+<body class="dark-mode">
+    <nav class="sidebar">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Escola" class="school-logo">
             <h1>Ouvidoria</h1>
@@ -19,7 +20,7 @@
             <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Cronograma</button>
         </div>
-        <button id="theme-toggle" onclick="toggleTheme()" style="margin-top: auto; background: rgba(255,255,255,0.1); border-radius: 50px; text-align: center;">🌓 Alternar Tema</button>
+        <button id="theme-toggle" onclick="toggleTheme()" style="margin-top: auto; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 50px; cursor: pointer;">🌓 Alternar Tema</button>
     </nav>
 
     <main class="main-content">
@@ -27,13 +28,6 @@
             <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
             <div id="feed-forum" class="feed"></div>
             <div class="footer-input">
-                <div id="reply-preview" style="display: none; background: var(--bg-card); padding: 10px; border-left: 4px solid var(--azul); margin-bottom: 5px; border-radius: 8px 8px 0 0; justify-content: space-between; align-items: center;">
-                    <div style="overflow: hidden;">
-                        <small id="reply-user" style="color: var(--azul); font-weight: 700; font-size: 0.7rem;"></small>
-                        <p id="reply-text" style="font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
-                    </div>
-                    <button onclick="cancelarResposta()" style="background: transparent; color: var(--text-main); border: none; font-weight: 700; cursor: pointer;">X</button>
-                </div>
                 <div class="input-container">
                     <input type="text" id="input-msg" placeholder="Enviar mensagem...">
                     <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
@@ -56,7 +50,7 @@
             <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
             <div class="footer-input" style="position: relative; border-top: none;">
                 <div class="input-container">
-                    <input type="text" id="input-aviso" placeholder="Escrever aviso da direção (Chernobyl)...">
+                    <input type="text" id="input-aviso" placeholder="Aviso da direção (Chave Chernobyl)...">
                     <button class="send-btn" onclick="salvarAviso()">Postar</button>
                 </div>
             </div>
@@ -66,14 +60,14 @@
         <section id="cronograma" class="aba">
             <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
             <div class="content-scroll">
-                <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
+                <h3 class="titulo-secao">🏆 Olimpíadas</h3>
                 <div class="lista-eventos">
                     <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
                     <div class="item-evento olympics">05/05 - Competições e Jogos</div>
                 </div>
-                <h3 class="titulo-secao">📅 Eventos da Escola</h3>
+                <h3 class="titulo-secao">📅 Eventos</h3>
                 <div class="lista-eventos">
-                    <div class="item-evento">15/05 - Reunião de Pais e Mestres</div>
+                    <div class="item-evento">15/05 - Reunião de Pais</div>
                     <div class="item-evento">20/05 - Feira de Empreendedorismo</div>
                 </div>
             </div>
@@ -104,4 +98,3 @@
     <script type="module" src="script.js"></script>
 </body>
 </html>
-   
