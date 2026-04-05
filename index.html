@@ -20,8 +20,9 @@
             <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Cronograma</button>
         </div>
-        <button onclick="toggleTheme()" style="margin-top: auto; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 50px; cursor: pointer;">🌓 Tema</button>
     </nav>
+
+    <button onclick="toggleTheme()" id="theme-toggle-fixed" title="Alternar Tema">🌓</button>
 
     <main class="main-content">
         <section id="forum" class="aba active">
@@ -48,53 +49,42 @@
 
         <section id="avisos" class="aba">
             <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
-            <div class="footer-input" style="position: relative; border-top: none;">
+            <div id="feed-avisos" class="feed"></div>
+            <div class="footer-input">
                 <div class="input-container">
-                    <input type="text" id="input-aviso" placeholder="Postar aviso (Chave Chernobyl)...">
+                    <input type="text" id="input-aviso" placeholder="Postar aviso oficial...">
                     <button class="send-btn" onclick="salvarAviso()">Postar</button>
                 </div>
             </div>
-            <div id="feed-avisos" class="feed"></div>
         </section>
 
         <section id="cronograma" class="aba">
             <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
             <div class="content-scroll">
-                <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
-                <div class="lista-eventos">
-                    <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
-                    <div class="item-evento olympics">05/05 - Competições e Jogos</div>
-                </div>
-                <h3 class="titulo-secao">📅 Eventos da Escola</h3>
-                <div class="lista-eventos">
-                    <div class="item-evento">15/05 - Reunião de Pais e Mestres</div>
-                    <div class="item-evento">20/05 - Feira de Empreendedorismo</div>
-                </div>
+                <div class="item-evento olympics">🏆 01/05 - Abertura das Olimpíadas</div>
+                <div class="item-evento">📅 20/05 - Feira de Empreendedorismo</div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba">
             <div class="header-fixo"><h2>Como estás hoje?</h2></div>
-            <div class="content-scroll">
-                <div class="emoji-grid">
-                    <button onclick="votarHumor('😊')">😊</button>
-                    <button onclick="votarHumor('😴')">😴</button>
-                    <button onclick="votarHumor('🤓')">🤓</button>
-                    <button onclick="votarHumor('🤩')">🤩</button>
-                    <button onclick="votarHumor('😡')">😡</button>
-                    <button onclick="votarHumor('😎')">😎</button>
-                </div>
+            <div class="emoji-grid">
+                <button onclick="votarHumor('😊')">😊</button>
+                <button onclick="votarHumor('😴')">😴</button>
+                <button onclick="votarHumor('🤓')">🤓</button>
+                <button onclick="votarHumor('😡')">😡</button>
             </div>
         </section>
 
         <section id="feedback" class="aba">
             <div class="header-fixo"><h2>A tua opinião</h2></div>
             <div class="content-scroll">
-                <textarea id="texto-feedback" placeholder="Escreve aqui o teu feedback..."></textarea>
-                <button class="btn-insta" onclick="enviarFeedback()">Enviar Feedback</button>
+                <textarea id="texto-feedback" placeholder="Escreva seu feedback..."></textarea>
+                <button class="btn-insta" onclick="enviarFeedback()">Enviar</button>
             </div>
         </section>
     </main>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>
