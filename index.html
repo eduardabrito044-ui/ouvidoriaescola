@@ -10,7 +10,7 @@
     <nav class="top-menu">
         <div class="menu-scroll">
             <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
-            <button id="btn-mural" onclick="mudarAba('mural')">💡 Ideias</button>
+            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
             <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
             <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
             <button id="btn-feedback" onclick="mudarAba('feedback')">📩 Opinião</button>
@@ -40,28 +40,44 @@
             <div id="feed-mural" class="feed"></div>
             <div class="footer-input">
                 <div class="input-wrapper">
-                    <input type="text" id="input-ideia" placeholder="Sugira algo divertido...">
+                    <input type="text" id="input-ideia" placeholder="Sugira algo...">
                     <button class="send-btn" onclick="salvarIdeia()">Postar</button>
                 </div>
             </div>
         </section>
 
-        <section id="cronograma" class="aba">
-            <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
+        <section id="sentimentos" class="aba">
+            <div class="header-fixo"><h2>Como estás hoje?</h2></div>
             <div class="content-scroll">
-                <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
-                <div class="lista-eventos">
-                    <div class="item-eventos olympics">01/05 - Abertura das Olimpíadas</div>
-                    <div class="item-eventos olympics">05/05 - Competições e Jogos</div>
-                </div>
-                <h3 class="titulo-secao">📅 Eventos da Escola</h3>
-                <div class="lista-eventos">
-                    <div class="item-eventos">15/05 - Reunião de Pais e Mestres</div>
-                    <div class="item-eventos">20/05 - Feira de Empreendedorismo</div>
+                <div class="emoji-grid">
+                    <button onclick="enviarHumor('ansioso')">😰<br><small>Ansioso</small></button>
+                    <button onclick="enviarHumor('feliz')">😊<br><small>Feliz</small></button>
+                    <button onclick="enviarHumor('triste')">😢<br><small>Triste</small></button>
+                    <button onclick="enviarHumor('raiva')">😡<br><small>Raiva</small></button>
                 </div>
             </div>
         </section>
+
+        <section id="cronograma" class="aba">
+            <div class="header-fixo"><h2>📅 Cronograma Escolar</h2></div>
+            <div class="content-scroll">
+                <h3 class="titulo-secao">🏆 Olimpíadas (CETI JM)</h3>
+                <div class="item-evento olympics">01/05 - Abertura das Olimpíadas 🥇</div>
+                <div class="item-evento olympics">05/05 - Competições e Jogos 🏅</div>
+                <h3 class="titulo-secao">📖 Outros Eventos</h3>
+                <div class="item-evento">20/05 - Feira Técnica 📚</div>
+            </div>
+        </section>
+
+        <section id="contatos" class="aba">
+            <div class="header-fixo"><h2>📱 Contatos</h2></div>
+            <div class="p-20">
+                <a href="https://wa.me/seunumeroaqui" class="btn-insta" style="text-decoration: none; text-align: center; display: block; margin-bottom: 10px;">WhatsApp Direto 📲</a>
+                <button class="btn-insta" style="background: #555;">E-mail 📩</button>
+            </div>
+        </section>
     </main>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>
