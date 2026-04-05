@@ -6,109 +6,113 @@
     <title>Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <nav class="sidebar">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo Escola" class="school-logo">
-            <h1>Ouvidoria</h1>
+<body class="light-mode">
+
+    <header class="top-nav">
+        <div class="header-main">
+            <div class="brand">
+                <img src="https://github.com/Eduardabrito044-ui/ouvidoriaescola/raw/main/logo.png" alt="Logo" class="mini-logo">
+                <span class="school-name">CETI JM</span>
+            </div>
+            <nav class="nav-scroll">
+                <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">Direct</button>
+                <button id="btn-mural" onclick="mudarAba('mural')">Ideias</button>
+                <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">Humor</button>
+                <button id="btn-avisos" onclick="mudarAba('avisos')">Alertas</button>
+                <button id="btn-cronograma" onclick="mudarAba('cronograma')">Agenda</button>
+                <button id="btn-feedback" onclick="mudarAba('feedback')">Opinião</button>
+                <button id="btn-contatos" onclick="mudarAba('contatos')">Contato</button>
+            </nav>
         </div>
-        <div class="nav-buttons">
-            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
-            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
-            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
-            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
-            <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
-            <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Cronograma</button>
-        </div>
-    </nav>
+    </header>
 
     <main class="main-content">
         <section id="forum" class="aba active">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
+            <div class="glass-container">
                 <div id="feed-forum" class="feed"></div>
                 <div class="footer-input">
-                    <div id="reply-preview" style="display: none; background: #1a1a1a; padding: 10px; border-left: 4px solid #007bff; margin-bottom: 5px; border-radius: 8px; justify-content: space-between; align-items: center;">
-                        <div style="overflow: hidden;">
-                            <small id="reply-user" style="color: #007bff; font-weight: 700; font-size: 0.7rem;"></small>
-                            <p id="reply-text" style="font-size: 0.8rem; color: #a8a8a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
-                        </div>
-                        <button onclick="cancelarResposta()" style="background: transparent; color: #fff; border: none; font-weight: 700; cursor: pointer; padding: 5px;">X</button>
+                    <div id="reply-preview" class="reply-bar" style="display: none;">
+                        <div class="reply-content"><small id="reply-user"></small><p id="reply-text"></p></div>
+                        <button class="close-reply" onclick="cancelarResposta()">✕</button>
                     </div>
-                    <div class="input-container">
+                    <div class="input-box">
                         <input type="text" id="input-msg" placeholder="Enviar mensagem...">
-                        <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
+                        <button class="send-icon" onclick="salvarMensagem()">➤</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="mural" class="aba">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>Mural de Ideias</h2></div>
+            <div class="glass-container">
                 <div id="feed-mural" class="feed"></div>
                 <div class="footer-input">
-                    <div class="input-container">
-                        <input type="text" id="input-ideia" placeholder="Dar uma sugestão...">
-                        <button class="send-btn" onclick="salvarIdeia()">Sugerir</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="avisos" class="aba">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
-                <div id="feed-avisos" class="feed"></div>
-                <div class="footer-input">
-                    <div class="input-container">
-                        <input type="text" id="input-aviso" placeholder="Escrever aviso da direção...">
-                        <button class="send-btn" onclick="salvarAviso()">Postar</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="cronograma" class="aba">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
-                <div class="content-scroll">
-                    <h3 class="titulo-secao">🏆 Olimpíadas</h3>
-                    <div class="lista-eventos">
-                        <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
-                        <div class="item-evento olympics">05/05 - Competições e Jogos</div>
+                    <div class="input-box">
+                        <input type="text" id="input-ideia" placeholder="Sua ideia de ouro...">
+                        <button class="send-icon" onclick="salvarIdeia()">+</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>Como estás hoje?</h2></div>
-                <div class="content-scroll">
+            <div class="glass-container">
+                <div class="header-inner"><h3>🎭 Como você está?</h3></div>
+                <div class="content-scroll center-items">
                     <div class="emoji-grid">
-                        <button onclick="votarHumor('😊')">😊</button>
-                        <button onclick="votarHumor('😴')">😴</button>
-                        <button onclick="votarHumor('🤓')">🤓</button>
-                        <button onclick="votarHumor('🤩')">🤩</button>
-                        <button onclick="votarHumor('😡')">😡</button>
-                        <button onclick="votarHumor('😎')">😎</button>
+                        <button onclick="enviarSentimento('Radiante', '😁')">😁<span>Radiante</span></button>
+                        <button onclick="enviarSentimento('Bem', '🙂')">🙂<span>Bem</span></button>
+                        <button onclick="enviarSentimento('Cansado', '😴')">😴<span>Cansado</span></button>
+                        <button onclick="enviarSentimento('Triste', '😔')">😔<span>Triste</span></button>
+                        <button onclick="enviarSentimento('Ansioso', '😰')">😰<span>Ansioso</span></button>
+                        <button onclick="enviarSentimento('Estressado', '😤')">😤<span>Bravo</span></button>
                     </div>
+                    <div id="status-sentimento"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="avisos" class="aba">
+            <div class="glass-container">
+                <div class="header-inner"><h3>📢 Alertas da Direção</h3> <button class="admin-btn" onclick="postarAviso()">📝</button></div>
+                <div id="feed-avisos" class="feed"></div>
+            </div>
+        </section>
+
+        <section id="cronograma" class="aba">
+            <div class="glass-container">
+                <div class="header-inner"><h3>📅 Cronograma</h3> <button class="admin-btn" onclick="editarCronograma()">⚙️</button></div>
+                <div class="content-scroll">
+                    <div class="tag-label olympic">🏆 OLIMPÍADAS</div>
+                    <div id="cronograma-olimpiadas"></div>
+                    <div class="tag-label school">🏫 EVENTOS GERAIS</div>
+                    <div id="cronograma-eventos"></div>
                 </div>
             </div>
         </section>
 
         <section id="feedback" class="aba">
-            <div class="content-wrapper">
-                <div class="header-fixo"><h2>A tua opinião</h2></div>
-                <div class="content-scroll" style="padding: 20px;">
-                    <textarea id="texto-feedback" placeholder="Escreve aqui o teu feedback..."></textarea>
-                    <button class="btn-insta" onclick="enviarFeedback()">Enviar Feedback</button>
+            <div class="glass-container">
+                <div class="header-inner"><h3>✍️ Enviar Feedback</h3></div>
+                <div class="content-scroll">
+                    <textarea id="texto-feedback" placeholder="Sugestões ou críticas construtivas..."></textarea>
+                    <button class="btn-primary" onclick="enviarFeedback()">Enviar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="contatos" class="aba">
+            <div class="glass-container">
+                <div class="header-inner"><h3>📞 Fale com a Eduarda</h3></div>
+                <div class="content-scroll">
+                    <div class="card-modern blue"><strong>WhatsApp</strong><p>89 98125-9467</p></div>
+                    <div class="card-modern green"><strong>E-mail</strong><p>Eduardabrito044@gmail.com</p></div>
                 </div>
             </div>
         </section>
     </main>
 
+    <button id="theme-toggle" onclick="toggleTheme()">🌑</button>
     <script type="module" src="script.js"></script>
 </body>
 </html>
