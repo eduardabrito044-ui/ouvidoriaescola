@@ -15,10 +15,10 @@
         <div class="nav-buttons">
             <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
             <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
+            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
             <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
             <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Cronograma</button>
-            
         </div>
     </nav>
 
@@ -26,7 +26,6 @@
         <section id="forum" class="aba active">
             <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
             <div id="feed-forum" class="feed"></div>
-            
             <div class="footer-input">
                 <div id="reply-preview" style="display: none; background: #1a1a1a; padding: 10px; border-left: 4px solid #3797f0; margin-bottom: 5px; border-radius: 8px 8px 0 0; justify-content: space-between; align-items: center;">
                     <div style="overflow: hidden;">
@@ -35,7 +34,6 @@
                     </div>
                     <button onclick="cancelarResposta()" style="background: transparent; color: #fff; border: none; font-weight: 700; cursor: pointer; padding: 5px;">X</button>
                 </div>
-
                 <div class="input-container">
                     <input type="text" id="input-msg" placeholder="Enviar mensagem...">
                     <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
@@ -53,25 +51,33 @@
                 </div>
             </div>
         </section>
+
+        <section id="avisos" class="aba">
+            <div class="header-fixo"><h2>📢 Avisos da Escola</h2></div>
+            <div class="admin-area" style="padding: 15px; border-bottom: 1px solid #262626;">
+                <input type="text" id="input-aviso" placeholder="Escreva o aviso oficial..." style="width: 100%; background: #121212; border: 1px solid #363636; border-radius: 10px; padding: 10px; color: #fff; margin-bottom: 10px;">
+                <button class="btn-insta" onclick="salvarAviso()">Postar como Direção</button>
+            </div>
+            <div id="feed-avisos" class="feed"></div>
+        </section>
+
         <section id="cronograma" class="aba">
-    <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
-    <div class="content-scroll">
-        
-        <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
-        <div class="lista-eventos">
-            <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
-            <div class="item-evento olympics">05/05 - Competições e Jogos</div>
-        </div>
+            <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
+            <div class="content-scroll">
+                <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
+                <div class="lista-eventos">
+                    <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
+                    <div class="item-evento olympics">05/05 - Competições e Jogos</div>
+                </div>
+                <h3 class="titulo-secao">📅 Eventos da Escola</h3>
+                <div class="lista-eventos">
+                    <div class="item-evento">15/05 - Reunião de Pais e Mestres</div>
+                    <div class="item-evento">20/05 - Feira de Empreendedorismo</div>
+                </div>
+            </div>
+        </section>
 
-        <h3 class="titulo-secao">📅 Eventos da Escola</h3>
-        <div class="lista-eventos">
-            <div class="item-evento">15/05 - Reunião de Pais e Mestres</div>
-            <div class="item-evento">20/05 - Feira de Empreendedorismo</div>
-        </div>
-
-    </div>
-</section>
-  <section id="sentimentos" class="aba">
+        <section id="sentimentos" class="aba">
             <div class="header-fixo"><h2>Como estás hoje?</h2></div>
             <div class="content-scroll">
                 <div class="emoji-grid">
