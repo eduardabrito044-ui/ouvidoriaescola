@@ -14,16 +14,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// --- LÓGICA DE MODO CLARO/ESCURO ---
+// --- TEMA ---
 window.toggleTheme = () => {
     const body = document.body;
-    if (body.classList.contains("dark-mode")) {
-        body.classList.replace("dark-mode", "light-mode");
-        localStorage.setItem("theme", "light");
-    } else {
-        body.classList.replace("light-mode", "dark-mode");
-        localStorage.setItem("theme", "dark");
-    }
+    body.classList.toggle("light-mode");
+    body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", body.classList.contains("light-mode") ? "light" : "dark");
 };
 if(localStorage.getItem("theme") === "light") document.body.classList.replace("dark-mode", "light-mode");
 
@@ -33,16 +29,44 @@ localStorage.setItem("nome", nome);
 window.mudarAba = (id) => {
     document.querySelectorAll(".aba").forEach(a => a.classList.remove("active"));
     document.querySelectorAll(".sidebar button").forEach(b => b.classList.remove("active-btn"));
-    const t = document.getElementById(id); if(t) t.classList.add("active");
+    document.getElementById(id).classList.add("active");
     if(document.getElementById("btn-"+id)) document.getElementById("btn-"+id).classList.add("active-btn");
 };
 
-// --- CHAT (MENSAGENS NORMAIS) ---
+// --- LÓGICA DE RESPOSTA ---
+let respondendoA = null;
+
+window.prepararResposta = (user, texto) => {
+    respondendoA = { user, texto };
+    const preview = document.getElementById("reply-preview");
+    if(preview) {
+        preview.style.display = "flex";
+        document.getElementById("reply-user").innerText = user;
+        document.getElementById("reply-text").innerText = texto;
+    }
+};
+
+window.cancelarResposta = () => {
+    respondendoA = null;
+    const preview = document.getElementById("reply-preview");
+    if(preview) preview.style.display = "none";
+};
+
+// --- CHAT ---
 window.salvarMensagem = () => {
     const input = document.getElementById("input-msg");
     if (!input.value.trim()) return;
-    push(ref(db, "mensagens"), { nome, texto: input.value, hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+
+    const novaMsg = {
+        nome,
+        texto: input.value,
+        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+        resposta: respondendoA // Salva a citação se houver
+    };
+
+    push(ref(db, "mensagens"), novaMsg);
     input.value = "";
+    cancelarResposta();
 };
 
 onValue(ref(db, "mensagens"), (snapshot) => {
@@ -52,13 +76,27 @@ onValue(ref(db, "mensagens"), (snapshot) => {
         const d = child.val();
         const div = document.createElement("div");
         div.className = `msg-post ${d.nome === nome ? 'me' : 'outro'}`;
-        div.innerHTML = `<span class="msg-name" style="font-weight:700; font-size:0.7rem; display:block;">${d.nome}</span><span class="msg-text">${d.texto}</span>`;
+        
+        // Se a mensagem for uma resposta, adiciona o balão de citação
+        let htmlResposta = "";
+        if(d.resposta) {
+            htmlResposta = `<div style="background: rgba(0,0,0,0.1); padding: 5px 8px; border-left: 3px solid var(--azul); border-radius: 4px; margin-bottom: 5px; font-size: 0.75rem;">
+                <b style="color: var(--azul)">${d.resposta.user}</b>: ${d.resposta.texto}
+            </div>`;
+        }
+
+        div.innerHTML = `
+            ${htmlResposta}
+            <small style="display:block; font-weight:800; opacity:0.8">${d.nome}</small>
+            ${d.texto}
+            <button onclick="prepararResposta('${d.nome}', '${d.texto}')" style="background:none; border:none; color:var(--verde); font-size:0.6rem; cursor:pointer; margin-top:5px; display:block;">Responder</button>
+        `;
         feed.appendChild(div);
     });
     feed.scrollTop = feed.scrollHeight;
 });
 
-// --- MURAL (RANKING POR CURTIDAS) ---
+// --- MURAL, AVISOS E EXTRAS ---
 window.salvarIdeia = () => {
     const input = document.getElementById("input-ideia");
     if (!input.value.trim()) return;
@@ -80,20 +118,19 @@ onValue(ref(db, "mural"), (snapshot) => {
     ideias.forEach((d) => {
         const div = document.createElement("div");
         div.className = "msg-post outro"; div.style.maxWidth = "100%";
-        div.innerHTML = `<span class="msg-name" style="font-weight:700;">${d.autor}</span><span class="msg-text">${d.texto}</span>
-        <button class="btn-votar" onclick="votarIdeia('${d.id}')">👍 ${d.votos || 0}</button>`;
+        div.innerHTML = `<strong>${d.autor}:</strong> ${d.texto}<br><button class="btn-votar" onclick="votarIdeia('${d.id}')">👍 ${d.votos || 0}</button>`;
         feed.appendChild(div);
     });
 });
 
-// --- AVISOS (TRAVA CHERNOBYL) ---
 window.salvarAviso = () => {
-    if(prompt("Digite o nome de acesso:") === "Chernobyl") {
+    const senha = prompt("Identificação de Administrador:");
+    if(senha === "Chernobyl") {
         const input = document.getElementById("input-aviso");
         if(!input.value.trim()) return;
         push(ref(db, "avisos"), { texto: input.value, data: new Date().toLocaleDateString() });
-        input.value = ""; alert("Aviso postado!");
-    } else { alert("Acesso negado."); }
+        input.value = "";
+    } else if (senha !== null) { alert("Chave incorreta!"); }
 };
 
 onValue(ref(db, "avisos"), (snapshot) => {
@@ -103,12 +140,11 @@ onValue(ref(db, "avisos"), (snapshot) => {
         const d = child.val();
         const div = document.createElement("div");
         div.className = "aviso-card";
-        div.innerHTML = `<strong>AVISO:</strong> ${d.texto}<br><small>${d.data}</small>`;
+        div.innerHTML = `<strong>OFICIAL:</strong> ${d.texto}<br><small>${d.data}</small>`;
         feed.prepend(div);
     });
 });
 
-// --- FUNÇÕES DE HUMOR E FEEDBACK ---
 window.votarHumor = (v) => { push(ref(db, "humor"), { nome, voto: v }); alert("Votado!"); };
 window.enviarFeedback = () => {
     const t = document.getElementById("texto-feedback");
