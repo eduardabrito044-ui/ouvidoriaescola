@@ -15,11 +15,11 @@
         <div class="nav-buttons">
             <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
             <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
+            <button id="btn-feedback" onclick="mudarAba('feedback')">📝 Feedback</button>
             <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
             <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Agenda</button>
             <a href="https://wa.me/5589981259467" target="_blank" class="btn-direct-link">📞 WhatsApp</a>
-            <a href="mailto:eduardabrito044@gmail.com" class="btn-direct-link">✉️ E-mail</a>
         </div>
         <button id="theme-toggle" onclick="toggleTheme()">🌓 Alternar Tema</button>
     </nav>
@@ -60,30 +60,28 @@
             </div>
         </section>
 
+        <section id="feedback" class="aba">
+            <div class="header-insta"><h2>📝 Feedback Privado</h2></div>
+            <div class="p-20">
+                <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">Suas críticas e elogios vão direto para a coordenação.</p>
+                <textarea id="texto-feedback" placeholder="Como podemos melhorar a escola?"></textarea>
+                <button onclick="enviarFeedback()" class="insta-btn" style="background: var(--secondary);">Enviar para Direção</button>
+            </div>
+        </section>
+
         <section id="avisos" class="aba">
             <div class="header-insta"><h2>📢 Avisos Oficiais</h2></div>
             <div id="feed-avisos" class="feed"></div>
             <div class="footer-input">
                 <div class="input-container">
-                    <input type="text" id="input-aviso" placeholder="Escrever aviso (Chave)...">
+                    <input type="text" id="input-aviso" placeholder="Postar aviso (Chave)...">
                     <button class="send-btn" onclick="salvarAviso()">Postar</button>
                 </div>
             </div>
         </section>
 
-        <section id="cronograma" class="aba">
-            <div class="header-insta"><h2>📅 Agenda Escolar</h2></div>
-            <div class="p-20">
-                <h3 class="titulo-secao">🏆 Olimpíadas (CETI JM)</h3>
-                <div class="item-evento olympics">🥇 01/05 - Abertura das Olimpíadas</div>
-                <div class="item-evento olympics">🏅 05/05 - Competições e Jogos</div>
-                <h3 class="titulo-secao">📅 Eventos Gerais</h3>
-                <div class="item-evento school-event">20/05 - Feira de Empreendedorismo</div>
-            </div>
-        </section>
-
         <section id="sentimentos" class="aba">
-            <div class="header-insta"><h2>🎭 Como você está?</h2></div>
+            <div class="header-insta"><h2>🎭 Humor do Dia</h2></div>
             <div class="emoji-grid">
                 <button onclick="votarHumor('😊')">😊</button>
                 <button onclick="votarHumor('😴')">😴</button>
@@ -93,8 +91,16 @@
                 <button onclick="votarHumor('😎')">😎</button>
             </div>
         </section>
-    </main>
 
+        <section id="cronograma" class="aba">
+            <div class="header-insta"><h2>📅 Agenda Escolar</h2></div>
+            <div class="p-20">
+                <h3 class="titulo-secao">🏆 Olimpíadas (CETI JM)</h3>
+                <div class="item-evento olympics">🥇 01/05 - Abertura das Olimpíadas</div>
+                <div class="item-evento olympics">🏅 05/05 - Competições e Jogos</div>
+            </div>
+        </section>
+    </main>
     <script type="module" src="script.js"></script>
 </body>
 </html>
