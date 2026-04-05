@@ -1,40 +1,187 @@
+/* 1. CONFIGURAÇÕES GERAIS E CORES (MODO ESCURO POR PADRÃO) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --bg: #000000; --text: #ffffff; --primary: #3797f0;
-    --msg-me: #3797f0; --msg-outro: #262626; --border: #333333;
+    --bg: #000000;
+    --text: #ffffff;
+    --primary: #3797f0; /* Azul Direct */
+    --msg-me: #3797f0;
+    --msg-outro: #262626;
+    --border: #333333;
+    --dourado: #ffd700;
 }
 
-body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+/* 2. ALTERNÂNCIA PARA MODO CLARO */
+body.light-mode {
+    --bg: #ffffff;
+    --text: #000000;
+    --msg-me: #3797f0;
+    --msg-outro: #efefef;
+    --border: #dbdbdb;
+}
 
-/* MENU ROLÁVEL IGUAL À IMAGEM */
-.top-menu { background: #121212; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.menu-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 15px; scrollbar-width: none; }
-.menu-scroll::-webkit-scrollbar { display: none; }
-.menu-scroll button { background: #262626; border: none; color: white; padding: 8px 15px; border-radius: 8px; white-space: nowrap; font-weight: 600; font-size: 0.85rem; }
-.menu-scroll button.active-btn { background: white; color: black; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-/* BALÕES DE MENSAGEM */
-.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 130px; }
-.msg-post { max-width: 80%; display: flex; flex-direction: column; margin-bottom: 5px; }
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+}
+
+/* 3. MENU SUPERIOR ROLÁVEL (ESTILO IGUAL AO SEU PRINT) */
+.top-menu { 
+    background: var(--bg); 
+    padding: 12px 0; 
+    border-bottom: 1px solid var(--border); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+}
+
+.menu-scroll { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 10px; 
+    padding: 0 15px; 
+    scrollbar-width: none; /* Esconde scroll no Firefox */
+}
+
+.menu-scroll::-webkit-scrollbar { display: none; /* Esconde scroll no Chrome/Opera */ }
+
+.menu-scroll button { 
+    background: var(--msg-outro); 
+    border: none; 
+    color: var(--text); 
+    padding: 8px 16px; 
+    border-radius: 10px; 
+    white-space: nowrap; 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    cursor: pointer;
+}
+
+.menu-scroll button.active-btn { 
+    background: var(--text); 
+    color: var(--bg); 
+}
+
+/* 4. ÁREA DE CONTEÚDO (CHATS E ABAS) */
+.main-content { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
+.aba { display: none; height: 100%; flex-direction: column; }
+.aba.active { display: flex; }
+
+.header-fixo { 
+    padding: 15px; 
+    text-align: center; 
+    border-bottom: 1px solid var(--border); 
+    font-weight: 700;
+}
+
+/* 5. BALÕES DE MENSAGEM (ESTILO DIRECT) */
+.feed { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 15px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    padding-bottom: 140px; /* Espaço para o teclado fixo */
+}
+
+.msg-post { max-width: 80%; display: flex; flex-direction: column; }
 .msg-post.me { align-self: flex-end; }
 .msg-post.outro { align-self: flex-start; }
 
-.bubble { padding: 10px 14px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; }
-.me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
-.outro .bubble { background: var(--msg-outro); color: white; border-bottom-left-radius: 4px; }
+.msg-info { font-size: 11px; font-weight: 600; color: #8e8e8e; margin-bottom: 4px; margin-left: 8px; }
+.me .msg-info { text-align: right; margin-right: 8px; }
 
-/* DESTAQUE DOURADO NO MURAL */
-#feed-mural .msg-post:first-child .bubble { 
-    border: 2px solid #ffd700; 
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); 
+.bubble { 
+    padding: 10px 16px; 
+    border-radius: 20px; 
+    font-size: 0.95rem; 
+    line-height: 1.4; 
 }
 
-/* OLIMPÍADAS */
-.titulo-secao { color: var(--primary); font-size: 1.1rem; margin: 20px 15px 10px; }
-.item-eventos { background: #1a1a1a; padding: 15px; margin: 0 15px 10px; border-radius: 12px; border: 1px solid #262626; }
-.olympics { border-left: 5px solid #ffd700; }
+.me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
+.outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; }
 
-/* INPUT FIXO NO FUNDO */
-.footer-input { position: fixed; bottom: 0; width: 100%; padding: 15px; background: black; }
-.input-wrapper { background: #121212; border: 1px solid #363636; border-radius: 25px; display: flex; padding: 5px 15px; }
-input { flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; }
-.send-btn { color: var(--primary); font-weight: 700; background: none; border: none; }
+.msg-time { font-size: 10px; color: #8e8e8e; margin-top: 4px; }
+.me .msg-time { align-self: flex-end; }
+
+/* 6. RESPOSTA (REPLY) DENTRO DO BALÃO */
+.reply-inside {
+    background: rgba(0,0,0,0.1);
+    border-left: 3px solid var(--primary);
+    padding: 5px 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+}
+
+/* 7. BARRA DE DIGITAÇÃO FIXA */
+.footer-input { 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    padding: 15px; 
+    background: var(--bg); 
+    border-top: 1px solid var(--border); 
+}
+
+.input-wrapper { 
+    background: var(--msg-outro); 
+    border-radius: 25px; 
+    display: flex; 
+    padding: 5px 15px; 
+    align-items: center; 
+}
+
+input { 
+    flex: 1; 
+    border: none; 
+    background: transparent; 
+    color: var(--text); 
+    padding: 10px; 
+    outline: none; 
+}
+
+.send-btn { 
+    color: var(--primary); 
+    font-weight: 800; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+}
+
+/* 8. MURAL (RANKING DOURADO) */
+#feed-mural .msg-post:first-child .bubble { 
+    border: 2px solid var(--dourado); 
+    background: linear-gradient(135deg, var(--msg-outro), #2a2a1a);
+}
+
+/* 9. CRONOGRAMA E SEÇÕES */
+.content-scroll { overflow-y: auto; padding-bottom: 100px; }
+.titulo-secao { padding: 20px 15px 10px; color: var(--primary); font-size: 1.1rem; }
+.item-evento { 
+    background: var(--msg-outro); 
+    padding: 15px; 
+    margin: 0 15px 10px; 
+    border-radius: 12px; 
+    border-left: 5px solid var(--primary);
+}
+.olympics { border-left-color: var(--dourado); font-weight: 700; }
+
+/* 10. PREVIEW DE RESPOSTA ACIMA DO INPUT */
+.reply-container { 
+    display: none; 
+    background: var(--msg-outro); 
+    padding: 10px; 
+    border-radius: 15px 15px 0 0; 
+    border: 1px solid var(--border);
+    justify-content: space-between;
+    align-items: center;
+}
