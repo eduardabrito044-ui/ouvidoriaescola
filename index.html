@@ -2,112 +2,81 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Portal Ouvidoria - CETI José Marques</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="mesh-bg"></div>
-
-<nav class="sidebar glass">
-    <div class="logo-container">
-        <img src="logo.png" alt="Logo Escola">
-    </div>
-
-    <h2>Menu Escolar</h2>
-    <button onclick="mudarAba('forum')">💬 Chat de Alunos</button>
-    <button onclick="mudarAba('mural')">💡 Mural de Ideias</button>
-    <button onclick="mudarAba('cronograma')">📅 Cronograma</button> 
-    <button onclick="mudarAba('sentimentos')">🎭 Humor do Dia</button>
-    <button onclick="mudarAba('feedback')">🏫 Sobre a Escola</button>
-    <button onclick="mudarAba('contatos')">📞 Contatos</button>
-</nav>
-
-<main class="main-content">
-
-<!-- CHAT -->
-<section id="forum" class="aba active glass chat-container">
-    <h2>💬 Chat da Escola</h2>
-
-    <div id="feed-forum" class="feed"></div>
-
-    <div class="input-area-container">
-        <div id="reply-preview" style="display:none;">
-            <small id="reply-user"></small>
-            <p id="reply-text"></p>
-            <button onclick="cancelarResposta()">X</button>
+    <nav class="sidebar">
+        <div class="logo-container">
+            <h1>Ouvidoria</h1>
         </div>
-
-        <div class="input-area">
-            <input type="text" id="input-msg" placeholder="Escreva uma mensagem...">
-            <button onclick="salvarMensagem()">Enviar</button>
+        <div class="nav-buttons">
+            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
+            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
+            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
+            <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
+            <button id="btn-contatos" onclick="mudarAba('contatos')">📞 Contatos</button>
         </div>
-    </div>
-</section>
+    </nav>
 
-<!-- MURAL -->
-<section id="mural" class="aba glass">
-    <h2>💡 Mural de Sugestões</h2>
+    <main class="main-content">
+        <section id="forum" class="aba active">
+            <div class="header-fixo">
+                <h2>Direct dos Alunos</h2>
+            </div>
+            <div id="feed-forum" class="feed"></div>
+            
+            <div class="footer-input">
+                <div class="input-container">
+                    <input type="text" id="input-msg" placeholder="Enviar mensagem...">
+                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
+                </div>
+            </div>
+        </section>
 
-    <div id="feed-mural" class="feed"></div>
+        <section id="mural" class="aba">
+            <div class="header-fixo"><h2>Mural de Ideias</h2></div>
+            <div id="feed-mural" class="feed"></div>
+            <div class="footer-input">
+                <div class="input-container">
+                    <input type="text" id="input-ideia" placeholder="Sua sugestão...">
+                    <button class="send-btn" onclick="salvarIdeia()">Sugerir</button>
+                </div>
+            </div>
+        </section>
 
-    <div class="input-area">
-        <input type="text" id="input-ideia" placeholder="Sua ideia...">
-        <button onclick="salvarIdeia()">Sugerir</button>
-    </div>
-</section>
+        <section id="sentimentos" class="aba">
+            <div class="header-fixo"><h2>Como você está hoje?</h2></div>
+            <div class="content-scroll">
+                <div class="emoji-grid">
+                    <button onclick="votarHumor('😊')">😊</button>
+                    <button onclick="votarHumor('😴')">😴</button>
+                    <button onclick="votarHumor('🤓')">🤓</button>
+                    <button onclick="votarHumor('🤩')">🤩</button>
+                    <button onclick="votarHumor('😡')">😡</button>
+                    <button onclick="votarHumor('🥰')">🥰</button>
+                </div>
+            </div>
+        </section>
 
-<!-- CRONOGRAMA -->
-<section id="cronograma" class="aba glass">
-    <h2>📅 Eventos Importantes 2026</h2>
-    <div class="cronograma-grid">
-        <div class="card-evento">
-            <span class="data-badge">Maio</span>
-            <h3>OBMEP - 1ª Fase</h3>
-            <p>📍 Salas de aula</p>
-        </div>
-        <div class="card-evento">
-            <span class="data-badge">Agosto</span>
-            <h3>Feira de Ciências</h3>
-            <p>📍 Quadra</p>
-        </div>
-    </div>
-</section>
+        <section id="feedback" class="aba">
+            <div class="header-fixo"><h2>Sua Opinião</h2></div>
+            <div class="content-scroll">
+                <textarea id="texto-feedback" placeholder="O que você mudaria na escola?"></textarea>
+                <button class="btn-insta" onclick="enviarFeedback()">Enviar Feedback</button>
+            </div>
+        </section>
 
-<!-- SENTIMENTOS (EMOJIS MANTIDOS) -->
-<section id="sentimentos" class="aba glass text-center">
-    <h2>🎭 Como a escola está hoje?</h2>
-    <div class="emoji-grid">
-        <button onclick="votarHumor('feliz')">😊</button>
-        <button onclick="votarHumor('triste')">😢</button>
-        <button onclick="votarHumor('cansado')">😴</button>
-        <button onclick="votarHumor('estudioso')">🤓</button>
-        <button onclick="votarHumor('animado')">🤩</button>
-        <button onclick="votarHumor('bravo')">😡</button>
-        <button onclick="votarHumor('apaixonado')">🥰</button>
-        <button onclick="votarHumor('tranquilo')">😎</button>
-        <button onclick="votarHumor('sobrecarregado')">🤯</button>
-        <button onclick="votarHumor('nervoso')">🤡</button>
-    </div>
-</section>
+        <section id="contatos" class="aba">
+            <div class="header-fixo"><h2>Contatos</h2></div>
+            <div class="content-scroll">
+                <a href="https://wa.me/5589981259467" class="btn-insta wa">WhatsApp Oficial</a>
+                <a href="https://instagram.com/m.eduarda.brito25" class="btn-insta ig">Instagram</a>
+            </div>
+        </section>
+    </main>
 
-<!-- FEEDBACK -->
-<section id="feedback" class="aba glass">
-    <h2>🏫 Opinião sobre a Escola</h2>
-    <textarea id="texto-feedback"></textarea>
-    <button onclick="enviarFeedback()">Enviar</button>
-</section>
-
-<!-- CONTATOS -->
-<section id="contatos" class="aba glass">
-    <h2>📞 Contatos</h2>
-    <a href="https://wa.me/5589981259467" target="_blank">WhatsApp</a>
-    <a href="https://instagram.com/m.eduarda.brito25" target="_blank">Instagram</a>
-</section>
-
-</main>
-
-<script type="module" src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
-    </html>
+</html>
