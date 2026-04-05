@@ -62,3 +62,80 @@ input { flex: 1; background: transparent; border: none; color: var(--text); outl
 .emoji-grid button { font-size: 2rem; padding: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 15px; cursor: pointer; }
 textarea { width: 100%; height: 120px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 15px; border-radius: 15px; margin: 20px 0; outline: none; }
 .btn-insta { width: 100%; padding: 15px; background: var(--verde); color: #fff; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; }
+/* --- AJUSTE PARA LOGO APARECER SEMPRE NO CELULAR --- */
+@media (max-width: 768px) {
+    /* Faz a barra lateral virar um cabeçalho no topo */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        flex-direction: column !important; /* Logo em cima, botões embaixo */
+        padding: 10px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border) !important;
+        position: relative !important;
+    }
+
+    /* Garante que a logo e o nome da escola apareçam */
+    .logo-container {
+        display: flex !important; /* Força a exibição */
+        flex-direction: row !important; /* Logo ao lado do texto */
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 5px !important;
+        border-bottom: none !important;
+    }
+
+    .school-logo {
+        width: 45px !important;
+        height: 45px !important;
+        margin: 0 10px 0 0 !important; /* Espaço à direita da logo */
+    }
+
+    .logo-container h1 {
+        display: block !important; /* Garante que o texto 'Ouvidoria' apareça */
+        font-size: 1rem !important;
+    }
+
+    /* Organiza as abas em uma linha que desliza (Scroll) */
+    .nav-buttons {
+        flex-direction: row !important;
+        overflow-x: auto !important; /* Permite arrastar para o lado */
+        width: 100% !important;
+        gap: 10px !important;
+        padding-bottom: 5px !important;
+        -webkit-overflow-scrolling: touch; /* Deixa o deslize suave no iPhone */
+    }
+
+    .nav-buttons::-webkit-scrollbar {
+        display: none; /* Esconde a barrinha de scroll para ficar mais limpo */
+    }
+
+    .nav-buttons button {
+        white-space: nowrap !important; /* Impede o texto de quebrar linha */
+        padding: 8px 15px !important;
+        font-size: 0.85rem !important;
+        background: var(--card) !important; /* Dá um destaque nos botões */
+    }
+
+    /* Ajuste do conteúdo para não ficar por baixo do cabeçalho */
+    .main-content {
+        height: calc(100vh - 120px) !important;
+    }
+
+    /* Botão de tema sobe um pouco para não cobrir o chat */
+    #theme-toggle-fixed {
+        bottom: 90px !important;
+        left: 15px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* --- ESTILO DAS ABAS IGUAL À FOTO (BOLD E CLEAN) --- */
+.nav-buttons button.active-btn {
+    color: var(--azul) !important;
+    font-weight: 800 !important; /* Negrito pesado igual ao Instagram */
+    border-bottom: 2px solid var(--azul); /* Linha indicadora */
+    background: transparent !important;
+}
