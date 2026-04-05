@@ -24,80 +24,87 @@
 
     <main class="main-content">
         <section id="forum" class="aba active">
-            <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
-            <div id="feed-forum" class="feed"></div>
-            <div class="footer-input">
-                <div id="reply-preview" style="display: none; background: #1a1a1a; padding: 10px; border-left: 4px solid #3797f0; margin-bottom: 5px; border-radius: 8px 8px 0 0; justify-content: space-between; align-items: center;">
-                    <div style="overflow: hidden;">
-                        <small id="reply-user" style="color: #3797f0; font-weight: 700; font-size: 0.7rem;"></small>
-                        <p id="reply-text" style="font-size: 0.8rem; color: #a8a8a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>Direct dos Alunos</h2></div>
+                <div id="feed-forum" class="feed"></div>
+                <div class="footer-input">
+                    <div id="reply-preview" style="display: none; background: #1a1a1a; padding: 10px; border-left: 4px solid #007bff; margin-bottom: 5px; border-radius: 8px; justify-content: space-between; align-items: center;">
+                        <div style="overflow: hidden;">
+                            <small id="reply-user" style="color: #007bff; font-weight: 700; font-size: 0.7rem;"></small>
+                            <p id="reply-text" style="font-size: 0.8rem; color: #a8a8a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+                        </div>
+                        <button onclick="cancelarResposta()" style="background: transparent; color: #fff; border: none; font-weight: 700; cursor: pointer; padding: 5px;">X</button>
                     </div>
-                    <button onclick="cancelarResposta()" style="background: transparent; color: #fff; border: none; font-weight: 700; cursor: pointer; padding: 5px;">X</button>
-                </div>
-                <div class="input-container">
-                    <input type="text" id="input-msg" placeholder="Enviar mensagem...">
-                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
+                    <div class="input-container">
+                        <input type="text" id="input-msg" placeholder="Enviar mensagem...">
+                        <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="mural" class="aba">
-            <div class="header-fixo"><h2>Mural de Ideias</h2></div>
-            <div id="feed-mural" class="feed"></div>
-            <div class="footer-input">
-                <div class="input-container">
-                    <input type="text" id="input-ideia" placeholder="Dar uma sugestão...">
-                    <button class="send-btn" onclick="salvarIdeia()">Sugerir</button>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>Mural de Ideias</h2></div>
+                <div id="feed-mural" class="feed"></div>
+                <div class="footer-input">
+                    <div class="input-container">
+                        <input type="text" id="input-ideia" placeholder="Dar uma sugestão...">
+                        <button class="send-btn" onclick="salvarIdeia()">Sugerir</button>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="avisos" class="aba">
-            <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
-            <div class="footer-input" style="position: relative; border-top: none; border-bottom: 1px solid #262626;">
-                <div class="input-container">
-                    <input type="text" id="input-aviso" placeholder="Escrever aviso da direção...">
-                    <button class="send-btn" onclick="salvarAviso()">Postar</button>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>📢 Avisos Oficiais</h2></div>
+                <div id="feed-avisos" class="feed"></div>
+                <div class="footer-input">
+                    <div class="input-container">
+                        <input type="text" id="input-aviso" placeholder="Escrever aviso da direção...">
+                        <button class="send-btn" onclick="salvarAviso()">Postar</button>
+                    </div>
                 </div>
             </div>
-            <div id="feed-avisos" class="feed"></div>
         </section>
 
         <section id="cronograma" class="aba">
-            <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
-            <div class="content-scroll">
-                <h3 class="titulo-secao">🏆 Olimpíadas (CETI José Marques)</h3>
-                <div class="lista-eventos">
-                    <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
-                    <div class="item-evento olympics">05/05 - Competições e Jogos</div>
-                </div>
-                <h3 class="titulo-secao">📅 Eventos da Escola</h3>
-                <div class="lista-eventos">
-                    <div class="item-evento">15/05 - Reunião de Pais e Mestres</div>
-                    <div class="item-evento">20/05 - Feira de Empreendedorismo</div>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>Cronograma Escolar</h2></div>
+                <div class="content-scroll">
+                    <h3 class="titulo-secao">🏆 Olimpíadas</h3>
+                    <div class="lista-eventos">
+                        <div class="item-evento olympics">01/05 - Abertura das Olimpíadas</div>
+                        <div class="item-evento olympics">05/05 - Competições e Jogos</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="sentimentos" class="aba">
-            <div class="header-fixo"><h2>Como estás hoje?</h2></div>
-            <div class="content-scroll">
-                <div class="emoji-grid">
-                    <button onclick="votarHumor('😊')">😊</button>
-                    <button onclick="votarHumor('😴')">😴</button>
-                    <button onclick="votarHumor('🤓')">🤓</button>
-                    <button onclick="votarHumor('🤩')">🤩</button>
-                    <button onclick="votarHumor('😡')">😡</button>
-                    <button onclick="votarHumor('😎')">😎</button>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>Como estás hoje?</h2></div>
+                <div class="content-scroll">
+                    <div class="emoji-grid">
+                        <button onclick="votarHumor('😊')">😊</button>
+                        <button onclick="votarHumor('😴')">😴</button>
+                        <button onclick="votarHumor('🤓')">🤓</button>
+                        <button onclick="votarHumor('🤩')">🤩</button>
+                        <button onclick="votarHumor('😡')">😡</button>
+                        <button onclick="votarHumor('😎')">😎</button>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="feedback" class="aba">
-            <div class="header-fixo"><h2>A tua opinião</h2></div>
-            <div class="content-scroll">
-                <textarea id="texto-feedback" placeholder="Escreve aqui o teu feedback..."></textarea>
-                <button class="btn-insta" onclick="enviarFeedback()">Enviar Feedback</button>
+            <div class="content-wrapper">
+                <div class="header-fixo"><h2>A tua opinião</h2></div>
+                <div class="content-scroll" style="padding: 20px;">
+                    <textarea id="texto-feedback" placeholder="Escreve aqui o teu feedback..."></textarea>
+                    <button class="btn-insta" onclick="enviarFeedback()">Enviar Feedback</button>
+                </div>
             </div>
         </section>
     </main>
