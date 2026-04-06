@@ -1,53 +1,60 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ouvidoria - CETI JM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    <nav class="top-menu">
+        <div class="menu-scroll">
+            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
+            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Alertas</button>
+            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
+            <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Agenda</button>
+            <button id="btn-contatos" onclick="mudarAba('contatos')">📱 Contatos</button>
+        </div>
+    </nav>
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
-    authDomain: "siteescolaeduarda.firebaseapp.com",
-    databaseURL: "https://siteescolaeduarda-default-rtdb.firebaseio.com",
-    projectId: "siteescolaeduarda"
-};
+    <main class="main-content">
+        <section id="forum" class="aba active">
+            <div class="header-escola">
+                <img src="logo.png" class="logo-fixa" alt="Logo">
+                <div class="info-escola">
+                    <h2>Direct CETI JM</h2>
+                    <small>● Ativo agora</small>
+                </div>
+            </div>
+            <div id="feed-forum" class="feed"></div>
+            <div class="footer-input">
+                <div class="input-wrapper">
+                    <input type="text" id="input-msg" placeholder="Enviar mensagem...">
+                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
+                </div>
+            </div>
+        </section>
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-let nome = localStorage.getItem("nome") || prompt("Qual o seu nome?") || "Aluno";
-localStorage.setItem("nome", nome);
+        <section id="sentimentos" class="aba">
+            <div class="header-escola">
+                <img src="logo.png" class="logo-fixa" alt="Logo">
+                <div class="info-escola"><h2>Como você está?</h2></div>
+            </div>
+            <div class="emoji-grid">
+                <div class="emoji-item" onclick="votarHumor('Ansioso')"><span>😰</span><p>Ansioso</p><small>Inquieto</small></div>
+                <div class="emoji-item" onclick="votarHumor('Feliz')"><span>😊</span><p>Feliz</p><small>Dia ótimo</small></div>
+                <div class="emoji-item" onclick="votarHumor('Triste')"><span>😢</span><p>Triste</p><small>Preciso de apoio</small></div>
+                <div class="emoji-item" onclick="votarHumor('Focado')"><span>🤯</span><p>Focado</p><small>Estudando</small></div>
+                <div class="emoji-item" onclick="votarHumor('Irritado')"><span>😡</span><p>Irritado</p><small>Estressado</small></div>
+                <div class="emoji-item" onclick="votarHumor('Cansado')"><span>😴</span><p>Exausto</p><small>Sem energia</small></div>
+            </div>
+        </section>
 
-window.mudarAba = (id) => {
-    document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
-    document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
-    document.getElementById(id).classList.add('active');
-    document.getElementById('btn-'+id).classList.add('active-btn');
-};
+        </main>
 
-window.toggleTheme = () => document.body.classList.toggle('dark-mode');
+    <div id="toast">Enviado com sucesso! ✓</div>
+    <button class="fab-theme" onclick="toggleTheme()">🌓</button>
 
-window.salvarMensagem = () => {
-    const input = document.getElementById("input-msg");
-    if (!input.value.trim()) return;
-    push(ref(db, "mensagens"), { nome, texto: input.value, hora: new Date().toLocaleTimeString() });
-    input.value = "";
-};
-
-onValue(ref(db, "mensagens"), snap => {
-    const feed = document.getElementById("feed-forum"); feed.innerHTML = "";
-    snap.forEach(c => {
-        const d = c.val();
-        const div = document.createElement("div");
-        div.className = `msg-post ${d.nome === nome ? 'me' : 'outro'}`;
-        div.innerHTML = `<div class="bubble">${d.texto}</div>`;
-        feed.appendChild(div);
-    });
-    feed.scrollTop = feed.scrollHeight;
-});
-
-window.salvarAviso = () => {
-    const chave = prompt("Digite a chave de segurança:");
-    if (chave === "Chernobyl") {
-        const input = document.getElementById("input-aviso");
-        if(input.value.trim()){
-            push(ref(db, "avisos"), { msg: input.value, data: new Date().toLocaleDateString() });
-            input.value = "";
-        }
-    } else { alert("Acesso negado!"); }
-};
+    <script type="module" src="script.js"></script>
+</body>
+</html>
