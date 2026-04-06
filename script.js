@@ -1,60 +1,56 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ouvidoria - CETI JM</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="light-mode">
-    <nav class="top-menu">
-        <div class="menu-scroll">
-            <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
-            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Alertas</button>
-            <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
-            <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Agenda</button>
-            <button id="btn-contatos" onclick="mudarAba('contatos')">📱 Contatos</button>
-        </div>
-    </nav>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    <main class="main-content">
-        <section id="forum" class="aba active">
-            <div class="header-escola">
-                <img src="logo.png" class="logo-fixa" alt="Logo">
-                <div class="info-escola">
-                    <h2>Direct CETI JM</h2>
-                    <small>● Ativo agora</small>
-                </div>
-            </div>
-            <div id="feed-forum" class="feed"></div>
-            <div class="footer-input">
-                <div class="input-wrapper">
-                    <input type="text" id="input-msg" placeholder="Enviar mensagem...">
-                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
-                </div>
-            </div>
-        </section>
+const firebaseConfig = {
+    apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
+    authDomain: "siteescolaeduarda.firebaseapp.com",
+    databaseURL: "https://siteescolaeduarda-default-rtdb.firebaseio.com",
+    projectId: "siteescolaeduarda"
+};
 
-        <section id="sentimentos" class="aba">
-            <div class="header-escola">
-                <img src="logo.png" class="logo-fixa" alt="Logo">
-                <div class="info-escola"><h2>Como você está?</h2></div>
-            </div>
-            <div class="emoji-grid">
-                <div class="emoji-item" onclick="votarHumor('Ansioso')"><span>😰</span><p>Ansioso</p><small>Inquieto</small></div>
-                <div class="emoji-item" onclick="votarHumor('Feliz')"><span>😊</span><p>Feliz</p><small>Dia ótimo</small></div>
-                <div class="emoji-item" onclick="votarHumor('Triste')"><span>😢</span><p>Triste</p><small>Preciso de apoio</small></div>
-                <div class="emoji-item" onclick="votarHumor('Focado')"><span>🤯</span><p>Focado</p><small>Estudando</small></div>
-                <div class="emoji-item" onclick="votarHumor('Irritado')"><span>😡</span><p>Irritado</p><small>Estressado</small></div>
-                <div class="emoji-item" onclick="votarHumor('Cansado')"><span>😴</span><p>Exausto</p><small>Sem energia</small></div>
-            </div>
-        </section>
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-        </main>
+let nome = localStorage.getItem("nome") || prompt("Qual seu nome?") || "Aluno";
+localStorage.setItem("nome", nome);
 
-    <div id="toast">Enviado com sucesso! ✓</div>
-    <button class="fab-theme" onclick="toggleTheme()">🌓</button>
+window.mudarAba = (id) => {
+    document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
+    document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
+    document.getElementById(id).classList.add('active');
+    if(document.getElementById('btn-'+id)) document.getElementById('btn-'+id).classList.add('active-btn');
+};
 
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+window.toggleTheme = () => document.body.classList.toggle('dark-mode');
+
+window.mostrarToast = (msg) => {
+    const t = document.getElementById("toast");
+    t.innerText = msg; t.style.display = "block";
+    setTimeout(() => { t.style.display = "none"; }, 2500);
+};
+
+window.salvarMensagem = () => {
+    const input = document.getElementById("input-msg");
+    if (!input.value.trim()) return;
+    push(ref(db, "mensagens"), { nome, texto: input.value, timestamp: serverTimestamp() });
+    input.value = "";
+    mostrarToast("Mensagem enviada! ✓");
+};
+
+onValue(ref(db, "mensagens"), snap => {
+    const feed = document.getElementById("feed-forum"); if(!feed) return;
+    feed.innerHTML = "";
+    snap.forEach(c => {
+        const d = c.val();
+        const div = document.createElement("div");
+        div.className = `msg-post ${d.nome === nome ? 'me' : 'outro'}`;
+        div.innerHTML = `<small style="font-size:10px; margin:0 10px; opacity:0.6">${d.nome}</small><div class="bubble">${d.texto}</div>`;
+        feed.appendChild(div);
+    });
+    feed.scrollTop = feed.scrollHeight;
+});
+
+window.votarHumor = (h) => {
+    push(ref(db, "humor"), { usuario: nome, voto: h });
+    mostrarToast("Votado com sucesso! ✓");
+};
