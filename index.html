@@ -6,12 +6,11 @@
     <title>Ouvidoria - CETI JM</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-mode">
-    <nav class="top-menu">
+<body class="light-mode"> <nav class="top-menu">
         <div class="menu-scroll">
             <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
             <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
-            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Avisos</button>
+            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Alertas</button>
             <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
             <button id="btn-feedback" onclick="mudarAba('feedback')">📩 Opinião</button>
             <button id="btn-cronograma" onclick="mudarAba('cronograma')">📅 Agenda</button>
@@ -21,11 +20,11 @@
 
     <main class="main-content">
         <section id="forum" class="aba active">
-            <div class="chat-header-info">
-                <img src="logo.png" class="chat-avatar">
-                <div class="chat-status">
+            <div class="header-escola">
+                <img src="logo.png" alt="Logo" class="logo-fixa">
+                <div>
                     <h2>Direct CETI JM</h2>
-                    <span>Online</span>
+                    <span class="status-verde">● Online</span>
                 </div>
             </div>
             <div id="feed-forum" class="feed"></div>
@@ -36,39 +35,51 @@
                 </div>
                 <div class="input-wrapper">
                     <input type="text" id="input-msg" placeholder="Enviar mensagem...">
-                    <button class="send-link" onclick="salvarMensagem()">Enviar</button>
+                    <button class="send-btn" onclick="salvarMensagem()">Enviar</button>
                 </div>
             </div>
         </section>
 
-        <section id="mural" class="aba">
-            <div id="feed-mural" class="feed"></div>
+        <section id="sentimentos" class="aba">
+            <div class="header-simples"><h2>Como você se sente hoje?</h2></div>
+            <div class="emoji-grid">
+                <div class="emoji-item" onclick="enviarHumor('Ansioso')"><span>😰</span><p>Ansioso</p><small>Coração acelerado</small></div>
+                <div class="emoji-item" onclick="enviarHumor('Feliz')"><span>😊</span><p>Feliz</p><small>Dia incrível</small></div>
+                <div class="emoji-item" onclick="enviarHumor('Triste')"><span>😢</span><p>Triste</p><small>Preciso de apoio</small></div>
+                <div class="emoji-item" onclick="enviarHumor('Estudioso')"><span>🤯</span><p>Focado</p><small>Muitas matérias</small></div>
+                <div class="emoji-item" onclick="enviarHumor('Irritado')"><span>😡</span><p>Irritado</p><small>Momento difícil</small></div>
+                <div class="emoji-item" onclick="enviarHumor('Cansado')"><span>😴</span><p>Exausto</p><small>Muita pressão</small></div>
+            </div>
+        </section>
+
+        <section id="avisos" class="aba">
+            <div class="header-simples"><h2>📢 Alertas Oficiais</h2></div>
+            <div id="feed-avisos" class="feed"></div>
             <div class="footer-input">
                 <div class="input-wrapper">
-                    <input type="text" id="input-ideia" placeholder="Nova ideia...">
-                    <button class="send-link" onclick="salvarIdeia()">Postar</button>
+                    <input type="text" id="input-aviso" placeholder="Apenas líderes (Chave necessária)">
+                    <button class="send-btn" onclick="salvarAviso()">Postar</button>
                 </div>
             </div>
         </section>
 
-        <section id="feedback" class="aba">
+        <section id="contatos" class="aba">
+            <div class="header-simples"><h2>📱 Canais de Contato</h2></div>
             <div class="p-20">
-                <h2 style="margin-bottom:15px">Sua Opinião</h2>
-                <textarea id="texto-feedback" placeholder="Escreva aqui..."></textarea>
-                <button onclick="enviarFeedback()" class="insta-btn">Enviar para Eduarda</button>
-            </div>
-        </section>
-
-        <section id="cronograma" class="aba">
-            <div class="p-20">
-                <h2 class="gold-text">🏆 Olimpíadas</h2>
-                <div class="card-gold">🥇 01/05 - Abertura Oficial</div>
-                <div class="card-gold">🏅 05/05 - Início das Competições</div>
-                <h2 style="margin-top:20px">📅 Agenda Geral</h2>
-                <div class="card-simple">20/05 - Entrega de Trabalhos</div>
+                <div class="contato-card" onclick="window.open('https://wa.me/5589981259467')">
+                    <strong>WhatsApp Ouvidoria</strong>
+                    <p>(89) 98125-9467</p>
+                </div>
+                <div class="contato-card">
+                    <strong>E-mail Escolar</strong>
+                    <p>contato@cetijm.com</p>
+                </div>
             </div>
         </section>
     </main>
+
+    <button class="fab-theme" onclick="toggleTheme()">🌓</button>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>
