@@ -1,144 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* CONFIGURAÇÃO DE CORES (PALETA VERDE, AZUL E BRANCO) */
 :root {
-    --bg: #ffffff; /* Fundo Branco */
-    --text: #051d3b; 
-    --primary: #18447e; /* Azul Escolar */
-    --msg-me: #88d66c; /* Verde para suas mensagens */
-    --msg-outro: #e8f5e9; /* Verde clarinho para os outros */
-    --border: #e0e0e0;
-    --accent: #2e7d32; /* Verde forte */
+    --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
+    --accent: #2e7d32; --msg-me: #88d66c; --msg-outro: #f0f0f0; --border: #ddd;
 }
 
-/* MODO ESCURO (AZUL PROFUNDO) */
 body.dark-mode {
-    --bg: #051d3b; /* Azul bem escuro */
-    --text: #ffffff;
-    --msg-me: #1b5e20; /* Verde escuro */
-    --msg-outro: #1a2a3a; /* Azul médio */
-    --border: #1a2a3a;
+    --bg: #051d3b; --text: #ffffff; --primary: #ffffff; 
+    --msg-me: #2e7d32; --msg-outro: #1a2a3a; --border: #1a2a3a;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-body { 
-    background: var(--bg); 
-    color: var(--text); 
-    height: 100vh; 
-    display: flex; 
-    flex-direction: column; 
-    overflow: hidden; 
-    transition: 0.3s;
-}
-
-/* MENU SUPERIOR (VERDE E AZUL) */
-.top-menu { 
-    background: var(--primary); 
-    padding: 12px 0; 
-    border-bottom: 2px solid var(--accent);
-}
-
-.menu-scroll { 
-    display: flex; 
-    overflow-x: auto; 
-    gap: 10px; 
-    padding: 0 15px; 
-    scrollbar-width: none; 
-}
-
+/* MENU TOP */
+.top-menu { background: var(--primary); padding: 10px 0; z-index: 100; border-bottom: 3px solid var(--accent); }
+.menu-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; }
+.menu-scroll::-webkit-scrollbar { display: none; }
 .menu-scroll button { 
-    background: rgba(255, 255, 255, 0.2); 
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white; 
-    padding: 8px 16px; 
-    border-radius: 20px; 
-    white-space: nowrap; 
-    font-weight: 600; 
-    font-size: 13px; 
+    background: rgba(255,255,255,0.15); border: none; color: white; padding: 8px 15px; 
+    border-radius: 20px; white-space: nowrap; font-size: 13px; font-weight: 600; 
 }
+.menu-scroll button.active-btn { background: white; color: #18447e; }
 
-.menu-scroll button.active-btn { 
-    background: white; 
-    color: var(--primary); 
-}
+/* HEADER LOGO */
+.header-escola { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); gap: 12px; }
+.logo-fixa { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.status-verde { color: #88d66c; font-size: 11px; font-weight: bold; }
 
-/* CHAT E BALÕES */
-.feed { 
-    flex: 1; 
-    overflow-y: auto; 
-    padding: 15px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-    padding-bottom: 120px; 
-}
+/* CHAT E FEED */
+.main-content { flex: 1; position: relative; overflow: hidden; }
+.aba { display: none; height: 100%; flex-direction: column; }
+.aba.active { display: flex; }
+.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 120px; }
 
-.msg-post { max-width: 80%; display: flex; flex-direction: column; }
-.msg-post.me { align-self: flex-end; }
-.msg-post.outro { align-self: flex-start; }
+.bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.me { align-self: flex-end; } .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
+.outro { align-self: flex-start; } .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
 
-.bubble { 
-    padding: 12px 16px; 
-    border-radius: 22px; 
-    font-size: 14px; 
-    line-height: 1.4; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
+/* INPUT BAR FIXA */
+.footer-input { position: absolute; bottom: 0; width: 100%; padding: 15px; background: var(--bg); border-top: 1px solid var(--border); }
+.input-wrapper { background: var(--msg-outro); border-radius: 25px; display: flex; padding: 5px 15px; border: 1px solid var(--border); }
+input { flex: 1; border: none; background: transparent; color: var(--text); padding: 10px; outline: none; }
+.send-btn { color: var(--primary); font-weight: 800; background: none; border: none; padding: 10px; cursor: pointer; }
 
-.me .bubble { 
-    background: var(--msg-me); 
-    color: var(--bg); /* Texto no balão verde se ajusta ao fundo */
-    border-bottom-right-radius: 4px; 
-    font-weight: 500;
-}
+/* EMOJIS GRID */
+.emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; overflow-y: auto; }
+.emoji-item { background: var(--msg-outro); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); }
+.emoji-item span { font-size: 30px; display: block; }
+.emoji-item p { font-weight: 700; margin-top: 5px; }
+.emoji-item small { opacity: 0.7; font-size: 10px; }
 
-.outro .bubble { 
-    background: var(--msg-outro); 
-    color: var(--text); 
-    border-bottom-left-radius: 4px; 
-    border: 1px solid var(--border);
-}
+/* CONTATOS E ALERTAS */
+.contato-card { background: var(--msg-outro); padding: 20px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--accent); }
+.card-alerta { border-left: 5px solid #ffd700 !important; }
 
-/* BARRA DE DIGITAÇÃO */
-.footer-input { 
-    position: absolute; 
-    bottom: 0; 
-    width: 100%; 
-    padding: 15px; 
-    background: var(--bg); 
-    border-top: 1px solid var(--border); 
-}
-
-.input-wrapper { 
-    background: var(--msg-outro); 
-    border-radius: 30px; 
-    display: flex; 
-    padding: 5px 20px; 
-    align-items: center;
-    border: 1px solid var(--border);
-}
-
-input { 
-    flex: 1; 
-    border: none; 
-    background: transparent; 
-    color: var(--text); 
-    padding: 12px; 
-    outline: none; 
-}
-
-.send-link { 
-    color: var(--primary); 
-    font-weight: 800; 
-    background: none; 
-    border: none; 
-    font-size: 15px;
-}
-
-/* RANKING DOURADO */
-#feed-mural .msg-post:first-child .bubble { 
-    border: 3px solid #ffd700; 
-    background: linear-gradient(135deg, #fff9e6, #fff);
-    color: #856404;
-}
+/* BOTAO FLUTUANTE */
+.fab-theme { position: fixed; bottom: 85px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: white; border: none; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 200; }
