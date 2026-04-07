@@ -2,43 +2,42 @@
     --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
     --accent: #2e7d32; --msg-me: #3797f0; --msg-outro: #f0f2f5; --border: #dbdbdb;
 }
-
 body.dark-mode {
     --bg: #051d3b; --text: #ffffff; --msg-me: #0095f6; --msg-outro: #262626; --border: #363636;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
 body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; position: fixed; width: 100%; }
 
-.top-menu { background: var(--primary); padding: 10px 0; border-bottom: 2px solid var(--accent); flex-shrink: 0; }
+.top-menu { background: var(--primary); padding: 12px 0; border-bottom: 2px solid var(--accent); flex-shrink: 0; z-index: 100; }
 .menu-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; }
-.menu-scroll button { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-size: 12px; font-weight: 600; }
+.menu-scroll button { background: rgba(255,255,255,0.15); border: none; color: white; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-weight: 600; font-size: 13px; }
 .menu-scroll button.active-btn { background: white; color: var(--primary); }
 
-.header-escola-fixo { display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid var(--border); gap: 12px; flex-shrink: 0; background: var(--bg); }
-.logo-fixa { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--accent); }
+.header-escola-fixo { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); gap: 12px; background: var(--bg); z-index: 90; }
+.logo-fixa { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
+.info-header h2 { font-size: 16px; font-weight: 700; }
 
-.main-content { flex: 1; position: relative; overflow: hidden; }
+.main-content { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
 .aba { display: none; height: 100%; flex-direction: column; position: relative; }
 .aba.active { display: flex; }
 
-.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; padding-bottom: 80px; }
+.feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 90px; }
+.msg-post { max-width: 80%; display: flex; flex-direction: column; }
+.me { align-self: flex-end; } .me .bubble { background: var(--msg-me); color: white; border-radius: 18px 18px 4px 18px; }
+.outro { align-self: flex-start; } .outro .bubble { background: var(--msg-outro); border-radius: 18px 18px 18px 4px; border: 1px solid var(--border); }
+.bubble { padding: 10px 15px; font-size: 14px; }
 
-/* BARRA FIXA ESTILO INSTAGRAM - GARANTIDA EM TODAS AS ABAS */
-.footer-input { position: absolute; bottom: 0; width: 100%; padding: 12px; background: var(--bg); border-top: 1px solid var(--border); z-index: 50; }
-.input-wrapper { background: var(--msg-outro); border-radius: 25px; display: flex; padding: 2px 15px; border: 1px solid var(--border); }
-input { flex: 1; border: none; background: transparent; color: var(--text); padding: 10px; outline: none; }
-.send-btn { color: #0095f6; font-weight: 700; background: none; border: none; cursor: pointer; }
+.footer-input { position: absolute; bottom: 0; width: 100%; padding: 15px; background: var(--bg); border-top: 1px solid var(--border); z-index: 110; }
+.input-wrapper { background: var(--msg-outro); border-radius: 30px; display: flex; padding: 2px 18px; border: 1px solid var(--border); align-items: center; }
+input { flex: 1; border: none; background: transparent; color: var(--text); padding: 12px; outline: none; font-size: 16px; }
+.send-btn { color: #0095f6; font-weight: 700; background: none; border: none; cursor: pointer; padding: 10px; }
 
-/* CARDS DE IDEIAS E ALERTAS */
-.card-alerta { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; border-left: 5px solid #ffeeba; margin-bottom: 10px; }
-.idea-card { background: var(--msg-outro); padding: 12px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 8px; }
-.vote-btn { background: white; border: 1px solid var(--border); border-radius: 15px; padding: 4px 10px; font-size: 12px; margin-top: 5px; }
+.card-alerta { background: #fff3cd; color: #856404; padding: 15px; border-radius: 12px; border-left: 6px solid #ffd700; margin-bottom: 10px; }
+.idea-card { background: var(--msg-outro); padding: 15px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 10px; }
+.vote-btn { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; margin-top: 8px; cursor: pointer; }
 
-.emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-.emoji-item { background: var(--msg-outro); padding: 20px; border-radius: 15px; text-align: center; }
-.emoji-item span { font-size: 40px; }
-
-#toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 10px 25px; border-radius: 30px; display: none; z-index: 100; }
-.fab-theme { position: fixed; bottom: 85px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: var(--accent); color: white; border: none; z-index: 100; }
+#toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 12px 25px; border-radius: 30px; display: none; z-index: 2000; font-weight: bold; }
+.fab-theme { position: fixed; bottom: 100px; right: 20px; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; border: none; z-index: 1000; }
 .p-20 { padding: 20px; }
+.btn-acao { width: 100%; background: var(--primary); color: white; padding: 16px; border-radius: 15px; border: none; font-weight: bold; margin-top: 10px; }
+textarea { width: 100%; height: 160px; border-radius: 15px; padding: 15px; border: 1px solid var(--border); background: var(--msg-outro); color: var(--text); outline: none; }
