@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Direct Elite - CETI JM</title>
-    
     <style>
         :root {
             --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
@@ -16,14 +15,11 @@
             --bg: #051d3b; --text: #ffffff; --msg-me: #0095f6; --msg-outro: #262626; --border: #363636;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         
-        body { 
-            background: var(--bg); color: var(--text); height: 100vh; 
-            display: flex; flex-direction: column; overflow: hidden;
-        }
+        body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* HEADER INSTAGRAM */
+        /* HEADER E MENU */
         .top-menu { background: var(--primary); padding: 10px 0; border-bottom: 1px solid var(--border); z-index: 1000; }
         .menu-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; }
         .menu-scroll::-webkit-scrollbar { display: none; }
@@ -36,27 +32,27 @@
         }
         .logo-fixa { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; object-fit: cover; }
 
-        /* MENSAGENS */
+        /* CONTEÚDO */
         .main-content { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
         .aba { display: none; height: 100%; flex-direction: column; }
         .aba.active { display: flex; }
         .feed { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 120px; }
 
-        .msg-container { display: flex; flex-direction: column; max-width: 80%; margin-bottom: 5px; }
+        /* BALÕES */
+        .msg-container { display: flex; flex-direction: column; max-width: 85%; margin-bottom: 5px; }
         .me { align-self: flex-end; align-items: flex-end; }
         .outro { align-self: flex-start; align-items: flex-start; }
-
         .user-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; color: var(--primary); }
-        .bubble { padding: 10px 15px; border-radius: 20px; font-size: 14px; position: relative; border: 1px solid transparent; }
+        .bubble { padding: 10px 15px; border-radius: 20px; font-size: 14px; position: relative; }
         .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
 
-        .msg-time { font-size: 9px; opacity: 0.5; margin-top: 2px; }
+        /* RANKING MURAL */
+        .ranking-top { order: -1; } 
+        .ranking-top .bubble { border: 2.5px solid var(--gold) !important; box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+        .vote-btn { background: none; border: none; font-size: 12px; cursor: pointer; margin-top: 4px; color: #ed4956; font-weight: bold; }
 
-        /* RANKING APENAS NO MURAL */
-        #mural .ranking-ouro .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
-
-        /* BARRA INSTAGRAM DIRECT FIXA */
+        /* BARRA INSTAGRAM */
         .footer-input { 
             position: fixed; bottom: 0; width: 100%; background: var(--bg); 
             padding: 10px 12px calc(15px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); z-index: 9999;
@@ -67,14 +63,8 @@
         .input-box input { flex: 1; border: none; background: transparent; outline: none; padding: 10px 0; color: var(--text); font-size: 15px; }
         .send-btn { background: none; border: none; color: var(--insta-blue); font-weight: 700; cursor: pointer; padding: 5px; font-size: 15px; }
 
-        .reply-preview { background: var(--msg-outro); padding: 5px 15px; border-left: 3px solid var(--primary); font-size: 12px; display: none; }
-
-        /* HUMOR CARDS */
-        .emoji-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .emoji-card { background: var(--msg-outro); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid var(--border); }
-        
+        .reply-preview { background: var(--msg-outro); padding: 5px 15px; border-left: 3px solid var(--primary); font-size: 11px; display: none; margin-bottom: 5px; border-radius: 5px; }
         .fab-theme { position: fixed; bottom: 100px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: white; border: none; z-index: 1000; }
-        textarea { width: 100%; height: 150px; border-radius: 15px; padding: 12px; border: 1px solid var(--border); background: var(--msg-outro); color: var(--text); outline: none; }
     </style>
 </head>
 <body class="light-mode">
@@ -82,7 +72,7 @@
     <nav class="top-menu">
         <div class="menu-scroll">
             <button id="btn-forum" class="active-btn" onclick="mudarAba('forum')">💬 Chat</button>
-            <button id="btn-mural" onclick="mudarAba('mural')">💡 Ideias</button>
+            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
             <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Alertas</button>
             <button id="btn-sentimentos" onclick="mudarAba('sentimentos')">🎭 Humor</button>
             <button id="btn-agenda" onclick="mudarAba('agenda')">📅 Cronograma</button>
@@ -92,47 +82,32 @@
 
     <header class="header-elite">
         <img src="logo.png" class="logo-fixa" onerror="this.src='https://via.placeholder.com/40'">
-        <h2 style="font-size: 18px;">CETI José Marques</h2>
+        <h2 style="font-size: 17px;">CETI José Marques</h2>
     </header>
 
     <main class="main-content">
-        <section id="forum" class="aba active">
-            <div id="feed-forum" class="feed"></div>
-        </section>
-
-        <section id="mural" class="aba">
-            <div id="feed-mural" class="feed"></div>
-        </section>
-
-        <section id="avisos" class="aba">
-            <div id="feed-avisos" class="feed"></div>
-        </section>
-
+        <section id="forum" class="aba active"><div id="feed-forum" class="feed"></div></section>
+        <section id="mural" class="aba"><div id="feed-mural" class="feed"></div></section>
+        <section id="avisos" class="aba"><div id="feed-avisos" class="feed"></div></section>
+        
         <section id="sentimentos" class="aba">
-            <div class="emoji-grid">
-                <div class="emoji-card" onclick="votarHumor('Ansioso')"><span>😰</span><p>Ansioso</p></div>
-                <div class="emoji-card" onclick="votarHumor('Feliz')"><span>😊</span><p>Feliz</p></div>
-                <div class="emoji-card" onclick="votarHumor('Triste')"><span>😢</span><p>Triste</p></div>
-                <div class="emoji-card" onclick="votarHumor('Focado')"><span>🤯</span><p>Focado</p></div>
-            </div>
-        </section>
-
-        <section id="agenda" class="aba">
-            <div id="feed-agenda" class="feed"></div>
-        </section>
-
-        <section id="feedback" class="aba">
             <div class="feed">
-                <textarea id="texto-feedback" placeholder="Sua opinião é importante..."></textarea>
+                <div class="emoji-card" style="background:var(--msg-outro); padding:20px; border-radius:15px; text-align:center">
+                    <h3>Como você está hoje?</h3>
+                    <div style="font-size:30px; margin-top:10px">😊 😰 😢 🤯</div>
+                </div>
             </div>
         </section>
+
+        <section id="agenda" class="aba"><div id="feed-agenda" class="feed"></div></section>
+        <section id="feedback" class="aba"><div class="feed"><textarea id="texto-feedback" style="width:100%; height:150px; border-radius:15px; padding:15px; border:1px solid var(--border); outline:none;" placeholder="Escreva sua opinião..."></textarea></div></section>
 
         <div class="footer-input">
             <div id="reply-box" class="reply-preview"></div>
             <div class="insta-bar">
                 <div class="cam-btn">📷</div>
                 <div class="input-box">
-                    <input type="text" id="master-input" placeholder="Escreva aqui...">
+                    <input type="text" id="master-input" placeholder="Escreva uma mensagem...">
                 </div>
                 <button class="send-btn" onclick="executarAcao()">Enviar</button>
             </div>
@@ -143,7 +118,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue, update, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
@@ -166,7 +141,6 @@
             document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
             document.getElementById(id).classList.add('active');
             document.getElementById('btn-'+id).classList.add('active-btn');
-            document.getElementById('master-input').placeholder = "Escreva em " + id + "...";
         };
 
         window.toggleTheme = () => document.body.classList.toggle('dark-mode');
@@ -179,15 +153,14 @@
             if (abaAtual === 'forum') {
                 push(ref(db, "mensagens"), { nome, texto: txt, resposta: respondendo, timestamp: serverTimestamp() });
             } else if (abaAtual === 'mural') {
-                push(ref(db, "ideias"), { nome, texto: txt, votos: 0 });
+                push(ref(db, "ideias"), { nome, texto: txt, votos: 0, timestamp: serverTimestamp() });
             } else if (abaAtual === 'avisos' || abaAtual === 'agenda') {
-                if (prompt("Chave Chernobyl:") === "Chernobyl") {
-                    push(ref(db, abaAtual), { texto: txt, nome });
-                }
+                const p = prompt("Chave de Segurança necessária para publicar:");
+                if(p === "Chernobyl") {
+                    push(ref(db, abaAtual), { texto: txt, nome: "COORDENAÇÃO", timestamp: serverTimestamp() });
+                } else { alert("Chave incorreta! Apenas autorizados podem publicar aqui."); }
             } else if (abaAtual === 'feedback') {
-                const area = document.getElementById('texto-feedback');
-                push(ref(db, "feedback"), { nome, texto: area.value || txt });
-                area.value = "";
+                push(ref(db, "feedback"), { nome, texto: txt });
             }
 
             input.value = "";
@@ -195,51 +168,67 @@
             document.getElementById('reply-box').style.display = 'none';
         };
 
-        // CARREGAR CHAT
+        // CHAT
         onValue(ref(db, "mensagens"), snap => {
-            const feed = document.getElementById("feed-forum");
-            feed.innerHTML = "";
+            const feed = document.getElementById("feed-forum"); feed.innerHTML = "";
             snap.forEach(c => {
                 const d = c.val();
-                const hora = d.timestamp ? new Date(d.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
                 const div = document.createElement("div");
                 div.className = `msg-container ${d.nome === nome ? 'me' : 'outro'}`;
-                div.innerHTML = `
-                    <span class="user-name">${d.nome}</span>
-                    <div class="bubble" onclick="prepararReply('${d.texto}', '${d.nome}')">
-                        ${d.resposta ? `<div style="font-size:10px; opacity:0.5">⤴️ ${d.resposta}</div>` : ''}
-                        ${d.texto}
-                    </div>
-                    <span class="msg-time">${hora}</span>
-                `;
+                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble" onclick="prepararReply('${d.texto}', '${d.nome}')">${d.resposta ? `<div style="opacity:0.5; font-size:10px">⤴️ ${d.resposta}</div>` : ''}${d.texto}</div>`;
                 feed.appendChild(div);
             });
             feed.scrollTop = feed.scrollHeight;
         });
 
-        // CARREGAR MURAL COM RANKING
+        // MURAL COM RANKING AUTOMÁTICO
         onValue(ref(db, "ideias"), snap => {
-            const feed = document.getElementById("feed-mural");
-            feed.innerHTML = "";
-            let counts = {};
-            snap.forEach(c => { counts[c.val().nome] = (counts[c.val().nome] || 0) + 1; });
-            const top = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, "");
+            const feed = document.getElementById("feed-mural"); feed.innerHTML = "";
+            let ideias = [];
+            snap.forEach(c => { ideias.push({key: c.key, ...c.val()}); });
 
-            snap.forEach(c => {
-                const d = c.val();
+            ideias.sort((a, b) => b.votos - a.votos);
+
+            ideias.forEach((d, index) => {
+                const isTop = index === 0 && d.votos > 0;
                 const div = document.createElement("div");
-                div.className = `msg-container outro ${d.nome === top ? 'ranking-ouro' : ''}`;
-                div.innerHTML = `<span class="user-name">${d.nome === top ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}</div>`;
+                div.className = `msg-container outro ${isTop ? 'ranking-top' : ''}`;
+                div.innerHTML = `
+                    <span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span>
+                    <div class="bubble">${d.texto}</div>
+                    <button class="vote-btn" onclick="votar('${d.key}')">❤️ ${d.votos || 0} votos</button>
+                `;
                 feed.appendChild(div);
             });
         });
+
+        window.votar = (key) => {
+            update(ref(db, `ideias/${key}`), { votos: increment(1) });
+        };
 
         window.prepararReply = (msg, autor) => {
             respondendo = msg;
             const rb = document.getElementById('reply-box');
             rb.style.display = 'block';
-            rb.innerHTML = `Respondendo a ${autor}: ${msg.substring(0,15)}... <span onclick="window.respondendo=null; this.parentElement.style.display='none'">✖</span>`;
+            rb.innerHTML = `Respondendo a ${autor}: ${msg.substring(0,20)}... <span onclick="window.respondendo=null; document.getElementById('reply-box').style.display='none'">✖</span>`;
         };
+
+        // CARREGAR ALERTAS E AGENDA (VISÍVEIS PARA TODOS)
+        const carregarSimples = (path, feedId) => {
+            onValue(ref(db, path), snap => {
+                const f = document.getElementById(feedId); f.innerHTML = "";
+                snap.forEach(c => {
+                    const d = c.val();
+                    const div = document.createElement("div");
+                    div.className = "msg-container outro";
+                    div.innerHTML = `<span class="user-name">COORDENAÇÃO</span><div class="bubble" style="background:#fff3cd; border:1px solid #ffeeba">${d.texto}</div>`;
+                    f.appendChild(div);
+                });
+            });
+        };
+        carregarSimples("avisos", "feed-avisos");
+        carregarSimples("agenda", "feed-agenda");
+
     </script>
 </body>
 </html>
