@@ -14,7 +14,8 @@
         body.dark-mode {
             --bg: #051d3b; --text: #ffffff; 
             --msg-me: #0095f6; --msg-outro: #1a3a5f; --border: #2a4a6f;
-            --coord: #2d2d00; --coord-border: #ffff00;
+            /* Cores vibrantes para Alertas/Olimpíadas no escuro */
+            --coord: #3d3d00; --coord-border: #ffff00;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
@@ -23,6 +24,7 @@
         /* MENU */
         .top-menu { background: var(--primary); padding: 10px 0; border-bottom: 1px solid var(--border); z-index: 1000; }
         .menu-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; }
+        .menu-scroll::-webkit-scrollbar { display: none; }
         .menu-scroll button { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-weight: 600; font-size: 13px; cursor: pointer; }
         .menu-scroll button.active-btn { background: white; color: var(--primary); }
 
@@ -41,30 +43,35 @@
         .outro { align-self: flex-start; align-items: flex-start; }
         .user-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; color: var(--insta-blue); }
         .bubble { padding: 10px 14px; border-radius: 18px; font-size: 14px; position: relative; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
         .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 2px solid var(--border); }
-        .msg-time { font-size: 9px; opacity: 0.6; align-self: flex-end; margin-top: 4px; display: block; }
-        .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; color: #000 !important; }
+        
+        /* DESTAQUE ALERTAS / OLIMPÍADAS */
+        .coord-msg .bubble { 
+            background: var(--coord) !important; 
+            border: 2px solid var(--coord-border) !important; 
+            color: #fff !important; /* Texto branco no modo escuro para brilhar */
+            font-weight: 600;
+        }
+        .light-mode .coord-msg .bubble { color: #000 !important; }
 
-        /* HUMOR */
-        .emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-        .emoji-card { background: var(--msg-outro); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
-        .emoji-card:active { transform: scale(0.9); }
-        .emoji-card span { font-size: 40px; display: block; margin-bottom: 10px; }
+        /* MURAL COM RANKING */
+        .ranking-top { order: -1; } /* Força a coroa a ficar no topo */
+        .ranking-top .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+        .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 10px; padding: 4px 8px; font-size: 11px; margin-top: 5px; cursor: pointer; font-weight: bold; }
 
-        /* CONTATOS */
-        .contato-item { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid var(--border); }
-        .contato-icon { width: 45px; height: 45px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-        /* MODAL E FOOTER */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 10000; }
-        .modal-content { background: var(--bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center; }
+        /* FOOTER */
         .footer-input { position: fixed; bottom: 0; width: 100%; background: var(--bg); padding: 5px 12px calc(20px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); z-index: 9999; }
         .insta-bar { display: flex; align-items: center; gap: 10px; max-width: 600px; margin: 0 auto; }
         .input-box { flex: 1; border: 1px solid var(--border); border-radius: 25px; display: flex; align-items: center; padding: 0 15px; }
         .input-box input { flex: 1; border: none; background: transparent; outline: none; padding: 12px 0; color: var(--text); }
         .send-btn { background: none; border: none; color: var(--insta-blue); font-weight: 700; cursor: pointer; }
         .fab-theme { position: fixed; bottom: 120px; left: 20px; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; border: none; z-index: 1000; }
+
+        /* MODAL CHAVE */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 10000; }
+        .modal-content { background: var(--bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 300px; text-align: center; }
     </style>
 </head>
 <body class="light-mode">
@@ -72,7 +79,7 @@
     <div id="modalChave" class="modal-overlay">
         <div class="modal-content">
             <h3>Chave de Acesso</h3>
-            <input type="password" id="inputChave" placeholder="Digite a chave..." style="width:100%; padding:12px; margin:15px 0; border-radius:10px; border:1px solid var(--border); text-align:center;">
+            <input type="password" id="inputChave" placeholder="Digite a chave..." style="width:100%; padding:10px; margin:15px 0; border-radius:10px; border:1px solid var(--border); text-align:center;">
             <div style="display:flex; gap:10px;">
                 <button onclick="fecharModal()" style="flex:1; padding:10px; border-radius:10px; border:none;">Sair</button>
                 <button onclick="validarChave()" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--insta-blue); color:white;">Confirmar</button>
@@ -101,30 +108,15 @@
         <section id="forum" class="aba active"><div id="feed-forum" class="feed"></div></section>
         <section id="mural" class="aba"><div id="feed-mural" class="feed"></div></section>
         <section id="avisos" class="aba"><div id="feed-avisos" class="feed"></div></section>
-        
-        <section id="humor" class="aba">
+        <section id="humor" class="aba"><div class="feed" id="feed-humor" style="text-align:center;">
             <div class="emoji-grid">
-                <div class="emoji-card" onclick="enviarHumor('😊', 'Feliz')"><span>😊</span><strong>Feliz</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😴', 'Cansado')"><span>😴</span><strong>Cansado</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😰', 'Ansioso')"><span>😰</span><strong>Ansioso</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('🤯', 'Estressado')"><span>🤯</span><strong>Estressado</strong></div>
+                <div class="emoji-card" onclick="alert('Sentimento registrado!')"><span>😊</span> Feliz</div>
+                <div class="emoji-card" onclick="alert('Sentimento registrado!')"><span>😴</span> Cansado</div>
             </div>
-        </section>
-
+        </div></section>
         <section id="agenda" class="aba"><div id="feed-agenda" class="feed"></div></section>
-        <section id="feedback" class="aba">
-            <div class="feed">
-                <textarea id="txt-feedback" style="width:100%; height:150px; border-radius:15px; padding:15px; border:1px solid var(--border); background:var(--msg-outro); color:var(--text);" placeholder="Escreva sua opinião aqui..."></textarea>
-            </div>
-        </section>
-
-        <section id="contatos" class="aba">
-            <div class="feed">
-                <div class="contato-item"><div class="contato-icon">C</div><div><strong>Coordenação</strong><p>Fale com a gestão</p></div></div>
-                <div class="contato-item"><div class="contato-icon">S</div><div><strong>Secretaria</strong><p>Documentos e prazos</p></div></div>
-                <div class="contato-item"><div class="contato-icon">P</div><div><strong>Psicologia</strong><p>Apoio ao aluno</p></div></div>
-            </div>
-        </section>
+        <section id="feedback" class="aba"><div class="feed"><textarea id="txt-feedback" style="width:100%; height:120px; border-radius:15px; padding:10px; background:var(--msg-outro); color:var(--text);" placeholder="Sua opinião..."></textarea></div></section>
+        <section id="contatos" class="aba"><div class="feed" style="padding:20px;"><strong>Coordenação:</strong> (86) 9999-9999<br><br><strong>Secretaria:</strong> (86) 8888-8888</div></section>
 
         <div id="barra-digitar" class="footer-input">
             <div class="insta-bar">
@@ -138,7 +130,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue, update, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
@@ -160,31 +152,17 @@
             document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
             document.getElementById(id).classList.add('active');
             document.getElementById('btn-'+id).classList.add('active-btn');
-            
-            // ESCONDER BARRA NO HUMOR E CONTATOS
-            const barra = document.getElementById('barra-digitar');
-            if (id === 'humor' || id === 'contatos') {
-                barra.style.display = 'none';
-            } else {
-                barra.style.display = 'block';
-            }
+            document.getElementById('barra-digitar').style.display = (id === 'humor' || id === 'contatos') ? 'none' : 'block';
         };
 
         window.toggleTheme = () => document.body.classList.toggle('dark-mode');
-
-        window.enviarHumor = (emoji, texto) => {
-            push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
-            alert("Sentimento '" + texto + "' enviado com sucesso! ✨");
-        };
 
         window.tentarEnviar = () => {
             const txt = document.getElementById('master-input').value.trim();
             if (!txt) return;
             if (abaAtual === 'avisos' || abaAtual === 'agenda') {
                 document.getElementById('modalChave').style.display = 'flex';
-            } else {
-                enviar(txt);
-            }
+            } else { enviar(txt); }
         };
 
         window.fecharModal = () => document.getElementById('modalChave').style.display = 'none';
@@ -194,7 +172,7 @@
                 enviar(document.getElementById('master-input').value, true);
                 fecharModal();
                 document.getElementById('inputChave').value = "";
-            } else { alert("Chave errada!"); }
+            } else { alert("Chave incorreta!"); }
         };
 
         function enviar(texto, isCoord = false) {
@@ -202,11 +180,13 @@
             push(ref(db, path), {
                 nome: isCoord ? "COORDENAÇÃO" : nome,
                 texto: texto,
+                votos: 0,
                 timestamp: serverTimestamp()
             });
             document.getElementById('master-input').value = "";
         }
 
+        // CHAT COM HORA
         onValue(ref(db, "mensagens"), snap => {
             const f = document.getElementById("feed-forum"); f.innerHTML = "";
             snap.forEach(c => {
@@ -214,27 +194,54 @@
                 const hora = d.timestamp ? new Date(d.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
                 const div = document.createElement("div");
                 div.className = `msg-container ${d.nome === nome ? 'me' : 'outro'}`;
-                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.texto}<span class="msg-time">${hora}</span></div>`;
+                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.texto}<div style="font-size:9px; opacity:0.6; text-align:right;">${hora}</div></div>`;
                 f.appendChild(div);
             });
             f.scrollTop = f.scrollHeight;
         });
 
-        const load = (path, id, isC = false) => {
+        // MURAL COM RANKING (QUEM TEM MAIS VOTOS SOBE)
+        onValue(ref(db, "ideias"), snap => {
+            const f = document.getElementById("feed-mural"); f.innerHTML = "";
+            let ideias = [];
+            snap.forEach(c => { ideias.push({key: c.key, ...c.val()}); });
+            
+            // Ordena do maior voto para o menor
+            ideias.sort((a, b) => (b.votos || 0) - (a.votos || 0));
+
+            ideias.forEach((d, index) => {
+                const isTop = index === 0 && d.votos > 0;
+                const div = document.createElement("div");
+                div.className = `msg-container outro ${isTop ? 'ranking-top' : ''}`;
+                div.innerHTML = `
+                    <span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span>
+                    <div class="bubble">
+                        ${d.texto}
+                        <button class="vote-btn" onclick="votar('${d.key}')">❤️ ${d.votos || 0}</button>
+                    </div>
+                `;
+                f.appendChild(div);
+            });
+        });
+
+        window.votar = (key) => update(ref(db, `ideias/${key}`), { votos: increment(1) });
+
+        // ALERTAS E AGENDA (COORDENAÇÃO)
+        const loadCoord = (path, id) => {
             onValue(ref(db, path), snap => {
                 const f = document.getElementById(id); f.innerHTML = "";
                 snap.forEach(c => {
                     const d = c.val();
                     const div = document.createElement("div");
-                    div.className = `msg-container outro ${isC ? 'coord-msg' : ''}`;
-                    div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.texto}</div>`;
+                    div.className = "msg-container outro coord-msg";
+                    div.innerHTML = `<span class="user-name">COORDENAÇÃO</span><div class="bubble">${d.texto}</div>`;
                     f.appendChild(div);
                 });
             });
         };
-        load("ideias", "feed-mural");
-        load("avisos", "feed-avisos", true);
-        load("agenda", "feed-agenda", true);
+        loadCoord("avisos", "feed-avisos");
+        loadCoord("agenda", "feed-agenda");
+
     </script>
 </body>
 </html>
