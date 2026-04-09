@@ -8,22 +8,23 @@
         :root {
             --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
             --accent: #2e7d32; --msg-me: #3797f0; --msg-outro: #f2f3f5; --border: #dbdbdb;
-            --gold: #ffd700; --insta-blue: #0095f6; --coord: #fff3cd;
+            --gold: #ffd700; --insta-blue: #0095f6; --coord: #fff3cd; --coord-border: #ffcc00;
         }
 
         body.dark-mode {
             --bg: #051d3b; --text: #ffffff; 
             --msg-me: #0095f6; --msg-outro: #1a3a5f; --border: #2a4a6f;
-            --coord: #3e3e00; /* Cor vibrante para coordenação no escuro */
+            --coord: #2d2d00; --coord-border: #ffff00;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         
-        body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: 0.3s; }
+        body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: background 0.3s; }
 
         /* HEADER E MENU */
         .top-menu { background: var(--primary); padding: 10px 0; border-bottom: 1px solid var(--border); z-index: 1000; }
         .menu-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; }
+        .menu-scroll::-webkit-scrollbar { display: none; }
         .menu-scroll button { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-weight: 600; font-size: 13px; cursor: pointer; }
         .menu-scroll button.active-btn { background: white; color: var(--primary); }
 
@@ -46,20 +47,20 @@
         .user-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; color: var(--insta-blue); }
         .bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; position: relative; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
+        .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; border-color: rgba(255,255,255,0.1); }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 2px solid var(--border); }
 
-        /* ESTILO COORDENAÇÃO (VIVO) */
+        /* ESTILO COORDENAÇÃO (VIVO/NEON NO ESCURO) */
         .coord-msg .bubble { 
             background: var(--coord) !important; 
-            border: 2px solid #ffcc00 !important; 
+            border: 2px solid var(--coord-border) !important; 
             color: var(--text) !important;
             font-weight: 500;
         }
-        .dark-mode .coord-msg .bubble { border: 2px solid #ffff00 !important; box-shadow: 0 0 8px #ffff00; }
 
         /* RANKING MURAL */
-        .ranking-top .bubble { border: 3px solid var(--gold) !important; box-shadow: 0 0 15px rgba(255,215,0,0.5); transform: scale(1.02); }
+        .ranking-top { order: -1; }
+        .ranking-top .bubble { border: 3px solid var(--gold) !important; box-shadow: 0 0 15px rgba(255,215,0,0.5); }
         .vote-btn { background: rgba(237, 73, 86, 0.1); border: 1px solid #ed4956; border-radius: 10px; color: #ed4956; padding: 4px 10px; font-size: 12px; margin-top: 5px; cursor: pointer; font-weight: bold; }
 
         /* BARRA INSTAGRAM FIXA */
@@ -73,12 +74,26 @@
         .input-box input { flex: 1; border: none; background: transparent; outline: none; padding: 12px 0; color: var(--text); font-size: 15px; }
         .send-btn { background: none; border: none; color: var(--insta-blue); font-weight: 700; cursor: pointer; padding: 5px; font-size: 16px; }
 
-        .fab-theme { position: fixed; bottom: 100px; right: 20px; width: 48px; height: 48px; border-radius: 50%; background: #2e7d32; color: white; border: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* BOTÃO MODO ESCURO (LADO ESQUERDO) */
+        .fab-theme { 
+            position: fixed; 
+            bottom: 100px; 
+            left: 20px; /* Mudado para a esquerda */
+            width: 48px; 
+            height: 48px; 
+            border-radius: 50%; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            z-index: 1000; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            font-size: 20px;
+        }
         
         /* HUMOR CARDS */
         .emoji-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        .emoji-card { background: var(--msg-outro); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
-        .emoji-card:active { transform: scale(0.95); }
+        .emoji-card { background: var(--msg-outro); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid var(--border); cursor: pointer; }
     </style>
 </head>
 <body class="light-mode">
@@ -106,10 +121,10 @@
         
         <section id="sentimentos" class="aba">
             <div class="emoji-grid">
-                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😰</span><strong>Ansioso</strong><p>Inquieto</p></div>
-                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😊</span><strong>Feliz</strong><p>Muito bom</p></div>
-                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😢</span><strong>Triste</strong><p>Difícil</p></div>
-                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😴</span><strong>Cansado</strong><p>Repouso</p></div>
+                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😰</span><br><strong>Ansioso</strong></div>
+                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😊</span><br><strong>Feliz</strong></div>
+                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😢</span><br><strong>Triste</strong></div>
+                <div class="emoji-card" onclick="alert('Humor registrado!')"><span>😴</span><br><strong>Cansado</strong></div>
             </div>
         </section>
 
@@ -177,7 +192,6 @@
             input.value = "";
         };
 
-        // CHAT
         onValue(ref(db, "mensagens"), snap => {
             const feed = document.getElementById("feed-forum"); feed.innerHTML = "";
             snap.forEach(c => {
@@ -190,7 +204,6 @@
             feed.scrollTop = feed.scrollHeight;
         });
 
-        // MURAL COM RANKING AUTOMÁTICO
         onValue(ref(db, "ideias"), snap => {
             const feed = document.getElementById("feed-mural"); feed.innerHTML = "";
             let ideias = [];
@@ -212,7 +225,6 @@
 
         window.votar = (key) => update(ref(db, `ideias/${key}`), { votos: increment(1) });
 
-        // ALERTAS E AGENDA (COORDENAÇÃO)
         const carregarCoord = (path, feedId) => {
             onValue(ref(db, path), snap => {
                 const f = document.getElementById(feedId); f.innerHTML = "";
