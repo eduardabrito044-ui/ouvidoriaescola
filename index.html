@@ -14,7 +14,6 @@
         body.dark-mode {
             --bg: #051d3b; --text: #ffffff; 
             --msg-me: #0095f6; --msg-outro: #1a3a5f; --border: #2a4a6f;
-            /* Cores corrigidas para leitura clara em Alertas/Agenda */
             --coord: #1a3a5f; --coord-border: #00d4ff;
         }
 
@@ -45,18 +44,27 @@
         .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 2px solid var(--border); }
         
-        .reply-box { background: rgba(0,0,0,0.08); padding: 5px 8px; border-left: 3px solid var(--insta-blue); border-radius: 4px; font-size: 11px; margin-bottom: 5px; color: inherit; }
-        .dark-mode .reply-box { background: rgba(255,255,255,0.1); }
-
+        .reply-box { background: rgba(0,0,0,0.08); padding: 5px 8px; border-left: 3px solid var(--insta-blue); border-radius: 4px; font-size: 11px; margin-bottom: 5px; }
         .reply-preview { background: var(--msg-outro); padding: 8px 15px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; }
 
-        /* DESTAQUE COORDENAÇÃO (CORREÇÃO DE CORES) */
-        .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; color: var(--text) !important; font-weight: 500; }
+        /* DESTAQUE COORDENAÇÃO (MODO ESCURO CORRIGIDO) */
+        .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; font-weight: 500; }
         .dark-mode .coord-msg .bubble { color: #ffffff !important; }
 
         /* RANKING MURAL */
-        .top-ranking .bubble { border: 2px solid var(--gold) !important; }
+        .top-ranking .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
         .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 12px; padding: 3px 10px; font-size: 11px; margin-top: 8px; cursor: pointer; font-weight: bold; }
+
+        /* FORMULÁRIO DE FEEDBACK */
+        .form-feedback { background: var(--msg-outro); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
+        .options { display: flex; gap: 10px; }
+        .options input { display: none; }
+        .options label { background: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; color: black; }
+        .options input:checked + label { background: var(--insta-blue); color: white; border-color: var(--insta-blue); }
+        .text-area-feedback { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-top: 5px; height: 80px; }
+        .btn-enviar-form { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
         /* HUMOR */
         .emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
@@ -82,7 +90,7 @@
             <input type="password" id="inputChave" placeholder="Digite a chave..." style="width:100%; padding:12px; margin:15px 0; border-radius:10px; border:1px solid var(--border); text-align:center;">
             <div style="display:flex; gap:10px;">
                 <button onclick="fecharModal()" style="flex:1; padding:10px; border-radius:10px;">Sair</button>
-                <button onclick="validarChave()" style="flex:1; padding:10px; border-radius:10px; background:var(--insta-blue); color:white;">OK</button>
+                <button onclick="validarChave()" style="flex:1; padding:10px; border-radius:10px; background:var(--insta-blue); color:white;">Confirmar</button>
             </div>
         </div>
     </div>
@@ -108,6 +116,7 @@
         <section id="forum" class="aba active"><div id="feed-forum" class="feed"></div></section>
         <section id="mural" class="aba"><div id="feed-mural" class="feed"></div></section>
         <section id="avisos" class="aba"><div id="feed-avisos" class="feed"></div></section>
+        
         <section id="humor" class="aba">
             <div class="emoji-grid">
                 <div class="emoji-card" onclick="enviarHumor('😊', 'Feliz')"><span>😊</span><strong>Feliz</strong></div>
@@ -116,8 +125,20 @@
                 <div class="emoji-card" onclick="enviarHumor('🤯', 'Estressado')"><span>🤯</span><strong>Estressado</strong></div>
             </div>
         </section>
+
         <section id="agenda" class="aba"><div id="feed-agenda" class="feed"></div></section>
-        <section id="feedback" class="aba"><div class="feed"><textarea id="txt-feedback" style="width:100%; height:150px; border-radius:15px; padding:15px; border:1px solid var(--border); background:var(--msg-outro); color:var(--text);" placeholder="Sua opinião..."></textarea></div></section>
+        
+        <section id="feedback" class="aba">
+            <div class="feed">
+                <div class="form-feedback" id="form-pergunta">
+                    <h3>📋 Feedback Escolar</h3><br>
+                    <div id="questoes-container">
+                        </div>
+                    <button class="btn-enviar-form" onclick="enviarQuestionario()">Enviar Feedback ✨</button>
+                </div>
+            </div>
+        </section>
+
         <section id="contatos" class="aba"><div class="feed" style="padding:20px;"><strong>Coordenação:</strong> (86) 9...<br><strong>Suporte:</strong> Eduarda</div></section>
 
         <div id="barra-digitar" class="footer-input">
@@ -153,13 +174,45 @@
         let abaAtual = 'forum';
         let dadosResposta = null;
 
+        const perguntas = [
+            "O ambiente da escola é limpo e organizado?",
+            "Os banheiros da escola estão em boas condições?",
+            "As salas de aula são confortáveis?",
+            "A escola possui espaços adequados para estudo?",
+            "A estrutura geral da escola atende às suas necessidades?",
+            "Você entende bem o conteúdo dos professores?",
+            "Os professores estão preparados?",
+            "As aulas são interessantes?",
+            "Você se sente à vontade para tirar dúvidas?",
+            "Você se sente seguro dentro da escola?",
+            "A escola escuta a opinião dos alunos?",
+            "A merenda escolar é de boa qualidade?"
+        ];
+
+        // Montar questionário
+        const container = document.getElementById('questoes-container');
+        perguntas.forEach((p, i) => {
+            container.innerHTML += `
+                <div class="form-group">
+                    <label>${p}</label>
+                    <div class="options">
+                        <input type="radio" name="q${i}" id="q${i}s" value="Sim"><label for="q${i}s">Sim</label>
+                        <input type="radio" name="q${i}" id="q${i}n" value="Não"><label for="q${i}n">Não</label>
+                    </div>
+                </div>`;
+        });
+        container.innerHTML += `
+            <div class="form-group"><label>O que a escola poderia melhorar?</label><textarea id="melhorar" class="text-area-feedback"></textarea></div>
+            <div class="form-group"><label>O que você mais gosta na escola?</label><textarea id="gosta" class="text-area-feedback"></textarea></div>
+        `;
+
         window.mudarAba = (id) => {
             abaAtual = id;
             document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
             document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
             document.getElementById(id).classList.add('active');
             document.getElementById('btn-'+id).classList.add('active-btn');
-            document.getElementById('barra-digitar').style.display = (id === 'humor' || id === 'contatos') ? 'none' : 'block';
+            document.getElementById('barra-digitar').style.display = (id === 'humor' || id === 'feedback' || id === 'contatos') ? 'none' : 'block';
         };
 
         window.toggleTheme = () => document.body.classList.toggle('dark-mode');
@@ -175,9 +228,23 @@
             document.getElementById('reply-preview').style.display = 'none';
         };
 
+        window.enviarQuestionario = () => {
+            const respostas = { usuario: nome, data: serverTimestamp(), itens: [] };
+            perguntas.forEach((p, i) => {
+                const opt = document.querySelector(`input[name="q${i}"]:checked`);
+                respostas.itens.push({ pergunta: p, resposta: opt ? opt.value : "Não respondeu" });
+            });
+            respostas.melhorar = document.getElementById('melhorar').value;
+            respostas.gosta = document.getElementById('gosta').value;
+            
+            push(ref(db, "questionarios"), respostas);
+            alert("Feedback enviado com sucesso! Obrigado.");
+            mudarAba('forum');
+        };
+
         window.enviarHumor = (emoji, texto) => {
             push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
-            alert("Sentimento '" + texto + "' enviado com sucesso! ✨");
+            alert("Sentimento '" + texto + "' registrado! ✨");
         };
 
         window.tentarEnviar = () => {
@@ -195,17 +262,14 @@
                 enviar(document.getElementById('master-input').value, true);
                 fecharModal();
                 document.getElementById('inputChave').value = "";
-            } else { alert("Chave errada!"); fecharModal(); }
+            } else { alert("Chave incorreta!"); fecharModal(); }
         };
 
         function enviar(texto, isCoord = false) {
-            const path = (abaAtual === 'forum') ? "mensagens" : (abaAtual === 'mural' ? "ideias" : (abaAtual === 'feedback' ? "feedback" : abaAtual));
+            const path = (abaAtual === 'forum') ? "mensagens" : (abaAtual === 'mural' ? "ideias" : abaAtual);
             push(ref(db, path), {
                 nome: isCoord ? "COORDENAÇÃO" : nome,
-                texto: texto,
-                votos: 0,
-                timestamp: serverTimestamp(),
-                resposta: dadosResposta
+                texto: texto, votos: 0, timestamp: serverTimestamp(), resposta: dadosResposta
             });
             document.getElementById('master-input').value = "";
             cancelarResposta();
@@ -218,12 +282,7 @@
                 const div = document.createElement("div");
                 div.className = `msg-container ${d.nome === nome ? 'me' : 'outro'}`;
                 div.onclick = () => prepararResposta(d.texto, d.nome);
-                div.innerHTML = `
-                    <span class="user-name">${d.nome}</span>
-                    <div class="bubble">
-                        ${d.resposta ? `<div class="reply-box"><b>${d.resposta.user}</b><br>${d.resposta.txt}</div>` : ''}
-                        ${d.texto}
-                    </div>`;
+                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.resposta ? `<div class="reply-box"><b>${d.resposta.user}</b><br>${d.resposta.txt}</div>` : ''}${d.texto}</div>`;
                 f.appendChild(div);
             });
             f.scrollTop = f.scrollHeight;
@@ -234,7 +293,7 @@
             let items = []; snap.forEach(c => items.push({key: c.key, ...c.val()}));
             items.sort((a,b) => (b.votos || 0) - (a.votos || 0));
             items.forEach((d, i) => {
-                const isTop = i === 0 && d.votos > 0;
+                const isTop = i === 0 && (d.votos || 0) > 0;
                 const div = document.createElement("div");
                 div.className = `msg-container outro ${isTop ? 'top-ranking' : ''}`;
                 div.innerHTML = `<span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}<br><button class="vote-btn" onclick="votar('${d.key}')">❤️ ${d.votos || 0}</button></div>`;
@@ -248,15 +307,13 @@
             onValue(ref(db, path), snap => {
                 const f = document.getElementById(id); f.innerHTML = "";
                 snap.forEach(c => {
-                    const div = document.createElement("div");
-                    div.className = "msg-container outro coord-msg";
+                    const div = document.createElement("div"); div.className = "msg-container outro coord-msg";
                     div.innerHTML = `<span class="user-name">COORDENAÇÃO</span><div class="bubble">${c.val().texto}</div>`;
                     f.appendChild(div);
                 });
             });
         };
-        loadCoord("avisos", "feed-avisos");
-        loadCoord("agenda", "feed-agenda");
+        loadCoord("avisos", "feed-avisos"); loadCoord("agenda", "feed-agenda");
     </script>
 </body>
 </html>
