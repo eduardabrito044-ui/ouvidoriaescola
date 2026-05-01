@@ -24,7 +24,6 @@
         .intro-container { padding: 20px; line-height: 1.6; }
         .intro-card { background: var(--msg-outro); border-radius: 20px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
         .intro-card h2 { color: var(--primary); margin-bottom: 10px; font-size: 20px; }
-        .intro-card h3 { color: var(--accent); margin: 15px 0 5px; font-size: 16px; }
         .intro-card p { font-size: 14px; margin-bottom: 10px; }
         .btn-start { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 15px; width: 100%; font-weight: bold; cursor: pointer; font-size: 16px; }
 
@@ -43,14 +42,14 @@
         .aba.active { display: flex; }
         .feed { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 110px; }
 
-        /* HUMOR - GRADE GRANDE */
+        /* HUMOR */
         .emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
         .emoji-card { background: var(--msg-outro); border-radius: 20px; padding: 25px 10px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: 0.2s; }
         .emoji-card:active { transform: scale(0.9); }
         .emoji-card span { font-size: 55px; display: block; margin-bottom: 8px; }
         .emoji-card strong { font-size: 14px; color: var(--text); display: block; }
 
-        /* BALÕES E MURAL */
+        /* MENSAGENS */
         .msg-container { display: flex; flex-direction: column; max-width: 85%; margin-bottom: 5px; position: relative; cursor: pointer; }
         .me { align-self: flex-end; align-items: flex-end; }
         .outro { align-self: flex-start; align-items: flex-start; }
@@ -59,26 +58,16 @@
         .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 2px solid var(--border); }
         
-        .reply-box { background: rgba(0,0,0,0.08); padding: 5px 8px; border-left: 3px solid var(--insta-blue); border-radius: 4px; font-size: 11px; margin-bottom: 5px; }
-        .reply-preview { background: var(--msg-outro); padding: 8px 15px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; }
-
-        /* DESTAQUE COORDENAÇÃO */
-        .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; font-weight: 500; }
-        .dark-mode .coord-msg .bubble { color: #ffffff !important; }
-
-        /* RANKING MURAL */
-        .top-ranking .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
-        .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 12px; padding: 3px 10px; font-size: 11px; margin-top: 8px; cursor: pointer; font-weight: bold; }
-
-        /* FORMULÁRIO */
+        /* FORMULÁRIO ESTILIZADO */
         .form-feedback { background: var(--msg-outro); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-        .options { display: flex; gap: 10px; }
+        .form-section-title { color: var(--primary); font-weight: bold; margin: 15px 0 10px; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 8px; }
+        .options { display: flex; gap: 8px; }
         .options input { display: none; }
-        .options label { background: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; color: black; }
+        .options label { background: white; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; color: black; flex: 1; text-align: center; }
         .options input:checked + label { background: var(--insta-blue); color: white; border-color: var(--insta-blue); }
-        .text-area-feedback { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-top: 5px; height: 80px; }
+        .text-area-feedback { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-top: 5px; height: 60px; font-size: 14px; }
 
         /* FOOTER */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 10000; }
@@ -89,6 +78,15 @@
         .input-box input { flex: 1; border: none; background: transparent; outline: none; padding: 12px 0; color: var(--text); }
         .send-btn { background: none; border: none; color: var(--insta-blue); font-weight: 700; cursor: pointer; }
         .fab-theme { position: fixed; bottom: 120px; left: 20px; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; border: none; z-index: 1000; }
+        
+        /* COORDENAÇÃO */
+        .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; font-weight: 500; }
+        .dark-mode .coord-msg .bubble { color: #ffffff !important; }
+        
+        .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 12px; padding: 3px 10px; font-size: 11px; margin-top: 8px; cursor: pointer; font-weight: bold; }
+        .top-ranking .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .reply-preview { background: var(--msg-outro); padding: 8px 15px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; }
+        .reply-box { background: rgba(0,0,0,0.08); padding: 5px 8px; border-left: 3px solid var(--insta-blue); border-radius: 4px; font-size: 11px; margin-bottom: 5px; }
     </style>
 </head>
 <body class="light-mode">
@@ -126,12 +124,9 @@
         <section id="inicio" class="aba active">
             <div class="intro-container">
                 <div class="intro-card">
-                    <h2>Bem-vindo ao Portal Elite! 🏫</h2>
-                    <p>Olá! Este é o canal oficial de Ouvidoria do CETI José Marques. Um espaço para fortalecer nossa comunicação.</p>
-                    <h3>Como usar o site:</h3>
-                    <p><strong>🎭 Humor:</strong> Registre como você está se sentindo hoje.</p>
-                    <p><strong>📋 Opinião:</strong> Envie feedbacks e sugestões para a escola.</p>
-                    <p><strong>📢 Alertas e Agenda:</strong> Fique por dentro de prazos e comunicados.</p>
+                    <h2>📢 Introdução</h2>
+                    <p>Este site foi criado para dar voz aos alunos do CETI José Marques, permitindo que compartilhem opiniões, sugestões e experiências.</p>
+                    <p>O objetivo é melhorar a escola por meio do feedback dos estudantes.</p>
                 </div>
                 <button class="btn-start" onclick="mudarAba('forum')">Explorar Portal 🚀</button>
             </div>
@@ -158,7 +153,7 @@
         <section id="feedback" class="aba">
             <div class="feed">
                 <div class="form-feedback">
-                    <h3>📋 Feedback Escolar</h3><br>
+                    <h3>📋 Questionário Escolar</h3><br>
                     <div id="questoes-container"></div>
                     <button class="btn-start" onclick="enviarQuestionario()" style="background:var(--accent);">Enviar Feedback ✨</button>
                 </div>
@@ -200,13 +195,46 @@
         let abaAtual = 'inicio';
         let dadosResposta = null;
 
-        // Montar perguntas do questionário
-        const perguntas = ["Ambiente limpo?", "Banheiros bons?", "Salas confortáveis?", "Espaços de estudo?", "Aulas interessantes?", "Sente-se seguro?", "Escuta os alunos?", "Merenda boa?"];
+        const secoesQuestionario = [
+            { titulo: "🏫 Infraestrutura", perguntas: ["A estrutura da escola atende suas necessidades?", "As salas de aula são confortáveis?", "A escola possui espaços adequados para estudo?"] },
+            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organizado?", "Os banheiros estão em boas condições?"] },
+            { titulo: "🍽️ Alimentação", perguntas: ["A merenda escolar é de boa qualidade?", "A quantidade de comida é suficiente?"] },
+            { titulo: "📚 Ensino e Professores", perguntas: ["Você entende o conteúdo explicado pelos professores?", "Os professores estão preparados para ensinar?", "As aulas são interessantes?"] },
+            { titulo: "🧠 Ambiente Escolar", perguntas: ["Você se sente seguro na escola?", "Existe respeito entre alunos e professores?", "A escola escuta a opinião dos alunos?"] }
+        ];
+
         const container = document.getElementById('questoes-container');
-        perguntas.forEach((p, i) => {
-            container.innerHTML += `<div class="form-group"><label>${p}</label><div class="options"><input type="radio" name="q${i}" id="q${i}s" value="Sim"><label for="q${i}s">Sim</label><input type="radio" name="q${i}" id="q${i}n" value="Não"><label for="q${i}n">Não</label></div></div>`;
+        let qIdx = 0;
+        secoesQuestionario.forEach(secao => {
+            container.innerHTML += `<div class="form-section-title">${secao.titulo}</div>`;
+            secao.perguntas.forEach(p => {
+                container.innerHTML += `
+                <div class="form-group">
+                    <label>${p}</label>
+                    <div class="options">
+                        <input type="radio" name="q${qIdx}" id="q${qIdx}s" value="Sim"><label for="q${qIdx}s">Sim</label>
+                        <input type="radio" name="q${qIdx}" id="q${qIdx}n" value="Não"><label for="q${qIdx}n">Não</label>
+                    </div>
+                </div>`;
+                qIdx++;
+            });
         });
-        container.innerHTML += `<div class="form-group"><label>Sugestão de melhora:</label><textarea id="melhorar" class="text-area-feedback"></textarea></div>`;
+
+        container.innerHTML += `
+            <div class="form-section-title">📊 Avaliação Geral</div>
+            <div class="form-group">
+                <label>Como você avalia a escola no geral?</label>
+                <div class="options" style="flex-wrap: wrap;">
+                    <input type="radio" name="geral" id="ga" value="Ótima"><label for="ga">Ótima</label>
+                    <input type="radio" name="geral" id="gb" value="Boa"><label for="gb">Boa</label>
+                    <input type="radio" name="geral" id="gr" value="Regular"><label for="gr">Regular</label>
+                    <input type="radio" name="geral" id="gu" value="Ruim"><label for="gu">Ruim</label>
+                </div>
+            </div>
+            <div class="form-section-title">💬 Opinião Aberta</div>
+            <div class="form-group"><label>O que a escola poderia melhorar?</label><textarea id="melhorar" class="text-area-feedback" placeholder="✍️ Sua resposta..."></textarea></div>
+            <div class="form-group"><label>O que você mais gosta na escola?</label><textarea id="gosta" class="text-area-feedback" placeholder="✍️ Sua resposta..."></textarea></div>
+        `;
 
         window.mudarAba = (id) => {
             abaAtual = id;
@@ -257,7 +285,22 @@
 
         window.cancelarResposta = () => { dadosResposta = null; document.getElementById('reply-preview').style.display = 'none'; };
 
-        // Firebase Listeners
+        window.enviarQuestionario = () => {
+            const res = { usuario: nome, data: serverTimestamp(), respostas: [] };
+            for(let i=0; i<qIdx; i++) {
+                const opt = document.querySelector(`input[name="q${i}"]:checked`);
+                res.respostas.push(opt ? opt.value : "N/A");
+            }
+            const geral = document.querySelector(`input[name="geral"]:checked`);
+            res.avaliacaoGeral = geral ? geral.value : "N/A";
+            res.melhorar = document.getElementById('melhorar').value;
+            res.gosta = document.getElementById('gosta').value;
+            
+            push(ref(db, "questionarios"), res);
+            alert("Feedback enviado! Obrigado.");
+            mudarAba('forum');
+        };
+
         onValue(ref(db, "mensagens"), snap => {
             const f = document.getElementById("feed-forum"); f.innerHTML = "";
             snap.forEach(c => {
