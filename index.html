@@ -20,13 +20,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: 0.3s; }
 
-        /* INTRODUÇÃO / INÍCIO */
+        /* INTRODUÇÃO */
         .intro-container { padding: 20px; line-height: 1.6; }
         .intro-card { background: var(--msg-outro); border-radius: 20px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
         .intro-card h2 { color: var(--primary); margin-bottom: 10px; font-size: 20px; }
-        .intro-card h3 { color: var(--accent); margin: 15px 0 5px; font-size: 16px; }
-        .intro-card p { font-size: 14px; margin-bottom: 10px; }
-        .btn-start { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 15px; width: 100%; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn-start { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 16px; }
 
         /* MENU */
         .top-menu { background: var(--primary); padding: 10px 0; border-bottom: 1px solid var(--border); z-index: 1000; }
@@ -43,7 +41,14 @@
         .aba.active { display: flex; }
         .feed { padding: 15px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 110px; }
 
-        /* BALÕES E RESPOSTA */
+        /* HUMOR - GRADE GRANDE */
+        .emoji-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+        .emoji-card { background: var(--msg-outro); border-radius: 20px; padding: 25px 10px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .emoji-card:active { transform: scale(0.9); border-color: var(--insta-blue); }
+        .emoji-card span { font-size: 55px; display: block; margin-bottom: 8px; }
+        .emoji-card strong { font-size: 14px; color: var(--text); display: block; }
+
+        /* BALÕES E MURAL */
         .msg-container { display: flex; flex-direction: column; max-width: 85%; margin-bottom: 5px; position: relative; cursor: pointer; }
         .me { align-self: flex-end; align-items: flex-end; }
         .outro { align-self: flex-start; align-items: flex-start; }
@@ -55,24 +60,10 @@
         .reply-box { background: rgba(0,0,0,0.08); padding: 5px 8px; border-left: 3px solid var(--insta-blue); border-radius: 4px; font-size: 11px; margin-bottom: 5px; }
         .reply-preview { background: var(--msg-outro); padding: 8px 15px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; }
 
-        /* COORDENAÇÃO */
+        /* COORDENAÇÃO E MURAL */
         .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; font-weight: 500; }
-        .dark-mode .coord-msg .bubble { color: #ffffff !important; }
-
-        /* MURAL RANKING */
         .top-ranking .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
         .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 12px; padding: 3px 10px; font-size: 11px; margin-top: 8px; cursor: pointer; font-weight: bold; }
-
-        /* FORMULÁRIO */
-        .form-feedback { background: var(--msg-outro); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-        .options { display: flex; gap: 10px; }
-        .options input { display: none; }
-        .options label { background: white; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; font-size: 13px; color: black; }
-        .options input:checked + label { background: var(--insta-blue); color: white; border-color: var(--insta-blue); }
-        .text-area-feedback { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-top: 5px; height: 80px; }
-        .btn-enviar-form { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
         /* FOOTER */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 10000; }
@@ -107,7 +98,6 @@
             <button id="btn-humor" onclick="mudarAba('humor')">🎭 Humor</button>
             <button id="btn-agenda" onclick="mudarAba('agenda')">📅 Agenda</button>
             <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
-            <button id="btn-contatos" onclick="mudarAba('contatos')">📞 Contatos</button>
         </div>
     </nav>
 
@@ -120,35 +110,32 @@
         <section id="inicio" class="aba active">
             <div class="intro-container">
                 <div class="intro-card">
-                    <h2>Bem-vindo ao Portal Elite – CETI José Marques 🏫</h2>
-                    <p>Olá! É um prazer ter você aqui. Este é o canal oficial de Ouvidoria do CETI José Marques, um espaço criado para fortalecer a comunicação entre você e a nossa escola.</p>
-                    
-                    <h3>Como funciona o nosso site?</h3>
-                    <p>Para aproveitar todas as ferramentas, siga este pequeno guia:</p>
-                    
-                    <p><strong>🎭 Expresse seu Humor:</strong> Logo na página inicial, você pode registrar como está se sentindo hoje. Isso nos ajuda a entender o clima da nossa comunidade.</p>
-                    <p><strong>📋 Envie seu Feedback:</strong> No botão Opinião, você pode enviar sugestões, elogios ou reclamações de forma rápida e segura.</p>
-                    <p><strong>📢 Fique Informado:</strong> Acesse o Mural e os Alertas para não perder nenhum comunicado importante da coordenação.</p>
-                    <p><strong>📅 Organize-se:</strong> Confira a Agenda para ficar por dentro de datas de provas, eventos e projetos escolares.</p>
-                    <p><strong>💬 Suporte e Chat:</strong> Se precisar de ajuda ou quiser conversar, utilize nossos canais de Chat ou entre em contato direto com o suporte técnico.</p>
+                    <h2>Bem-vindo ao Portal Elite – CETI JM 🏫</h2>
+                    <p>Este é o canal oficial de Ouvidoria, criado para fortalecer a comunicação entre você e a nossa escola.</p>
+                    <p><strong>🎭 Humor:</strong> Registre como se sente.</p>
+                    <p><strong>📋 Feedback:</strong> Envie sugestões na aba Opinião.</p>
+                    <p><strong>📢 Avisos:</strong> Fique por dentro de tudo.</p>
                 </div>
-                <button class="btn-start" onclick="mudarAba('forum')">Explorar Portal 🚀</button>
+                <button class="btn-start" onclick="mudarAba('forum')">Entrar no Portal 🚀</button>
+            </div>
+        </section>
+
+        <section id="humor" class="aba">
+            <div class="emoji-grid">
+                <div class="emoji-card" onclick="enviarHumor('😊', 'Feliz')"><span>😊</span><strong>Feliz</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('🤩', 'Motivado')"><span>🤩</span><strong>Motivado</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('😴', 'Cansado')"><span>😴</span><strong>Cansado</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('😰', 'Ansioso')"><span>😰</span><strong>Ansioso</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('🤯', 'Estressado')"><span>🤯</span><strong>Estressado</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('🤔', 'Pensativo')"><span>🤔</span><strong>Pensativo</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('😎', 'Tranquilo')"><span>😎</span><strong>Tranquilo</strong></div>
+                <div class="emoji-card" onclick="enviarHumor('😭', 'Triste')"><span>😭</span><strong>Triste</strong></div>
             </div>
         </section>
 
         <section id="forum" class="aba"><div id="feed-forum" class="feed"></div></section>
         <section id="mural" class="aba"><div id="feed-mural" class="feed"></div></section>
         <section id="avisos" class="aba"><div id="feed-avisos" class="feed"></div></section>
-        
-        <section id="humor" class="aba">
-            <div class="emoji-grid">
-                <div class="emoji-card" onclick="enviarHumor('😊', 'Feliz')"><span>😊</span><strong>Feliz</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😴', 'Cansado')"><span>😴</span><strong>Cansado</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😰', 'Ansioso')"><span>😰</span><strong>Ansioso</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('🤯', 'Estressado')"><span>🤯</span><strong>Estressado</strong></div>
-            </div>
-        </section>
-
         <section id="agenda" class="aba"><div id="feed-agenda" class="feed"></div></section>
         
         <section id="feedback" class="aba">
@@ -156,14 +143,12 @@
                 <div class="form-feedback" id="form-pergunta">
                     <h3>📋 Feedback Escolar</h3><br>
                     <div id="questoes-container"></div>
-                    <button class="btn-enviar-form" onclick="enviarQuestionario()">Enviar Feedback ✨</button>
+                    <button class="btn-start" onclick="enviarQuestionario()" style="background:var(--accent);">Enviar Feedback ✨</button>
                 </div>
             </div>
         </section>
 
-        <section id="contatos" class="aba"><div class="feed" style="padding:20px;"><strong>Coordenação:</strong> (86) 9...<br><strong>Suporte:</strong> Eduarda</div></section>
-
-        <div id="barra-digitar" class="footer-input">
+        <div id="barra-digitar" class="footer-input" style="display:none;">
             <div id="reply-preview" class="reply-preview">
                 <span id="reply-text">Respondendo...</span>
                 <span onclick="cancelarResposta()" style="cursor:pointer; font-weight:bold;">✕</span>
@@ -196,33 +181,11 @@
         let abaAtual = 'inicio';
         let dadosResposta = null;
 
-        const perguntas = [
-            "O ambiente da escola é limpo e organizado?",
-            "Os banheiros da escola estão em boas condições?",
-            "As salas de aula são confortáveis?",
-            "A escola possui espaços adequados para estudo?",
-            "A estrutura geral da escola atende às suas necessidades?",
-            "Você entende bem o conteúdo dos professores?",
-            "Os professores estão preparados?",
-            "As aulas são interessantes?",
-            "Você se sente à vontade para tirar dúvidas?",
-            "Você se sente seguro dentro da escola?",
-            "A escola escuta a opinião dos alunos?",
-            "A merenda escolar é de boa qualidade?"
-        ];
-
+        const perguntas = ["O ambiente é limpo?", "Banheiros bons?", "Salas confortáveis?", "Espaços de estudo?", "Ensino de qualidade?", "Aulas interessantes?", "Sente-se seguro?", "Merenda boa?"];
         const container = document.getElementById('questoes-container');
         perguntas.forEach((p, i) => {
-            container.innerHTML += `
-                <div class="form-group">
-                    <label>${p}</label>
-                    <div class="options">
-                        <input type="radio" name="q${i}" id="q${i}s" value="Sim"><label for="q${i}s">Sim</label>
-                        <input type="radio" name="q${i}" id="q${i}n" value="Não"><label for="q${i}n">Não</label>
-                    </div>
-                </div>`;
+            container.innerHTML += `<div class="form-group"><label>${p}</label><div class="options"><input type="radio" name="q${i}" id="q${i}s" value="Sim"><label for="q${i}s">Sim</label><input type="radio" name="q${i}" id="q${i}n" value="Não"><label for="q${i}n">Não</label></div></div>`;
         });
-        container.innerHTML += `<div class="form-group"><label>O que a escola poderia melhorar?</label><textarea id="melhorar" class="text-area-feedback"></textarea></div><div class="form-group"><label>O que você mais gosta na escola?</label><textarea id="gosta" class="text-area-feedback"></textarea></div>`;
 
         window.mudarAba = (id) => {
             abaAtual = id;
@@ -230,59 +193,39 @@
             document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
             document.getElementById(id).classList.add('active');
             document.getElementById('btn-'+id).classList.add('active-btn');
-            document.getElementById('barra-digitar').style.display = (id === 'humor' || id === 'feedback' || id === 'contatos' || id === 'inicio') ? 'none' : 'block';
+            document.getElementById('barra-digitar').style.display = (id === 'forum' || id === 'mural' || id === 'avisos' || id === 'agenda') ? 'block' : 'none';
         };
 
         window.toggleTheme = () => document.body.classList.toggle('dark-mode');
 
-        window.prepararResposta = (txt, user) => {
-            dadosResposta = { txt, user };
-            document.getElementById('reply-text').innerText = "Respondendo a " + user;
-            document.getElementById('reply-preview').style.display = 'flex';
-        };
-
-        window.cancelarResposta = () => { dadosResposta = null; document.getElementById('reply-preview').style.display = 'none'; };
-
-        window.enviarQuestionario = () => {
-            const respostas = { usuario: nome, data: serverTimestamp(), itens: [] };
-            perguntas.forEach((p, i) => {
-                const opt = document.querySelector(`input[name="q${i}"]:checked`);
-                respostas.itens.push({ pergunta: p, resposta: opt ? opt.value : "Não respondeu" });
-            });
-            respostas.melhorar = document.getElementById('melhorar').value;
-            respostas.gosta = document.getElementById('gosta').value;
-            push(ref(db, "questionarios"), respostas);
-            alert("Feedback enviado com sucesso! Obrigado.");
-            mudarAba('inicio');
-        };
-
         window.enviarHumor = (emoji, texto) => {
             push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
-            alert("Sentimento registrado! ✨");
+            alert("Humor '" + texto + "' registrado! ✨");
+            mudarAba('forum');
         };
 
         window.tentarEnviar = () => {
             const txt = document.getElementById('master-input').value.trim();
             if (!txt) return;
-            if (abaAtual === 'avisos' || abaAtual === 'agenda') {
-                document.getElementById('modalChave').style.display = 'flex';
-            } else { enviar(txt); }
+            if (abaAtual === 'avisos' || abaAtual === 'agenda') { document.getElementById('modalChave').style.display = 'flex'; } 
+            else { enviar(txt); }
         };
 
-        window.fecharModal = () => document.getElementById('modalChave').style.display = 'none';
         window.validarChave = () => {
             if (document.getElementById('inputChave').value === "Chernobyl") {
                 enviar(document.getElementById('master-input').value, true);
-                fecharModal();
+                document.getElementById('modalChave').style.display = 'none';
                 document.getElementById('inputChave').value = "";
             } else { alert("Chave incorreta!"); }
         };
+
+        window.fecharModal = () => document.getElementById('modalChave').style.display = 'none';
 
         function enviar(texto, isCoord = false) {
             const path = (abaAtual === 'forum') ? "mensagens" : (abaAtual === 'mural' ? "ideias" : abaAtual);
             push(ref(db, path), { nome: isCoord ? "COORDENAÇÃO" : nome, texto, votos: 0, timestamp: serverTimestamp(), resposta: dadosResposta });
             document.getElementById('master-input').value = "";
-            cancelarResposta();
+            dadosResposta = null; document.getElementById('reply-preview').style.display = 'none';
         }
 
         onValue(ref(db, "mensagens"), snap => {
@@ -291,39 +234,26 @@
                 const d = c.val();
                 const div = document.createElement("div");
                 div.className = `msg-container ${d.nome === nome ? 'me' : 'outro'}`;
-                div.onclick = () => prepararResposta(d.texto, d.nome);
-                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.resposta ? `<div class="reply-box"><b>${d.resposta.user}</b><br>${d.resposta.txt}</div>` : ''}${d.texto}</div>`;
+                div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.texto}</div>`;
                 f.appendChild(div);
             });
             f.scrollTop = f.scrollHeight;
         });
 
-        onValue(ref(db, "ideias"), snap => {
-            const f = document.getElementById("feed-mural"); f.innerHTML = "";
-            let items = []; snap.forEach(c => items.push({key: c.key, ...c.val()}));
-            items.sort((a,b) => (b.votos || 0) - (a.votos || 0));
-            items.forEach((d, i) => {
-                const isTop = i === 0 && (d.votos || 0) > 0;
-                const div = document.createElement("div");
-                div.className = `msg-container outro ${isTop ? 'top-ranking' : ''}`;
-                div.innerHTML = `<span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}<br><button class="vote-btn" onclick="votar('${d.key}')">❤️ ${d.votos || 0}</button></div>`;
-                f.appendChild(div);
-            });
-        });
-
-        window.votar = (key) => update(ref(db, `ideias/${key}`), { votos: increment(1) });
-
-        const loadCoord = (path, id) => {
+        // Carregamento de Mural, Alertas e Agenda seguem o mesmo padrão Firebase
+        const loadPath = (path, id) => {
             onValue(ref(db, path), snap => {
                 const f = document.getElementById(id); f.innerHTML = "";
                 snap.forEach(c => {
-                    const div = document.createElement("div"); div.className = "msg-container outro coord-msg";
-                    div.innerHTML = `<span class="user-name">COORDENAÇÃO</span><div class="bubble">${c.val().texto}</div>`;
+                    const d = c.val();
+                    const div = document.createElement("div"); div.className = "msg-container outro";
+                    div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.texto}</div>`;
                     f.appendChild(div);
                 });
             });
         };
-        loadCoord("avisos", "feed-avisos"); loadCoord("agenda", "feed-agenda");
+        loadPath("ideias", "feed-mural"); loadPath("avisos", "feed-avisos"); loadPath("agenda", "feed-agenda");
+
     </script>
 </body>
 </html>
