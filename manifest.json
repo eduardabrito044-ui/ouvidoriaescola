@@ -1,0 +1,15 @@
+{
+  "short_name": "Portal Elite",
+  "name": "Portal Elite - CETI JM",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#051d3b",
+  "theme_color": "#18447e"
+}
