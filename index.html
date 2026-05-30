@@ -180,7 +180,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-        // ADICIONADO: Importação dos recursos de mensageria do Firebase
+        // Importação dos recursos de mensageria do Firebase
         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
@@ -196,7 +196,7 @@
         let nome = localStorage.getItem("nome") || prompt("Seu nome:") || "Aluno";
         localStorage.setItem("nome", nome);
 
-        // ADICIONADO: Inicialização do Messaging e solicitação de permissão de notificações
+        // Inicialização do Messaging e solicitação de permissão de notificações
         const messaging = getMessaging(app);
 
         if ('serviceWorker' in navigator) {
@@ -204,8 +204,8 @@
             .then((registration) => {
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
-                        // ADICIONADO: O seu par de chaves real gerado no painel do Firebase
-                        const chaveVapid = "BKJNm4FSVJY0rpjwJiNyhp7GgQjEQEdBVMVL4Ieeba7_sFWj_F7DMKtv40UaX9DyH-14QnF14Y3eBTrDEYrNZD0"; 
+                        // CHAVE CORRIGIDA: Inserida a chave pública exata gerada no seu painel do Firebase
+                        const chaveVapid = "BKJNm4FSVJY0rpjwJiNyhp7GgGjEQEdBVMVL4Ieeba7_sFWj_F7DMKtv40UaX9DyH-14QnF14Y3eBTrDEYrNZD0"; 
                         
                         getToken(messaging, { serviceWorkerRegistration: registration, vapidKey: chaveVapid })
                         .then((currentToken) => {
