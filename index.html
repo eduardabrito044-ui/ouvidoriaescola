@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Portal Elite - CETI JM</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
@@ -57,7 +58,7 @@
         .bubble { padding: 10px 14px; border-radius: 18px; font-size: 14px; position: relative; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .me .bubble { background: var(--msg-me); color: white; border-bottom-right-radius: 4px; }
         .outro .bubble { background: var(--msg-outro); color: var(--text); border-bottom-left-radius: 4px; border: 2px solid var(--border); }
-        
+
         /* FORMULÁRIO ESTILIZADO */
         .form-feedback { background: var(--msg-outro); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
         .form-section-title { color: var(--primary); font-weight: bold; margin: 15px 0 10px; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
@@ -78,11 +79,11 @@
         .input-box input { flex: 1; border: none; background: transparent; outline: none; padding: 12px 0; color: var(--text); }
         .send-btn { background: none; border: none; color: var(--insta-blue); font-weight: 700; cursor: pointer; }
         .fab-theme { position: fixed; bottom: 120px; left: 20px; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; border: none; z-index: 1000; }
-        
+
         /* COORDENAÇÃO */
         .coord-msg .bubble { background: var(--coord) !important; border: 2px solid var(--coord-border) !important; font-weight: 500; }
         .dark-mode .coord-msg .bubble { color: #ffffff !important; }
-        
+
         .vote-btn { background: none; border: 1px solid var(--insta-blue); color: var(--insta-blue); border-radius: 12px; padding: 3px 10px; font-size: 11px; margin-top: 8px; cursor: pointer; font-weight: bold; }
         .top-ranking .bubble { border: 2px solid var(--gold) !important; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
         .reply-preview { background: var(--msg-outro); padding: 8px 15px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; }
@@ -149,7 +150,7 @@
         <section id="mural" class="aba"><div id="feed-mural" class="feed"></div></section>
         <section id="avisos" class="aba"><div id="feed-avisos" class="feed"></div></section>
         <section id="agenda" class="aba"><div id="feed-agenda" class="feed"></div></section>
-        
+
         <section id="feedback" class="aba">
             <div class="feed">
                 <div class="form-feedback">
@@ -179,6 +180,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        // ADICIONADO: Importação dos recursos de mensageria do Firebase
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
@@ -189,9 +192,36 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        
         let nome = localStorage.getItem("nome") || prompt("Seu nome:") || "Aluno";
         localStorage.setItem("nome", nome);
-        
+
+        // ADICIONADO: Inicialização do Messaging e solicitação de permissão de notificações
+        const messaging = getMessaging(app);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./firebase-messaging-sw.js')
+            .then((registration) => {
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // ADICIONADO: O seu par de chaves real gerado no painel do Firebase
+                        const chaveVapid = "BKJNm4FSVJY0rpjwJiNyhp7GgQjEQEdBVMVL4Ieeba7_sFWj_F7DMKtv40UaX9DyH-14QnF14Y3eBTrDEYrNZD0"; 
+                        
+                        getToken(messaging, { serviceWorkerRegistration: registration, vapidKey: chaveVapid })
+                        .then((currentToken) => {
+                            if (currentToken) {
+                                const nomeLimpo = nome.replace(/[.#$\[\]]/g, "_");
+                                update(ref(db, `tokens_notificacao/${nomeLimpo}`), {
+                                    token: currentToken,
+                                    atualizadoEm: serverTimestamp()
+                                });
+                            }
+                        }).catch((err) => console.log('Erro ao obter token: ', err));
+                    }
+                });
+            });
+        }
+
         let abaAtual = 'inicio';
         let dadosResposta = null;
 
@@ -295,7 +325,7 @@
             res.avaliacaoGeral = geral ? geral.value : "N/A";
             res.melhorar = document.getElementById('melhorar').value;
             res.gosta = document.getElementById('gosta').value;
-            
+
             push(ref(db, "questionarios"), res);
             alert("Feedback enviado! Obrigado.");
             mudarAba('forum');
