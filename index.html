@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Portal Elite - CETI JM</title>
     <link rel="manifest" href="manifest.json">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("FjBRo2O_s9U9l2-uf"); 
+       })();
+    </script>
+
     <style>
         :root {
             --bg: #ffffff; --text: #051d3b; --primary: #18447e; 
@@ -198,7 +206,7 @@
 
         const secoesQuestionario = [
             { titulo: "🏫 Infraestrutura", perguntas: ["A estrutura da escola atende suas necessidades?", "As salas de aula são confortáveis?", "A escola possui espaços adequados para estudo?"] },
-            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organizado?", "Os banheiros estão em boas condições?"] },
+            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organized?", "Os banheiros estão em boas condições?"] },
             { titulo: "🍽️ Alimentação", perguntas: ["A merenda escolar é de boa qualidade?", "A quantidade de comida é suficiente?"] },
             { titulo: "📚 Ensino e Professores", perguntas: ["Você entende o conteúdo explicado pelos professores?", "Os professores estão preparados para ensinar?", "As aulas são interessantes?"] },
             { titulo: "🧠 Ambiente Escolar", perguntas: ["Você se sente seguro na escola?", "Existe respeito entre alunos e professores?", "A escola escuta a opinião dos alunos?"] }
@@ -237,7 +245,22 @@
             <div class="form-group"><label>O que você mais gosta na escola?</label><textarea id="gosta" class="text-area-feedback" placeholder="✍️ Sua resposta..."></textarea></div>
         `;
 
-        // CORREÇÃO ESSENCIAL: Vinculando as funções de clique de forma segura dentro do Módulo do navegador
+        // 📧 FUNÇÃO INTEGRADA COM TODAS AS SUAS CHAVES REAIS DO EMAILJS
+        function enviarAlertaEmail(nomeAluno, textoMensagem, aba) {
+            const serviceID = "service_63fhkqk"; 
+            const templateID = "template_ey9yldz"; 
+            
+            const parametros = {
+                nome_aluno: nomeAluno,
+                texto_mensagem: textoMensagem,
+                aba_atual: aba
+            };
+
+            emailjs.send(serviceID, templateID, parametros)
+                .then(() => console.log("E-mail de controle enviado com sucesso para a Eduarda!"))
+                .catch((err) => console.log("Erro no envio do e-mail:", err));
+        }
+
         const mudarAba = (id) => {
             abaAtual = id;
             document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
@@ -252,7 +275,7 @@
             document.getElementById('barra-digitar').style.display = (id === 'forum' || id === 'mural' || id === 'avisos' || id === 'agenda') ? 'block' : 'none';
         };
 
-        // Eventos do Menu de Abas
+        // Cliques do Menu
         document.getElementById('btn-inicio').addEventListener('click', () => mudarAba('inicio'));
         document.getElementById('btn-forum').addEventListener('click', () => mudarAba('forum'));
         document.getElementById('btn-mural').addEventListener('click', () => mudarAba('mural'));
@@ -263,21 +286,23 @@
         document.getElementById('btn-contatos').addEventListener('click', () => mudarAba('contatos'));
         document.getElementById('btn-explorar').addEventListener('click', () => mudarAba('forum'));
 
-        // Alternador de Tema Escuro
         document.getElementById('btn-theme').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
 
-        // Eventos dos Cards de Humor/Emoji
+        // Registro de Emojis/Humor + Alerta por E-mail
         document.querySelectorAll('.emoji-card').forEach(card => {
             card.addEventListener('click', () => {
                 const emoji = card.getAttribute('data-emoji');
                 const texto = card.getAttribute('data-texto');
                 push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
+                
+                // Envia e-mail avisando sobre o humor enviado
+                enviarAlertaEmail(nome, `Registrou o humor: ${emoji} (${texto})`, "Humor");
+                
                 alert("Sentimento registrado! ✨");
                 mudarAba('forum');
             });
         });
 
-        // Envio de mensagens
         const tentarEnviar = () => {
             const txt = document.getElementById('master-input').value.trim();
             if (!txt) return;
@@ -306,6 +331,12 @@
         function enviar(texto, isCoord = false) {
             const path = (abaAtual === 'forum') ? "mensagens" : (abaAtual === 'mural' ? "ideias" : abaAtual);
             push(ref(db, path), { nome: isCoord ? "COORDENAÇÃO" : nome, texto, votos: 0, timestamp: serverTimestamp(), resposta: dadosResposta });
+            
+            // 📨 DISPARA O E-MAIL AUTOMÁTICO SE NÃO FOR A PRÓPRIA COORDENAÇÃO FALANDO
+            if (!isCoord) {
+                enviarAlertaEmail(nome, texto, abaAtual);
+            }
+
             document.getElementById('master-input').value = "";
             cancelarResposta();
         }
@@ -322,7 +353,7 @@
         };
         document.getElementById('btn-cancelar-resposta').addEventListener('click', cancelarResposta);
 
-        // Envio do Questionário
+        // Envio do Questionário + Alerta por E-mail
         document.getElementById('btn-enviar-feedback').addEventListener('click', () => {
             const res = { usuario: nome, data: serverTimestamp(), respostas: [] };
             for(let i=0; i<qIdx; i++) {
@@ -335,11 +366,15 @@
             res.gosta = document.getElementById('gosta').value;
 
             push(ref(db, "questionarios"), res);
+            
+            // Envia e-mail avisando sobre o questionário respondido
+            enviarAlertaEmail(nome, `Enviou uma nova avaliação geral da escola (Nota: ${res.avaliacaoGeral})`, "Opinião/Feedback");
+
             alert("Feedback enviado! Obrigado.");
             mudarAba('forum');
         });
 
-        // Ouvintes do Firebase (Carregamento de dados em tempo real)
+        // Firebase em Tempo Real
         onValue(ref(db, "mensagens"), snap => {
             const f = document.getElementById("feed-forum"); f.innerHTML = "";
             snap.forEach(c => {
@@ -375,7 +410,6 @@
                 div.className = `msg-container outro ${isTop ? 'top-ranking' : ''}`;
                 div.innerHTML = `<span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}<br><button class="vote-btn" data-key="${d.key}">❤️ ${d.votos || 0}</button></div>`;
                 
-                // Evento de voto dinâmico
                 const btnVoto = div.querySelector('.vote-btn');
                 btnVoto.addEventListener('click', (e) => {
                     e.stopPropagation();
