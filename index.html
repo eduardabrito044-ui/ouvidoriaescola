@@ -180,7 +180,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-        // Importação dos recursos de mensageria do Firebase
         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
@@ -196,15 +195,14 @@
         let nome = localStorage.getItem("nome") || prompt("Seu nome:") || "Aluno";
         localStorage.setItem("nome", nome);
 
-        // Inicialização do Messaging e solicitação de permissão de notificações
         const messaging = getMessaging(app);
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./firebase-messaging-sw.js')
+            // Ajustado para funcionar perfeitamente na subpasta do GitHub Pages
+            navigator.serviceWorker.register('./firebase-messaging-sw.js', { scope: './' })
             .then((registration) => {
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
-                        // CHAVE CORRIGIDA: Inserida a chave pública exata gerada no seu painel do Firebase
                         const chaveVapid = "BKJNm4FSVJY0rpjwJiNyhp7GgGjEQEdBVMVL4Ieeba7_sFWj_F7DMKtv40UaX9DyH-14QnF14Y3eBTrDEYrNZD0"; 
                         
                         getToken(messaging, { serviceWorkerRegistration: registration, vapidKey: chaveVapid })
@@ -227,7 +225,7 @@
 
         const secoesQuestionario = [
             { titulo: "🏫 Infraestrutura", perguntas: ["A estrutura da escola atende suas necessidades?", "As salas de aula são confortáveis?", "A escola possui espaços adequados para estudo?"] },
-            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organizado?", "Os banheiros estão em boas condições?"] },
+            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organized?", "Os banheiros estão em boas condições?"] },
             { titulo: "🍽️ Alimentação", perguntas: ["A merenda escolar é de boa qualidade?", "A quantidade de comida é suficiente?"] },
             { titulo: "📚 Ensino e Professores", perguntas: ["Você entende o conteúdo explicado pelos professores?", "Os professores estão preparados para ensinar?", "As aulas são interessantes?"] },
             { titulo: "🧠 Ambiente Escolar", perguntas: ["Você se sente seguro na escola?", "Existe respeito entre alunos e professores?", "A escola escuta a opinião dos alunos?"] }
