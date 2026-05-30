@@ -11,7 +11,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-// Configura o recebimento de notificações em segundo plano
 messaging.onBackgroundMessage((payload) => {
     console.log('Notificação recebida em segundo plano: ', payload);
     const notificationTitle = payload.notification.title;
