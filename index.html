@@ -97,22 +97,22 @@
             <h3>Chave de Acesso</h3>
             <input type="password" id="inputChave" placeholder="Digite a chave..." style="width:100%; padding:12px; margin:15px 0; border-radius:10px; border:1px solid var(--border); text-align:center;">
             <div style="display:flex; gap:10px;">
-                <button onclick="fecharModal()" style="flex:1; padding:10px; border-radius:10px;">Sair</button>
-                <button onclick="validarChave()" style="flex:1; padding:10px; border-radius:10px; background:var(--insta-blue); color:white;">Confirmar</button>
+                <button id="btn-fechar-modal" style="flex:1; padding:10px; border-radius:10px;">Sair</button>
+                <button id="btn-validar-chave" style="flex:1; padding:10px; border-radius:10px; background:var(--insta-blue); color:white;">Confirmar</button>
             </div>
         </div>
     </div>
 
     <nav class="top-menu">
         <div class="menu-scroll">
-            <button id="btn-inicio" class="active-btn" onclick="mudarAba('inicio')">🏠 Início</button>
-            <button id="btn-forum" onclick="mudarAba('forum')">💬 Chat</button>
-            <button id="btn-mural" onclick="mudarAba('mural')">💡 Mural</button>
-            <button id="btn-avisos" onclick="mudarAba('avisos')">📢 Alertas</button>
-            <button id="btn-humor" onclick="mudarAba('humor')">🎭 Humor</button>
-            <button id="btn-agenda" onclick="mudarAba('agenda')">📅 Agenda</button>
-            <button id="btn-feedback" onclick="mudarAba('feedback')">🏫 Opinião</button>
-            <button id="btn-contatos" onclick="mudarAba('contatos')">📞 Contatos</button>
+            <button id="btn-inicio" class="active-btn">🏠 Início</button>
+            <button id="btn-forum">💬 Chat</button>
+            <button id="btn-mural">💡 Mural</button>
+            <button id="btn-avisos">📢 Alertas</button>
+            <button id="btn-humor">🎭 Humor</button>
+            <button id="btn-agenda">📅 Agenda</button>
+            <button id="btn-feedback">🏫 Opinião</button>
+            <button id="btn-contatos">📞 Contatos</button>
         </div>
     </nav>
 
@@ -129,20 +129,20 @@
                     <p>Este site foi criado para dar voz aos alunos do CETI José Marques, permitindo que compartilhem opiniões, sugestões e experiências.</p>
                     <p>O objetivo é melhorar a escola por meio do feedback dos estudantes.</p>
                 </div>
-                <button class="btn-start" onclick="mudarAba('forum')">Explorar Portal 🚀</button>
+                <button class="btn-start" id="btn-explorar">Explorar Portal 🚀</button>
             </div>
         </section>
 
         <section id="humor" class="aba">
             <div class="emoji-grid">
-                <div class="emoji-card" onclick="enviarHumor('😊', 'Feliz')"><span>😊</span><strong>Feliz</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('🤩', 'Motivado')"><span>🤩</span><strong>Motivado</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😴', 'Cansado')"><span>😴</span><strong>Cansado</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😰', 'Ansioso')"><span>😰</span><strong>Ansioso</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('🤯', 'Estressado')"><span>🤯</span><strong>Estressado</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('🤔', 'Pensativo')"><span>🤔</span><strong>Pensativo</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😎', 'Tranquilo')"><span>😎</span><strong>Tranquilo</strong></div>
-                <div class="emoji-card" onclick="enviarHumor('😭', 'Triste')"><span>😭</span><strong>Triste</strong></div>
+                <div class="emoji-card" data-emoji="😊" data-texto="Feliz"><span>😊</span><strong>Feliz</strong></div>
+                <div class="emoji-card" data-emoji="🤩" data-texto="Motivado"><span>🤩</span><strong>Motivado</strong></div>
+                <div class="emoji-card" data-emoji="😴" data-texto="Cansado"><span>😴</span><strong>Cansado</strong></div>
+                <div class="emoji-card" data-emoji="😰" data-texto="Ansioso"><span>😰</span><strong>Ansioso</strong></div>
+                <div class="emoji-card" data-emoji="🤯" data-texto="Estressado"><span>🤯</span><strong>Estressado</strong></div>
+                <div class="emoji-card" data-emoji="🤔" data-texto="Pensativo"><span>🤔</span><strong>Pensativo</strong></div>
+                <div class="emoji-card" data-emoji="😎" data-texto="Tranquilo"><span>😎</span><strong>Tranquilo</strong></div>
+                <div class="emoji-card" data-emoji="😭" data-texto="Triste"><span>😭</span><strong>Triste</strong></div>
             </div>
         </section>
 
@@ -156,7 +156,7 @@
                 <div class="form-feedback">
                     <h3>📋 Questionário Escolar</h3><br>
                     <div id="questoes-container"></div>
-                    <button class="btn-start" onclick="enviarQuestionario()" style="background:var(--accent);">Enviar Feedback ✨</button>
+                    <button class="btn-start" id="btn-enviar-feedback" style="background:var(--accent);">Enviar Feedback ✨</button>
                 </div>
             </div>
         </section>
@@ -166,21 +166,20 @@
         <div id="barra-digitar" class="footer-input" style="display:none;">
             <div id="reply-preview" class="reply-preview">
                 <span id="reply-text">Respondendo...</span>
-                <span onclick="cancelarResposta()" style="cursor:pointer; font-weight:bold;">✕</span>
+                <span id="btn-cancelar-resposta" style="cursor:pointer; font-weight:bold;">✕</span>
             </div>
             <div class="insta-bar">
                 <div class="input-box"><input type="text" id="master-input" placeholder="Escreva algo..."></div>
-                <button class="send-btn" onclick="tentarEnviar()">Enviar</button>
+                <button class="send-btn" id="btn-enviar-master">Enviar</button>
             </div>
         </div>
     </main>
 
-    <button class="fab-theme" onclick="toggleTheme()">🌓</button>
+    <button class="fab-theme" id="btn-theme">🌓</button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdlHar22iODe81f-nrUi06PLWKQReb9Gc",
@@ -191,41 +190,15 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
         let nome = localStorage.getItem("nome") || prompt("Seu nome:") || "Aluno";
         localStorage.setItem("nome", nome);
-
-        const messaging = getMessaging(app);
-
-        if ('serviceWorker' in navigator) {
-            // Ajustado para funcionar perfeitamente na subpasta do GitHub Pages
-            navigator.serviceWorker.register('./firebase-messaging-sw.js', { scope: './' })
-            .then((registration) => {
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        const chaveVapid = "BKJNm4FSVJY0rpjwJiNyhp7GgGjEQEdBVMVL4Ieeba7_sFWj_F7DMKtv40UaX9DyH-14QnF14Y3eBTrDEYrNZD0"; 
-                        
-                        getToken(messaging, { serviceWorkerRegistration: registration, vapidKey: chaveVapid })
-                        .then((currentToken) => {
-                            if (currentToken) {
-                                const nomeLimpo = nome.replace(/[.#$\[\]]/g, "_");
-                                update(ref(db, `tokens_notificacao/${nomeLimpo}`), {
-                                    token: currentToken,
-                                    atualizadoEm: serverTimestamp()
-                                });
-                            }
-                        }).catch((err) => console.log('Erro ao obter token: ', err));
-                    }
-                });
-            });
-        }
 
         let abaAtual = 'inicio';
         let dadosResposta = null;
 
         const secoesQuestionario = [
             { titulo: "🏫 Infraestrutura", perguntas: ["A estrutura da escola atende suas necessidades?", "As salas de aula são confortáveis?", "A escola possui espaços adequados para estudo?"] },
-            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organized?", "Os banheiros estão em boas condições?"] },
+            { titulo: "🧹 Limpeza", perguntas: ["O ambiente da escola é limpo e organizado?", "Os banheiros estão em boas condições?"] },
             { titulo: "🍽️ Alimentação", perguntas: ["A merenda escolar é de boa qualidade?", "A quantidade de comida é suficiente?"] },
             { titulo: "📚 Ensino e Professores", perguntas: ["Você entende o conteúdo explicado pelos professores?", "Os professores estão preparados para ensinar?", "As aulas são interessantes?"] },
             { titulo: "🧠 Ambiente Escolar", perguntas: ["Você se sente seguro na escola?", "Existe respeito entre alunos e professores?", "A escola escuta a opinião dos alunos?"] }
@@ -264,39 +237,71 @@
             <div class="form-group"><label>O que você mais gosta na escola?</label><textarea id="gosta" class="text-area-feedback" placeholder="✍️ Sua resposta..."></textarea></div>
         `;
 
-        window.mudarAba = (id) => {
+        // CORREÇÃO ESSENCIAL: Vinculando as funções de clique de forma segura dentro do Módulo do navegador
+        const mudarAba = (id) => {
             abaAtual = id;
             document.querySelectorAll('.aba').forEach(a => a.classList.remove('active'));
             document.querySelectorAll('.menu-scroll button').forEach(b => b.classList.remove('active-btn'));
-            document.getElementById(id).classList.add('active');
-            document.getElementById('btn-'+id).classList.add('active-btn');
+            
+            const abaAlvo = document.getElementById(id);
+            const btnAlvo = document.getElementById('btn-' + id);
+            
+            if(abaAlvo) abaAlvo.classList.add('active');
+            if(btnAlvo) btnAlvo.classList.add('active-btn');
+            
             document.getElementById('barra-digitar').style.display = (id === 'forum' || id === 'mural' || id === 'avisos' || id === 'agenda') ? 'block' : 'none';
         };
 
-        window.toggleTheme = () => document.body.classList.toggle('dark-mode');
+        // Eventos do Menu de Abas
+        document.getElementById('btn-inicio').addEventListener('click', () => mudarAba('inicio'));
+        document.getElementById('btn-forum').addEventListener('click', () => mudarAba('forum'));
+        document.getElementById('btn-mural').addEventListener('click', () => mudarAba('mural'));
+        document.getElementById('btn-avisos').addEventListener('click', () => mudarAba('avisos'));
+        document.getElementById('btn-humor').addEventListener('click', () => mudarAba('humor'));
+        document.getElementById('btn-agenda').addEventListener('click', () => mudarAba('agenda'));
+        document.getElementById('btn-feedback').addEventListener('click', () => mudarAba('feedback'));
+        document.getElementById('btn-contatos').addEventListener('click', () => mudarAba('contatos'));
+        document.getElementById('btn-explorar').addEventListener('click', () => mudarAba('forum'));
 
-        window.enviarHumor = (emoji, texto) => {
-            push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
-            alert("Sentimento registrado! ✨");
-            mudarAba('forum');
-        };
+        // Alternador de Tema Escuro
+        document.getElementById('btn-theme').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
 
-        window.tentarEnviar = () => {
+        // Eventos dos Cards de Humor/Emoji
+        document.querySelectorAll('.emoji-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const emoji = card.getAttribute('data-emoji');
+                const texto = card.getAttribute('data-texto');
+                push(ref(db, "sentimentos"), { nome, emoji, texto, timestamp: serverTimestamp() });
+                alert("Sentimento registrado! ✨");
+                mudarAba('forum');
+            });
+        });
+
+        // Envio de mensagens
+        const tentarEnviar = () => {
             const txt = document.getElementById('master-input').value.trim();
             if (!txt) return;
-            if (abaAtual === 'avisos' || abaAtual === 'agenda') { document.getElementById('modalChave').style.display = 'flex'; } 
-            else { enviar(txt); }
+            if (abaAtual === 'avisos' || abaAtual === 'agenda') { 
+                document.getElementById('modalChave').style.display = 'flex'; 
+            } else { 
+                enviar(txt); 
+            }
         };
+        document.getElementById('btn-enviar-master').addEventListener('click', tentarEnviar);
 
-        window.fecharModal = () => document.getElementById('modalChave').style.display = 'none';
+        const fecharModal = () => document.getElementById('modalChave').style.display = 'none';
+        document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
 
-        window.validarChave = () => {
+        const validarChave = () => {
             if (document.getElementById('inputChave').value === "Chernobyl") {
                 enviar(document.getElementById('master-input').value, true);
                 fecharModal();
                 document.getElementById('inputChave').value = "";
-            } else { alert("Chave incorreta!"); }
+            } else { 
+                alert("Chave incorreta!"); 
+            }
         };
+        document.getElementById('btn-validar-chave').addEventListener('click', validarChave);
 
         function enviar(texto, isCoord = false) {
             const path = (abaAtual === 'forum') ? "mensagens" : (abaAtual === 'mural' ? "ideias" : abaAtual);
@@ -305,15 +310,20 @@
             cancelarResposta();
         }
 
-        window.prepararResposta = (txt, user) => {
+        const prepararResposta = (txt, user) => {
             dadosResposta = { txt, user };
             document.getElementById('reply-text').innerText = "Respondendo a " + user;
             document.getElementById('reply-preview').style.display = 'flex';
         };
 
-        window.cancelarResposta = () => { dadosResposta = null; document.getElementById('reply-preview').style.display = 'none'; };
+        const cancelarResposta = () => { 
+            dadosResposta = null; 
+            document.getElementById('reply-preview').style.display = 'none'; 
+        };
+        document.getElementById('btn-cancelar-resposta').addEventListener('click', cancelarResposta);
 
-        window.enviarQuestionario = () => {
+        // Envio do Questionário
+        document.getElementById('btn-enviar-feedback').addEventListener('click', () => {
             const res = { usuario: nome, data: serverTimestamp(), respostas: [] };
             for(let i=0; i<qIdx; i++) {
                 const opt = document.querySelector(`input[name="q${i}"]:checked`);
@@ -327,15 +337,16 @@
             push(ref(db, "questionarios"), res);
             alert("Feedback enviado! Obrigado.");
             mudarAba('forum');
-        };
+        });
 
+        // Ouvintes do Firebase (Carregamento de dados em tempo real)
         onValue(ref(db, "mensagens"), snap => {
             const f = document.getElementById("feed-forum"); f.innerHTML = "";
             snap.forEach(c => {
                 const d = c.val();
                 const div = document.createElement("div");
                 div.className = `msg-container ${d.nome === nome ? 'me' : 'outro'}`;
-                div.onclick = () => prepararResposta(d.texto, d.nome);
+                div.addEventListener('click', () => prepararResposta(d.texto, d.nome));
                 div.innerHTML = `<span class="user-name">${d.nome}</span><div class="bubble">${d.resposta ? `<div class="reply-box"><b>${d.resposta.user}</b><br>${d.resposta.txt}</div>` : ''}${d.texto}</div>`;
                 f.appendChild(div);
             });
@@ -362,12 +373,19 @@
                 const isTop = i === 0 && (d.votos || 0) > 0;
                 const div = document.createElement("div");
                 div.className = `msg-container outro ${isTop ? 'top-ranking' : ''}`;
-                div.innerHTML = `<span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}<br><button class="vote-btn" onclick="votar('${d.key}')">❤️ ${d.votos || 0}</button></div>`;
+                div.innerHTML = `<span class="user-name">${isTop ? '👑 ' : ''}${d.nome}</span><div class="bubble">${d.texto}<br><button class="vote-btn" data-key="${d.key}">❤️ ${d.votos || 0}</button></div>`;
+                
+                // Evento de voto dinâmico
+                const btnVoto = div.querySelector('.vote-btn');
+                btnVoto.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const k = btnVoto.getAttribute('data-key');
+                    update(ref(db, `ideias/${k}`), { votos: increment(1) });
+                });
+                
                 f.appendChild(div);
             });
         });
-
-        window.votar = (key) => update(ref(db, `ideias/${key}`), { votos: increment(1) });
     </script>
 </body>
 </html>
